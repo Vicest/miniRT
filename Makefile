@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/11/24 09:35:58 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/11/24 13:40:05 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,10 @@ OBJ_DIR := objects/
 SRC :=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ :=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
-LIBFT := libft.a
+BFT := libft.a
+MLX := libmlx.a
 
-NAME = libftprintf.a
+NAME = miniRT
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
@@ -36,6 +37,11 @@ ARFLAGS = -rc
 
 .PHONY: all re bonus clean fclean pft
 all : $(NAME)
+
+minilibx/$(MLX) :
+	@echo "Building libmlx."
+	@make -C minilibx/ all clean
+	@echo "______________________________"
 
 libft/$(LIBFT) :
 	@echo "Building libft."
@@ -55,9 +61,6 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -vp $(OBJ_DIR)
 	$(CC) $(CFLAGS) $? -c -o $@
 	@echo "______________________________"
-
-pft : pft
-	@git clone https://github.com/gavinfielder/pft.git pft
 
 clean :
 	@echo "Removing objects."
