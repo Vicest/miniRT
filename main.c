@@ -6,11 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/24 12:33:32 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/24 12:41:44 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
+#include "minilibx/mlx.h"
 
 int		main(char **args, int argn)
 {
