@@ -6,13 +6,14 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/25 12:56:10 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/25 13:47:47 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 /*
+**	TODO: Libft??
 **	Looks for a string in a null-terminated list of strings.
 */
 
@@ -30,6 +31,8 @@ int				strfind(char *elem, char **list)
 
 static void		add_element(t_scene scn, char **element)
 {
+	if (ft_strcmp(element[0], "R")
+			add_resolution(scn, element);
 	strfind(element[0], (char **)g_identifiers);
 }
 
