@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/26 09:55:43 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/26 12:09:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,32 @@ int				strfind(char *elem, char **list)
 			pos++;
 	return (list[pos] != NULL ? pos : -1);
 }
-
+/*
 static void		add_element(t_scene scn, char **element)
 {
 //	if (ft_strcmp(element[0], "R"))
 //			add_resolution(scn, element);
 	strfind(element[0], (char **)g_identifiers);
-}
-
+}*/
+/*
 static int		check_conf(t_scene scn)
 {
 	return (0);
-}
+}*/
 
 /*
 **	Read from the given config file to set up the scene.
 **	Checks for configuration errors.
 */
 
-int				save_conf(char *conf_file, t_scene scn)
+int				save_conf(char *conf_file, t_scene *scn)
 {
 	char	*line;
 	char	**element;
 	int		fd;
 	int		i;
 
+	scn->res[1] = 0;
 	if (-1 == (fd = open(conf_file, O_RDONLY)))
 		return (-1); //TODO: Errors
 	while (0 < get_next_line(fd, &line))
@@ -66,8 +67,9 @@ int				save_conf(char *conf_file, t_scene scn)
 			free(element[i++]);
 		free(element);
 		free(line);
-	}
-	if (!check_conf(scn))
+	}/*
+	if (!check_conf(*scn))
 		return (1); //TODO:Error handling.
+		*/
 	return (0);
 }

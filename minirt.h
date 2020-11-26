@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/25 14:09:23 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/26 11:59:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ typedef struct			s_scene
 {
 	t_resolution	res;
 	t_ambient		amb;
-	t_camera		*cam;
-	t_light			*lgt;
+//	t_camera		*cam;
+//	t_light			*lgt;
 //	t_geometry		geo;
 }						t_scene;
 
 int						get_next_line(int fd, char **line);
+int						save_conf(char *conf_file, t_scene *scn);
 #endif

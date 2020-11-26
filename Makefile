@@ -6,17 +6,14 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/11/24 13:40:05 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/11/26 12:37:40 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#SRC_FILES +=		float_print.c
-#SRC_FILES +=		fmt_print.c
-#SRC_FILES +=		ft_printf.c
-#SRC_FILES +=		int_print.c
-#SRC_FILES +=		numeric_fmt.c
-#SRC_FILES +=		str_print.c
-#SRC_FILES +=		symbol_fmt.c
+SRC_FILES +=		main.c
+SRC_FILES +=		config_reader.c
+SRC_FILES +=		get_next_line.c
+SRC_FILES +=		get_next_line_utils.c
 OBJ_FILES := $(patsubst %.c, %.o, $(SRC_FILES))
 
 SRC_DIR := sources/
@@ -25,33 +22,35 @@ OBJ_DIR := objects/
 SRC :=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ :=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
-BFT := libft.a
+LIBFT := libft.a
 MLX := libmlx.a
 
 NAME = miniRT
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -I.
+LFLAGS += -L. -lft -lmlx -framework OpenGL -framework AppKit
 AR = ar
 ARFLAGS = -rc
 
 .PHONY: all re bonus clean fclean pft
 all : $(NAME)
 
-minilibx/$(MLX) :
+$(MLX) :
 	@echo "Building libmlx."
-	@make -C minilibx/ all clean
+	@make -C minilibx/ all 2> /dev/null
+	@cp -v minilibx/$(MLX) $(MLX)
 	@echo "______________________________"
 
-libft/$(LIBFT) :
+$(LIBFT) :
 	@echo "Building libft."
 	@make -C libft/ all clean
+	@cp -v libft/$(LIBFT) $(LIBFT)
 	@echo "______________________________"
 
-$(NAME) : libft/$(LIBFT) libftprintf.h $(OBJ)
-	@echo "Updating libprintf."
-	@cp -v libft/$(LIBFT) $(NAME)
-	@$(AR) -v $(ARFLAGS) $(NAME) $(OBJ)
+$(NAME) : $(MLX) $(LIBFT) minirt.h $(OBJ)
+	@echo "Buildind executable."
+	$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
 	@echo "______________________________"
 
 bonus : re
@@ -69,7 +68,7 @@ clean :
 
 depclean :
 	@echo "Removing dependencies."
-	@rm -fv $(LIBFT)
+	@rm -fv $(LIBFT) $(MLX)
 	@echo "______________________________"
 
 fclean :
