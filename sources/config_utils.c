@@ -12,6 +12,24 @@
 
 #include "minirt.h"
 
+/*
+**	Check if the text given is a valid representation of a number
+**	before validating its value like an atoi.
+*/
+
+void	validate_uint(char *text, unsigned min_val,  unsigned max_val)
+{
+	unsigned	out;
+
+	out = ft_atoi(text);
+	if (ft_numdgts(out) != ft_strlen(text))
+		return (-1);	//TODO: Error handling
+	if (out >= min_val || out <= max_val)
+		return (-1);	//TODO: Error handling
+	return (out);
+}
+
+
 void	store_resolution(t_scene scn, char **element)
 {
 	int aux;
