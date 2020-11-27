@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2019/11/22 04:31:42 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/01/24 16:40:27 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
-#include <stdlib.h>
+#include "libft.h"
 
-int			main(int argn, char **args)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
+	size_t i;
 
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	if (!dst || !src)
+		return (0);
+	i = -1;
+	while (src[++i] && (i + 1) < dstsize)
+		dst[i] = src[i];
+	if (dstsize)
+		dst[i] = 0;
+	while (src[i])
+		i++;
+	return (i);
 }

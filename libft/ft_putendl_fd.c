@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/01/12 02:55:12 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/01/12 03:00:43 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
-#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
 
-int			main(int argn, char **args)
+void	ft_putendl_fd(char *c, int fd)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
-
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	ft_putstr_fd(c, fd);
+	write(fd, "\n", 1);
 }

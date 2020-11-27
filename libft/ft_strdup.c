@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/01/11 19:02:24 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/01/21 22:03:29 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
+#include "libft.h"
 #include <stdlib.h>
 
-int			main(int argn, char **args)
+char	*ft_strdup(const char *s1)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
+	char	*dup;
 
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	if ((dup = malloc(ft_strlen(s1) + 1)) != NULL)
+		ft_strcpy(dup, s1);
+	return (dup);
 }

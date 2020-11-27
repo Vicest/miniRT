@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/01/08 14:46:06 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/01/21 22:02:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
-#include <stdlib.h>
+#include "libft.h"
 
-int			main(int argn, char **args)
+char	*ft_strchr(const char *s, int c)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
-
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	while (*s != (char)c)
+	{
+		if (!*s++)
+			return (NULL);
+	}
+	return ((char*)s);
 }

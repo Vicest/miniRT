@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putrstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/02/16 19:08:57 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/02/21 23:28:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
-#include <stdlib.h>
+#include <unistd.h>
 
-int			main(int argn, char **args)
+int	ft_putrstr(const char *s, int c)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
+	int i;
 
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	i = 0;
+	while (s[i] && (unsigned char)(s[i]) != c)
+		write(1, &s[i++], 1);
+	return (i + 1);
 }

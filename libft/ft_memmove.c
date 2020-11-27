@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 11:24:12 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/01/08 10:57:52 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/01/22 14:37:02 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "minilibx/mlx.h"
-#include <stdlib.h>
+#include "libft.h"
 
-int			main(int argn, char **args)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	t_scene	scn;
-//	void	*mlx_ptr;
-//	void	*win_ptr;
+	void	*cpy;
 
-	if (argn != 2)
-		return (1); //TODO: Error handling.
-	save_conf(args[1], &scn);
-	system("leaks miniRT");
-
-	//mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
-	//mlx_loop(mlx_ptr);
-	return (0);
+	if ((!dst && !src) || dst == src)
+		return (dst);
+	if (src < dst)
+	{
+		while (--len + 1)
+			*(unsigned char*)(dst + len) = *(unsigned char*)(src + len);
+	}
+	else
+	{
+		cpy = dst;
+		while (--len + 1)
+			*(unsigned char*)cpy++ = *(unsigned char*)src++;
+	}
+	return (dst);
 }
