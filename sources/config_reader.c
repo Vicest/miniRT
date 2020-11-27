@@ -43,9 +43,24 @@ static int		check_conf(t_scene scn)
 {
 	return (0);
 }*/
+/*
+**	
+*/
+
+static void			store_element(t_scenes scn, char **elem)
+{
+	if (ft_strcmp(elem[0], "R")
+		store_resolution(elem);
+	else if (ft_strcmp(elem[0], "A")
+		store_ambient(elem);
+	else
+		return ; //TODO: Error management.
+}
+
 
 /*
-**	Stores a config line.
+**	Dissects a config line's element in its parts.
+**	Stores the element.
 */
 
 static void			line_store(t_scene *scn, char *line)
@@ -53,11 +68,10 @@ static void			line_store(t_scene *scn, char *line)
 	char	**element;
 	int		i;
 
-	scn++;
 	printf("|%s|\n", line);
 	if (!(element = ft_split(line, ' ')))
 		return ; //TODO:Error handling.
-	//add_element(scn, element);
+	store_element(scn, element);
 	i = 0;
 	while (element[i])
 		free(element[i++]);

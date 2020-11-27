@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	add_resolution(t_scene scn, char **element)
+void	store_resolution(t_scene scn, char **element)
 {
 	int aux;
 
