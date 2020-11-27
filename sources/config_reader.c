@@ -6,11 +6,13 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/26 12:09:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/27 14:09:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "minirt.h"
 
 /*
@@ -43,33 +45,50 @@ static int		check_conf(t_scene scn)
 }*/
 
 /*
+**	Stores a config line.
+*/
+
+static void			line_store(t_scene *scn, char *line)
+{
+	char	**element;
+	int		i;
+
+	scn++;
+	printf("|%s|\n", line);
+	if (!(element = ft_split(line, ' ')))
+		return ; //TODO:Error handling.
+	//add_element(scn, element);
+	i = 0;
+	while (element[i])
+		free(element[i++]);
+	free(element);
+}
+
+
+/*
 **	Read from the given config file to set up the scene.
+**	Stores scene information.
 **	Checks for configuration errors.
 */
 
-int				save_conf(char *conf_file, t_scene *scn)
+void				save_conf(char *conf_file, t_scene *scn)
 {
 	char	*line;
-	char	**element;
 	int		fd;
-	int		i;
+	int		gnl_out;
 
-	scn->res[1] = 0;
-	if (-1 == (fd = open(conf_file, O_RDONLY)))
-		return (-1); //TODO: Errors
-	while (0 < get_next_line(fd, &line))
+	line = NULL;
+	gnl_out = 0;
+	fd = open(conf_file, O_RDONLY);
+	while (gnl_out != -1)
 	{
-		if (!(element = ft_split(line, ' ')))
-			return (1); //TODO:Error handling.
-		//add_element(scn, element);
-		i = 0;
-		while (element[i])
-			free(element[i++]);
-		free(element);
+		gnl_out = get_next_line(fd, &line);
+		if (gnl_out == 0)
+			close(fd);
+		else if (line[0] != '\0')
+			line_store(scn, line);
 		free(line);
-	}/*
-	if (!check_conf(*scn))
-		return (1); //TODO:Error handling.
-		*/
-	return (0);
+	}
+	/*if (!check_conf(*scn))
+		return (1); //TODO:Error handling.*/
 }
