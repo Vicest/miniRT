@@ -6,12 +6,13 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/24 14:43:25 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/27 10:35:51 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+# include "error.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
