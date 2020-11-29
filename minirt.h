@@ -19,6 +19,10 @@
 # include <stdlib.h>
 
 # define N_IDS 9
+# define MIN_XRES 600
+# define MAX_XRES 1024
+# define MIN_YRES 480
+# define MAX_YRES 860
 
 //# define IDENTIFIERS "R,A,c,l,sp,pl,sq,cy,tr"
 
