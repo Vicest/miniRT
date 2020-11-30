@@ -19,10 +19,11 @@
 # include <stdlib.h>
 
 # define N_IDS 9
-# define MIN_XRES 600
 # define MAX_XRES 1024
-# define MIN_YRES 480
 # define MAX_YRES 860
+
+# define FLAG_RES 1
+# define FLAG_AMB 1 << 1
 
 //# define IDENTIFIERS "R,A,c,l,sp,pl,sq,cy,tr"
 
@@ -68,6 +69,7 @@ typedef struct			s_ambient
 
 typedef struct			s_scene
 {
+	char			flags;
 	t_resolution	res;
 	t_ambient		amb;
 //	t_camera		*cam;
