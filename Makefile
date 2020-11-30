@@ -6,9 +6,11 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/11/26 12:37:40 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/11/30 12:42:55 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+OS := $(shell uname)
 
 SRC_FILES +=		main.c
 SRC_FILES +=		config_reader.c
@@ -29,7 +31,12 @@ NAME = miniRT
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I.
-LFLAGS += -L. -lft -lmlx -framework OpenGL -framework AppKit
+LFLAGS += -L. -lft -lmx
+ifneq ($(OS), Linux)
+	LFLAGS += -Xext -lX11
+else
+	LFLAGS += -framework OpenGL -framework AppKit
+endif
 AR = ar
 ARFLAGS = -rc
 
