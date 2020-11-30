@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/30 11:14:38 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 12:04:37 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,25 @@ int		validate_int(char *text, int min_val, int max_val)
 /*
 **	Check if the text given is a valid representation of a floating
 **	point number before validating its value.
+**	/TODO: Dolor de muelas. I basically need an atof.
 */
-
+/*
 double	validate_double(char *text, double min_val, double max_val)
-{/*
-	int out;
+{
+	double ipart;
+	double fpart;
 
-	out = ft_atoi(text);
+	ipart = ft_atoi(text);
+	if (text[ft_numdgts(ipart)] == '.')
+
 	if (ft_numdgts(out) != ft_strlen(text))
 		return (-1);	//TODO: Error text is not only a number
 	if (out <= min_val || out >= max_val)
 		return (-1);	//TODO: Error int is out of range
-	return (out);*/
-}
+	return (out);
+}*/
+
+/*
 int		validate_colour(char *text)
 {
 	int out;
@@ -55,7 +61,7 @@ int		validate_colour(char *text)
 	if (out <= 0 || out >= 255)
 		return (-1);	//TODO: Error int is out of range
 	return (out);
-}
+}*/
 
 /*
 **	Resolution, can only be set once, and must be exactly two values.
@@ -76,6 +82,7 @@ void	store_resolution(t_scene scn, char **element)
 **	Ambient, can only be set once, and must be exactly a double and a colour.
 */
 
+/*
 void	store_ambient(t_scene scn, char **element)
 {
 	int i;
@@ -92,4 +99,4 @@ void	store_ambient(t_scene scn, char **element)
 	scn.flags |= FLAG_AMB;
 	if (element[i + 2] != NULL)
 		return ; //TODO: Error handling, too many values for resolution.
-}
+}*/
