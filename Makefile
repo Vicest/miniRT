@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/11/30 12:42:55 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/11/30 13:33:03 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ OS := $(shell uname)
 
 SRC_FILES +=		main.c
 SRC_FILES +=		config_reader.c
+SRC_FILES +=		config_utils.c
 SRC_FILES +=		get_next_line.c
 SRC_FILES +=		get_next_line_utils.c
 OBJ_FILES := $(patsubst %.c, %.o, $(SRC_FILES))
@@ -31,8 +32,8 @@ NAME = miniRT
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I.
-LFLAGS += -L. -lft -lmx
-ifneq ($(OS), Linux)
+LFLAGS += -L. -lft -lmlx
+ifeq ($(OS), Linux)
 	LFLAGS += -Xext -lX11
 else
 	LFLAGS += -framework OpenGL -framework AppKit
@@ -40,7 +41,7 @@ endif
 AR = ar
 ARFLAGS = -rc
 
-.PHONY: all re bonus clean fclean pft
+.PHONY: all re clean fclean pft
 all : $(NAME)
 
 $(MLX) :
@@ -55,12 +56,10 @@ $(LIBFT) :
 	@cp -v libft/$(LIBFT) $(LIBFT)
 	@echo "______________________________"
 
-$(NAME) : $(MLX) $(LIBFT) minirt.h $(OBJ)
+$(NAME) : $(MLX) $(LIBFT) $(OBJ)
 	@echo "Buildind executable."
 	$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
 	@echo "______________________________"
-
-bonus : re
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@echo "Building object:"

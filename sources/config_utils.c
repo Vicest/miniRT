@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/30 12:04:37 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 13:14:51 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int		validate_colour(char *text)
 **	Resolution, can only be set once, and must be exactly two values.
 */
 
-void	store_resolution(t_scene scn, char **element)
+void	store_resolution(t_scene *pscn, char **element)
 {
-	if (scn.flags & FLAG_RES)
+	if (pscn->flags & FLAG_RES)
 		return ;//TODO Error handling, resolution already assigned
-	scn.res[0] = validate_int(element[1], 1, MAX_XRES);
-	scn.res[1] = validate_int(element[2], 1, MAX_YRES);
-	scn.flags |= FLAG_RES;
+	pscn->res[0] = validate_int(element[1], 1, MAX_XRES);
+	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
+	pscn->flags |= FLAG_RES;
 	if (element[3] != NULL)
 		return ; //TODO: Error handling, too many values for resolution.
 }

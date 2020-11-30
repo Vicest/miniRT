@@ -6,14 +6,15 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 14:32:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 14:46:11 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
-# include "error.h"
+//# include "error.h"
 # include "libft/libft.h"
+# include "get_next_line.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -40,7 +41,7 @@ static char				g_identifiers[N_IDS + 1][3] = {
 						{'\0'}
 };
 
-typedef unsigned int	t_resolution[3];
+typedef unsigned int	t_resolution[2];
 typedef unsigned char	t_colour[3];
 typedef double			t_vector[3];
 typedef double			t_coord[3];
@@ -78,5 +79,6 @@ typedef struct			s_scene
 }						t_scene;
 
 int						get_next_line(int fd, char **line);
-void					save_conf(char *conf_file, t_scene *scn);
+void					save_conf(char *conf_file, t_scene *pscn);
+void					store_resolution(t_scene *pscn, char **element);
 #endif

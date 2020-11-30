@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 14:09:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 13:50:32 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ static int		check_conf(t_scene scn)
 **	
 */
 
-static void			store_element(t_scenes scn, char **elem)
+static void			store_element(t_scene *pscn, char **elem)
 {
-	if (ft_strcmp(elem[0], "R")
-		store_resolution(elem);
+	if (ft_strcmp(elem[0], "R"))
+		store_resolution(pscn, elem);
+		/*
 	else if (ft_strcmp(elem[0], "A")
-		store_ambient(elem);
+		store_ambient(elem);*/
 	else
 		return ; //TODO: Error management.
 }
@@ -63,15 +64,19 @@ static void			store_element(t_scenes scn, char **elem)
 **	Stores the element.
 */
 
-static void			line_store(t_scene *scn, char *line)
+static void			line_store(t_scene *pscn, char *line)
 {
 	char	**element;
 	int		i;
 
-	printf("|%s|\n", line);
+	printf("FULL|%s|\n", line);
 	if (!(element = ft_split(line, ' ')))
 		return ; //TODO:Error handling.
-	store_element(scn, element);
+	i = 0;
+	while (element[i])
+		printf("SPLIT|%s|\n", element[i++]);
+	if (!(ft_strcmp(element[0], "")))
+		store_element(pscn, element);
 	i = 0;
 	while (element[i])
 		free(element[i++]);
