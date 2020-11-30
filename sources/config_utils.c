@@ -29,6 +29,22 @@ int		validate_int(char *text, int min_val, int max_val)
 	return (out);
 }
 
+/*
+**	Check if the text given is a valid representation of a floating
+**	point number before validating its value.
+*/
+
+double	validate_dbl(char *text, double min_val, double max_val)
+{/*
+	int out;
+
+	out = ft_atoi(text);
+	if (ft_numdgts(out) != ft_strlen(text))
+		return (-1);	//TODO: Error text is not only a number
+	if (out <= min_val || out >= max_val)
+		return (-1);	//TODO: Error int is out of range
+	return (out);*/
+}
 int		validate_colour(char *text)
 {
 	int out;
