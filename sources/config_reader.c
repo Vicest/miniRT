@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/01 11:40:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/02 14:07:45 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ static int		check_conf(t_scene scn)
 
 static void			store_element(t_scene *pscn, char **elem)
 {
-	if (ft_strcmp(elem[0], "R"))
+	if (0 == ft_strcmp(elem[0], "R"))
 		store_resolution(pscn, elem);
-		/*
-	else if (ft_strcmp(elem[0], "A")
-		store_ambient(elem);*/
+	else if (0 == ft_strcmp(elem[0], "A"))
+		store_ambient(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "c"))
+		store_camera(pscn, elem);
 	else
 		return ; //TODO: Error management.
 }

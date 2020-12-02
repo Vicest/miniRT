@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/01 11:27:05 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/02 14:06:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 //# include "error.h"
 # include "libft/libft.h"
 # include "get_next_line.h"
+# include "math_utils.h"
+# include "lists.h"
 # include <math.h>
 # include <stdio.h>
 # include <string.h>
@@ -44,8 +46,6 @@ static char				g_identifiers[N_IDS + 1][3] = {
 
 typedef unsigned int	t_resolution[2];
 typedef unsigned char	t_colour[3];
-typedef double			t_vector[3];
-typedef double			t_coord[3];
 
 typedef struct			s_light
 {
@@ -54,14 +54,6 @@ typedef struct			s_light
 	t_colour		col;
 	double			ratio;
 }						t_light;
-
-typedef struct			s_camera
-{
-	struct s_camera		*next;
-	t_coord				pos;
-	t_vector			dir;
-	unsigned char		fov;
-}						t_camera;
 
 typedef struct			s_ambient
 {
@@ -74,7 +66,7 @@ typedef struct			s_scene
 	char			flags;
 	t_resolution	res;
 	t_ambient		amb;
-//	t_camera		*cam;
+	t_camera		*cam;
 //	t_light			*lgt;
 //	t_geometry		geo;
 }						t_scene;
@@ -82,4 +74,6 @@ typedef struct			s_scene
 int						get_next_line(int fd, char **line);
 void					save_conf(char *conf_file, t_scene *pscn);
 void					store_resolution(t_scene *pscn, char **element);
+void					store_ambient(t_scene *pscn, char **element);
+void					store_camera(t_scene *pscn, char **element);
 #endif

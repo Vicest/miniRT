@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/01 11:35:08 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/02 14:08:30 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ void	store_resolution(t_scene *pscn, char **element)
 	if (element[3] != NULL)
 	{
 		write(1,element[3], 2);
-		strerror(2);
-		exit(1);
+		printf("STRERR: %s\n", strerror(5));
+		perror("Error, dicks for everyone");
+		exit(-1);
 	}
 		//return ; //TODO: Error handling, too many values for resolution.
 }
@@ -90,21 +91,28 @@ void	store_resolution(t_scene *pscn, char **element)
 **	Ambient, can only be set once, and must be exactly a double and a colour.
 */
 
-/*
-void	store_ambient(t_scene scn, char **element)
+void	store_ambient(t_scene *pscn, char **element)
 {
 	int i;
 
-	if (scn.flags & FLAG_AMB)
+	return ;
+	if (pscn->flags & FLAG_AMB)
 		return ;//TODO Error handling, ambient light already assigned.
-	scn.amb.ratio = validate_double(element[1], 0.0, 1.0);
+	//scn.amb.ratio = validate_double(element[1], 0.0, 1.0);
 	i = 0;
 	while (i < 3)
 	{
-		scn.amb.col[i] = validate_int(element[i + 2], 0, 255);
+		pscn->amb.col[i] = validate_int(element[i + 2], 0, 255);
 		i++;
 	}
-	scn.flags |= FLAG_AMB;
+	pscn->flags |= FLAG_AMB;
 	if (element[i + 2] != NULL)
 		return ; //TODO: Error handling, too many values for resolution.
-}*/
+}
+
+void	store_camera(t_scene *pscn, char **element)
+{
+	return ;
+	pscn++;
+	element++;
+}
