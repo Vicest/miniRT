@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/30 13:50:32 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:40:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,10 @@ static void			line_store(t_scene *pscn, char *line)
 	printf("FULL|%s|\n", line);
 	if (!(element = ft_split(line, ' ')))
 		return ; //TODO:Error handling.
-	i = 0;
-	while (element[i])
-		printf("SPLIT|%s|\n", element[i++]);
-	if (!(ft_strcmp(element[0], "")))
+	if (0 != ft_strcmp(element[0], ""))
 		store_element(pscn, element);
+	else
+		printf("WHYY\n");
 	i = 0;
 	while (element[i])
 		free(element[i++]);

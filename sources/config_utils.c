@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/30 13:14:51 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:35:08 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double	validate_double(char *text, double min_val, double max_val)
 int		validate_colour(char *text)
 {
 	int out;
-
+:
 	out = ft_atoi(text);
 	if (ft_numdgts(out) != ft_strlen(text))
 		return (-1);	//TODO: Error text is not only a number
@@ -74,8 +74,16 @@ void	store_resolution(t_scene *pscn, char **element)
 	pscn->res[0] = validate_int(element[1], 1, MAX_XRES);
 	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
 	pscn->flags |= FLAG_RES;
+	int i = -1;
+	while(element[++i])
+		printf("|resolution:%d:%s|\n", i, element[i]);
 	if (element[3] != NULL)
-		return ; //TODO: Error handling, too many values for resolution.
+	{
+		write(1,element[3], 2);
+		strerror(2);
+		exit(1);
+	}
+		//return ; //TODO: Error handling, too many values for resolution.
 }
 
 /*

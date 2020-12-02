@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/30 14:46:11 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:27:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "get_next_line.h"
 # include <math.h>
 # include <stdio.h>
+# include <string.h>
 # include <stdlib.h>
 
 # define N_IDS 9
