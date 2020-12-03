@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/27 14:09:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/03 11:31:56 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,37 @@ int				strfind(char *elem, char **list)
 			pos++;
 	return (list[pos] != NULL ? pos : -1);
 }
-/*
-static void		add_element(t_scene scn, char **element)
-{
-//	if (ft_strcmp(element[0], "R"))
-//			add_resolution(scn, element);
-	strfind(element[0], (char **)g_identifiers);
-}*/
-/*
-static int		check_conf(t_scene scn)
-{
-	return (0);
-}*/
 
 /*
-**	Stores a config line.
+**	
 */
 
-static void			line_store(t_scene *scn, char *line)
+static void			store_element(t_scene *pscn, char **elem)
+{
+	if (0 == ft_strcmp(elem[0], "R"))
+		store_resolution(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "A"))
+		store_ambient(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "c"))
+		store_camera(pscn, elem);
+	else
+		return ; //TODO: Error management.
+}
+
+/*
+**	Dissects a config line's element in its parts.
+**	Stores the element.
+*/
+
+static void			line_store(t_scene *pscn, char *line)
 {
 	char	**element;
 	int		i;
 
-	scn++;
-	printf("|%s|\n", line);
 	if (!(element = ft_split(line, ' ')))
 		return ; //TODO:Error handling.
-	//add_element(scn, element);
+	if (0 != ft_strcmp(element[0], ""))
+		store_element(pscn, element);
 	i = 0;
 	while (element[i])
 		free(element[i++]);

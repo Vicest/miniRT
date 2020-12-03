@@ -6,19 +6,112 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/11/25 14:09:20 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/03 10:55:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	add_resolution(t_scene scn, char **element)
+/*
+**	Check if the text given is a valid representation of a number
+**	before validating its value like an atoi.
+*/
+
+int		validate_int(char *text, int min_val, int max_val)
 {
-	int aux;
+	int out;
 
-	if (scn->res[0] != 0 && scn->res[1] != 0)
-		return ;//TODO Error handling
+	out = ft_atoi(text);
+	if (ft_numdgts(out) != ft_strlen(text))
+		return (-1);	//TODO: Error text is not only a number
+	if (out <= min_val || out >= max_val)
+		return (-1);	//TODO: Error int is out of range
+	return (out);
+}
 
-	aux = ft_atoi(element[1])
-	
+/*
+**	Check if the text given is a valid representation of a floating
+**	point number before validating its value.
+**	/TODO: Dolor de muelas. I basically need an atof.
+*/
+/*
+double	validate_double(char *text, double min_val, double max_val)
+{
+	double ipart;
+	double fpart;
 
+	ipart = ft_atoi(text);
+	if (text[ft_numdgts(ipart)] == '.')
+
+	if (ft_numdgts(out) != ft_strlen(text))
+		return (-1);	//TODO: Error text is not only a number
+	if (out <= min_val || out >= max_val)
+		return (-1);	//TODO: Error int is out of range
+	return (out);
+}*/
+
+/*
+int		validate_colour(char *text)
+{
+	int out;
+:
+	out = ft_atoi(text);
+	if (ft_numdgts(out) != ft_strlen(text))
+		return (-1);	//TODO: Error text is not only a number
+	if (out <= 0 || out >= 255)
+		return (-1);	//TODO: Error int is out of range
+	return (out);
+}*/
+
+/*
+**	Resolution, can only be set once, and must be exactly two values.
+*/
+
+void	store_resolution(t_scene *pscn, char **element)
+{
+	if (pscn->flags & FLAG_RES)
+		return ;//TODO Error handling, resolution already assigned
+	pscn->res[0] = validate_int(element[1], 1, MAX_XRES);
+	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
+	pscn->flags |= FLAG_RES;
+	int i = -1;
+	while(element[++i])
+		printf("|resolution:%d:%s|\n", i, element[i]);
+	if (element[3] != NULL)
+	{
+		write(1,element[3], 2);
+		printf("STRERR: %s\n", strerror(5));
+		perror("Error, dicks for everyone");
+		exit(-1);
+	}
+		//return ; //TODO: Error handling, too many values for resolution.
+}
+
+/*
+**	Ambient, can only be set once, and must be exactly a double and a colour.
+*/
+
+void	store_ambient(t_scene *pscn, char **element)
+{
+	int i;
+
+	return ;
+	if (pscn->flags & FLAG_AMB)
+		return ;//TODO Error handling, ambient light already assigned.
+	//scn.amb.ratio = validate_double(element[1], 0.0, 1.0);
+	i = 0;
+	while (i < 3)
+	{
+		pscn->amb.col[i] = validate_int(element[i + 2], 0, 255);
+		i++;
+	}
+	pscn->flags |= FLAG_AMB;
+	if (element[i + 2] != NULL)
+		return ; //TODO: Error handling, too many values for resolution.
+}
+
+void	store_camera(t_scene *pscn, char **params)
+{
+	//TODO: Do proper parameter validation.
+	push_camera(&(pscn->cam), params);
+}
