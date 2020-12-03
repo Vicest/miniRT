@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/02 14:08:30 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/03 10:55:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,8 @@ void	store_ambient(t_scene *pscn, char **element)
 		return ; //TODO: Error handling, too many values for resolution.
 }
 
-void	store_camera(t_scene *pscn, char **element)
+void	store_camera(t_scene *pscn, char **params)
 {
-	return ;
-	pscn++;
-	element++;
+	//TODO: Do proper parameter validation.
+	push_camera(&(pscn->cam), params);
 }

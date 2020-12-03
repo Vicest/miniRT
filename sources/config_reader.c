@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/02 14:07:45 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/03 11:31:56 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,7 @@ int				strfind(char *elem, char **list)
 			pos++;
 	return (list[pos] != NULL ? pos : -1);
 }
-/*
-static void		add_element(t_scene scn, char **element)
-{
-//	if (ft_strcmp(element[0], "R"))
-//			add_resolution(scn, element);
-	strfind(element[0], (char **)g_identifiers);
-}*/
-/*
-static int		check_conf(t_scene scn)
-{
-	return (0);
-}*/
+
 /*
 **	
 */
@@ -59,7 +48,6 @@ static void			store_element(t_scene *pscn, char **elem)
 		return ; //TODO: Error management.
 }
 
-
 /*
 **	Dissects a config line's element in its parts.
 **	Stores the element.
@@ -70,13 +58,10 @@ static void			line_store(t_scene *pscn, char *line)
 	char	**element;
 	int		i;
 
-	printf("FULL|%s|\n", line);
 	if (!(element = ft_split(line, ' ')))
 		return ; //TODO:Error handling.
 	if (0 != ft_strcmp(element[0], ""))
 		store_element(pscn, element);
-	else
-		printf("WHYY\n");
 	i = 0;
 	while (element[i])
 		free(element[i++]);
