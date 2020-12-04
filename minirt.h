@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/03 12:32:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/04 11:27:55 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char				g_identifiers[N_IDS + 1][3] = {
 };
 
 typedef unsigned int	t_resolution[2];
-typedef unsigned char	t_colour[3];
+typedef unsigned int	t_colour;
 
 typedef struct			s_light
 {
