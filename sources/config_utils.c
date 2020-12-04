@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 12:06:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/04 14:02:17 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 **	before validating its value like an atoi.
 */
 
-int		validate_int(char *text, int min_val, int max_val)
+int				validate_int(char *text, int min_val, int max_val)
 {
 	int out;
 
 	out = ft_atoi(text);
 	if (ft_numdgts(out) != ft_strlen(text))
-		return (-1);	//TODO: Error text is not only a number
-	if (out <= min_val || out >= max_val)
-		return (-1);	//TODO: Error int is out of range
+		exit(-1);	//TODO: Error text is not only a number
+	if (out < min_val || out > max_val)
+		exit(-1);	//TODO: Error int is out of range
 	return (out);
 }
 
@@ -34,21 +34,30 @@ int		validate_int(char *text, int min_val, int max_val)
 **	point number before validating its value.
 **	/TODO: Dolor de muelas. Únicamente verifica que la cadena va bien.
 */
-double	validate_double(char *str)
+
+double			validate_double(char *str)
 {
-	if (*str == '-')
-		str++;
-	while (ft_isdigit(*str))
-		str++;
-	if (*str == '.')
-		str++;
-	while (ft_isdigit(*str))
-		str++;
-	if (*str != '\0')
-		return (-1);
+	int i;
+	
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] == '.')
+		i++;
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] != '\0')
+		exit(-1); //TODO: Error handling
 	return ft_atoi(str);
 }
 
+/*
+**	Check if the text is a set of three integers, separated only by commas,
+**	in the range of 0-255 (unisgned char).
+**	The colour is stored in an integer using said values.
+*/
 
 t_colour		validate_colour(char *text)
 {
@@ -60,6 +69,7 @@ t_colour		validate_colour(char *text)
 	if (!(colours = ft_split(text, ',')))
 		exit(-1); //TODO: Syserror
 	i = 0;
+	out = 0;
 	while (i < 3 && *(colours[i]))
 	{
 		colour_comp = validate_int(colours[i], 0, 255);
@@ -84,16 +94,12 @@ void	store_resolution(t_scene *pscn, char **element)
 	pscn->res[0] = validate_int(element[1], 1, MAX_XRES);
 	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
 	pscn->flags |= FLAG_RES;
-	int i = -1;
-	while(element[++i])
-		printf("|resolution:%d:%s|\n", i, element[i]);
 	if (element[3] != NULL)
 	{
 		write(1,element[3], 2);
 		printf("STRERR: %s\n", strerror(5));
-		exit(-1);
+		exit(-1);//TODO: Error handling, too many values for resolution.
 	}
-		//return ; //TODO: Error handling, too many values for resolution.
 }
 
 /*
@@ -109,9 +115,6 @@ void	store_ambient(t_scene *pscn, char **element)
 	pscn->flags |= FLAG_AMB;
 	if (element[3] != NULL)
 		return ; //TODO: Error handling, too many values for resolution.
-	int i = -1;
-	while(element[++i])
-		printf("|ambient:%d:%s|\n", i, element[i]);
 }
 
 void	store_camera(t_scene *pscn, char **params)

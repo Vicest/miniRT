@@ -6,13 +6,14 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/03 10:51:01 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/04 13:37:42 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS := $(shell uname)
 
 SRC_FILES +=		main.c
+SRC_FILES +=		debug.c
 SRC_FILES +=		camera_list.c
 SRC_FILES +=		config_reader.c
 SRC_FILES +=		config_utils.c

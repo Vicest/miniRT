@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/03 11:31:56 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/04 14:08:47 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "minirt.h"
+#include "debug.h"
 
 /*
 **	TODO: Libft??
@@ -33,7 +34,7 @@ int				strfind(char *elem, char **list)
 }
 
 /*
-**	
+**	Calls for a storage function based on the element identifier to store.
 */
 
 static void			store_element(t_scene *pscn, char **elem)
@@ -59,7 +60,7 @@ static void			line_store(t_scene *pscn, char *line)
 	int		i;
 
 	if (!(element = ft_split(line, ' ')))
-		return ; //TODO:Error handling.
+		exit(-1); //TODO:Error handling.
 	if (0 != ft_strcmp(element[0], ""))
 		store_element(pscn, element);
 	i = 0;
@@ -93,6 +94,7 @@ void				save_conf(char *conf_file, t_scene *scn)
 			line_store(scn, line);
 		free(line);
 	}
+	print_scene(*scn);
 	/*if (!check_conf(*scn))
 		return (1); //TODO:Error handling.*/
 }

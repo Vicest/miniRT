@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 11:27:55 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/04 13:56:22 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdlib.h>
 
 # define N_IDS 9
-# define MAX_XRES 1024
-# define MAX_YRES 860
+# define MAX_XRES 4096
+# define MAX_YRES 4096
 
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
