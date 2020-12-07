@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/07 14:24:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:36:04 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,9 @@ void			validate_vector(t_vector *out, char *text)
 		vector_comp = validate_double(points[i]);
 		free(points[i]);
 		(*out)[i++] = vector_comp;
-	}/*
+	}
 	if (!is_normal(*out))
-	{
-		printf("%f\n", sqrt(pow((*out)[0], 2) + pow((*out)[1], 2) + pow((*out)[2], 2)));
 		exit (-1); //TODO: Not normalized
-	}*/
 	if (i > 3 || points[i])
 		exit (-1); //TODO: Can only have 3 components.
 	free(points);
