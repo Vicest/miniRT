@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 13:08:17 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 14:17:49 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/07 13:48:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,14 @@ static void	print_cams(t_scene scn)
 	while (scn.cam)
 	{
 		printf("Camera:%d\n", i);
-		i++;
-		scn.cam = scn.cam->next;
+		printf("C[%d] Position:(%f,%f,%f)\n", i, scn.cam->pos[0],
+				scn.cam->pos[1], scn.cam->pos[2]);
+		printf("C[%d] Direction:(%f,%f,%f)\n", i, scn.cam->dir[0],
+				scn.cam->dir[1], scn.cam->dir[2]);
+		printf("C[%d] FOV:%d\n", i, scn.cam->fov);
 		printf("---------\n");
+		scn.cam = scn.cam->next;
+		i++;
 	}
 }
 

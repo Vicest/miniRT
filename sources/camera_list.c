@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:29:19 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/03 11:38:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/07 13:08:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,13 @@
 **	Aux function to initialize de values of a camera.
 */
 
+/*
 static void	fill_camera(t_camera *pcam, char** params)
 {
 	if (!pcam || !params || !(*params))
 		return ; //TODO Bad usage
 	pcam->next = NULL;
-	/*
-	pcam->pos = params[1];
-	pcam->dir = params[2];
-	pcam->fov = params[3];
-	*/
-}
+}*/
 
 /*
 **	Clear the first element of the list, much like a pop in a stack.
@@ -63,7 +59,7 @@ void		pop_all(t_camera **c_lst)
 **	Adds a new element to the list at the start. Behaves like a stack.
 */
 
-void		push_camera(t_camera **c_lst, char **params)
+void		push_camera(t_camera **c_lst)
 {
 	t_camera *new;
 
@@ -71,7 +67,6 @@ void		push_camera(t_camera **c_lst, char **params)
 		return ; //TODO Error null camera_list
 	if (!(new = malloc(sizeof(t_camera))))
 		return ; //TODO Sys Error
-	fill_camera(new, params);
 	new->next = *c_lst;
 	(*c_lst) = new;
 }
