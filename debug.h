@@ -1,18 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_utils.c                                       :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 10:55:54 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/12/04 13:21:09 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/12/04 13:23:01 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math_utils.h"
+#include "minirt.h"
 
-int		is_normal(t_vector v)
-{
-	return (1 == sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2)));
-}
+void	print_scene(t_scene scn);

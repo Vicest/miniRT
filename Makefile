@@ -6,14 +6,18 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/03 10:51:01 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/08 10:48:28 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS := $(shell uname)
 
 SRC_FILES +=		main.c
+SRC_FILES +=		debug.c
+SRC_FILES +=		validations.c
+SRC_FILES +=		math_utils.c
 SRC_FILES +=		camera_list.c
+SRC_FILES +=		light_stack.c
 SRC_FILES +=		config_reader.c
 SRC_FILES +=		config_utils.c
 SRC_FILES +=		get_next_line.c

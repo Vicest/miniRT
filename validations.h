@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_utils.c                                       :+:      :+:    :+:   */
+/*   validations.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 10:55:54 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/12/07 13:09:59 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/12/07 13:40:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math_utils.h"
+#ifndef VALIDATIONS_H
+# define VALIDATIONS_H
+# include "minirt.h"
 
-int		is_normal(t_vector v)
-{
-	return (1 == sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2)));
-}
+int				validate_int(char *text, int min_val, int max_val);
+t_colour		validate_colour(char *text);
+double			validate_double(char *str);
+void			validate_coordinates(t_coord *out, char *text);
+void			validate_vector(t_coord *out, char *text);
+#endif

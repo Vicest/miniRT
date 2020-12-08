@@ -52,6 +52,7 @@ Mkfile.old
 dkms.conf
 
 #My shit
+libft/**
 .DS_Store
 miniRT
 **.sw?
