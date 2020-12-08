@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 11:00:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/08 12:54:33 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,31 @@ static void			line_store(t_scene *pscn, char *line)
 	free(element);
 }
 
+/*
+**	Checks if the last part of a string is the same as the given one.
+**	Returns NULL if false. Returns the extension.
+*/
+
+static char			*file_extension_check(char *file, char *ext)
+{
+	int		name_length;
+	int		ext_length;
+
+	if (!file || !ext)
+		exit(-1); //TODO: Errors plox
+	name_length = ft_strlen(file);
+	ext_length = ft_strlen(ext);
+	if ((name_length - ext_length) > 0)
+	{
+		file += name_length - ext_length;
+		if (0 == ft_strcmp(ext, file))
+			return (ext);
+		else
+			return (NULL);
+	}
+	else
+		return (NULL);
+}
 
 /*
 **	Read from the given config file to set up the scene.
@@ -86,6 +111,8 @@ void				save_conf(char *conf_file, t_scene *scn)
 
 	line = NULL;
 	gnl_out = 0;
+	if (!file_extension_check(conf_file, ".rt"))
+		exit(-1);
 	fd = open(conf_file, O_RDONLY);
 	while (gnl_out != -1)
 	{
