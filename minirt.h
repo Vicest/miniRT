@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/07 11:24:50 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/08 10:46:27 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,12 @@ static char				g_identifiers[N_IDS + 1][3] = {
 						{'\0'}
 };
 
-typedef unsigned int	t_resolution[2];
 typedef unsigned int	t_colour;
-
-typedef struct			s_light
-{
-	struct s_light	*next;
-	t_coord			pos;
-	t_colour		col;
-	double			ratio;
-}						t_light;
+typedef unsigned int	t_resolution[2];
 
 typedef struct			s_ambient
 {
-	double			ratio;
+	double			b_ratio;
 	t_colour		col;
 }						t_ambient;
 
@@ -66,7 +58,7 @@ typedef struct			s_scene
 	t_resolution	res;
 	t_ambient		amb;
 	t_camera		*cam;
-//	t_light			*lgt;
+	t_light			*lgt;
 //	t_geometry		geo;
 }						t_scene;
 
@@ -75,4 +67,6 @@ void					save_conf(char *conf_file, t_scene *pscn);
 void					store_resolution(t_scene *pscn, char **element);
 void					store_ambient(t_scene *pscn, char **element);
 void					store_camera(t_scene *pscn, char **element);
+void					store_camera(t_scene *pscn, char **element);
+void					store_light(t_scene *pscn, char **element);
 #endif

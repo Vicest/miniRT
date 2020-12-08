@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/07 13:41:27 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:00:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	store_ambient(t_scene *pscn, char **element)
 {
 	if (pscn->flags & FLAG_AMB)
 		return ;//TODO Error handling, ambient light already assigned.
-	pscn->amb.ratio = validate_double(element[1]);//, 0.0, 1.0);
+	pscn->amb.b_ratio = validate_double(element[1]);//, 0.0, 1.0);
 	pscn->amb.col = validate_colour(element[2]);
 	pscn->flags |= FLAG_AMB;
 	if (element[3] != NULL)
@@ -50,7 +50,6 @@ void	store_ambient(t_scene *pscn, char **element)
 void	store_camera(t_scene *pscn, char **params)
 {
 	int i;
-	//TODO: Do proper parameter validation.
 	i = 0;
 	while (i < 4 && params[i])
 		i++;
@@ -60,4 +59,19 @@ void	store_camera(t_scene *pscn, char **params)
 	validate_coordinates(&(pscn->cam->pos), params[1]);
 	validate_vector(&(pscn->cam->dir), params[2]);
 	pscn->cam->fov = validate_int(params[3], 0, 180);
+}
+
+void	store_light(t_scene *pscn, char **params)
+{
+	int i;
+	//TODO: Do proper parameter validation.
+	i = 0;
+	while (i < 4 && params[i])
+		i++;
+	if (i != 4 || params[i])
+		exit (-1); //TODO Error handling bad param number,
+	push_light(&(pscn->lgt));
+	validate_coordinates(&(pscn->lgt->pos), params[1]);
+	pscn->lgt->b_ratio = validate_double(params[2]); //TODO dbl max && bbl min, 0, 180);
+	pscn->lgt->col = validate_colour(params[3]);
 }

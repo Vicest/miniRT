@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 14:08:47 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:00:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void			store_element(t_scene *pscn, char **elem)
 		store_ambient(pscn, elem);
 	else if (0 == ft_strcmp(elem[0], "c"))
 		store_camera(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "l"))
+		store_light(pscn, elem);
 	else
 		return ; //TODO: Error management.
 }

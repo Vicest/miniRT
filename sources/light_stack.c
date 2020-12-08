@@ -1,43 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera_list.c                                      :+:      :+:    :+:   */
+/*   light_stack.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/02 12:29:19 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 10:25:36 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/12/08 10:21:09 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/12/08 10:28:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "lists.h"
 #include <stdlib.h>
 
 /*
-**	Aux function to initialize de values of a camera.
-*/
-
-/*
-static void	fill_camera(t_camera *pcam, char** params)
-{
-	if (!pcam || !params || !(*params))
-		return ; //TODO Bad usage
-	pcam->next = NULL;
-}*/
-
-/*
 **	Clear the first element of the list, much like a pop in a stack.
 */
 
-void		pop_camera(t_camera **c_lst)
+void		pop_light(t_light **l_lst)
 {
-	t_camera	*aux;
+	t_light	*aux;
 
-	if (c_lst && (*c_lst))
+	if (l_lst && (*l_lst))
 	{
-		aux = (*c_lst)->next;
-		free(*c_lst);
-		(*c_lst) = aux;
+		aux = (*l_lst)->next;
+		free(*l_lst);
+		(*l_lst) = aux;
 	}
 }
 
@@ -46,12 +35,12 @@ void		pop_camera(t_camera **c_lst)
 **	Free the reference to the first one as well.
 */
 
-void		pop_all_c(t_camera **c_lst)
+void		pop_all_l(t_light **l_lst)
 {
-	if (c_lst)
+	if (l_lst)
 	{
-		while ((*c_lst))
-			pop_camera(c_lst);
+		while ((*l_lst))
+			pop_light(l_lst);
 	}
 }
 
@@ -59,18 +48,14 @@ void		pop_all_c(t_camera **c_lst)
 **	Adds a new element to the list at the start. Behaves like a stack.
 */
 
-void		push_camera(t_camera **c_lst)
+void		push_light(t_light **l_lst)
 {
-	t_camera *new;
+	t_light *new;
 
-	if (c_lst == NULL)
-		return ; //TODO Error null camera_list
-	if (!(new = malloc(sizeof(t_camera))))
+	if (l_lst == NULL)
+		return ; //TODO Error null light_list
+	if (!(new = malloc(sizeof(t_light))))
 		return ; //TODO Sys Error
-	new->next = *c_lst;
-	(*c_lst) = new;
+	new->next = *l_lst;
+	(*l_lst) = new;
 }
-
-/*
-** /TODO: Iterate: Apply a function to every element of the list.
-*/

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/04 14:04:12 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/08 10:51:06 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int			main(int argn, char **args)
 	//win_ptr = mlx_new_window(mlx_ptr, 1000, 600, "Ah-ha!");
 	//mlx_loop(mlx_ptr);
 	//TODO: Bad place, needs new function.
-	pop_all(&(scn.cam));
+	pop_all_c(&(scn.cam));
+	pop_all_l(&(scn.lgt));
 	system("leaks -quiet miniRT");
 	return (0);
 }
