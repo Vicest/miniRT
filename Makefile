@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/08 10:48:28 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/10 14:02:00 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ OS := $(shell uname)
 SRC_FILES +=		main.c
 SRC_FILES +=		debug.c
 SRC_FILES +=		validations.c
+SRC_FILES +=		sphere.c
 SRC_FILES +=		math_utils.c
 SRC_FILES +=		camera_list.c
 SRC_FILES +=		light_stack.c
@@ -62,12 +63,12 @@ $(LIBFT) :
 	@echo "______________________________"
 
 $(NAME) : $(MLX) $(LIBFT) $(OBJ)
-	@echo "Buildind executable."
+	@echo "Building executable."
 	$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
 	@echo "______________________________"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-	@echo "Building object:"
+	@echo "Building object."
 	@mkdir -vp $(OBJ_DIR)
 	$(CC) $(CFLAGS) $? -c -o $@
 	@echo "______________________________"

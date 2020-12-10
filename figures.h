@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validations.h                                      :+:      :+:    :+:   */
+/*   figures.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/07 13:09:59 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/10 14:14:00 by vicmarti         ###   ########.fr       */
+/*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
+/*   Updated: 2020/12/10 14:46:46 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VALIDATIONS_H
-# define VALIDATIONS_H
-# include "minirt.h"
+#ifndef FIGURES_H
+# define FIGURES_H
 
-//typedef unsigned int	t_colour;
+# include "math_utils.h"
+//# include "validations.h"
 
-int				validate_int(char *text, int min_val, int max_val);
-t_colour		validate_colour(char *text);
-double			validate_double(char *str);
-void			validate_coordinates(t_coord *out, char *text);
-void			validate_vector(t_coord *out, char *text);
+typedef unsigned int	t_colour;
+
+typedef struct			s_sphere
+{
+	struct s_sphere		*next;
+	t_coord				pos;
+	t_colour			col;
+	double				r;
+	//colision TODO give nearest collision
+}						t_sphere;
+
+double					*sphere_collision(t_sphere s, t_vector v, t_coord c);
 #endif

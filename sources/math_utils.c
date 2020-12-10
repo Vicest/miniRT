@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/10 12:21:39 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/10 13:24:07 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	quadratic_solver(double abc[3], double *sol1, double *sol2)
 	discriminant = pow(abc[1], 2) + 4 * abc[0] * abc[2];
 	if (discriminant > 0)
 	{
-		*sol1 = (-abc[1] + discriminant) / (2 * abc[0]);
-		*sol2 = (-abc[1] - discriminant) / (2 * abc[0]);
+		*sol1 = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
+		*sol2 = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
 	}
 	else if (discriminant == 0)
 	{

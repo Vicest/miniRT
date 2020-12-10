@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:30:20 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 10:25:46 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/09 12:49:17 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define LISTS_H
 # include "math_utils.h"
 typedef unsigned int	t_colour;
+
+typedef struct			s_geometry
+{
+	struct s_geometry	*next;
+	void				*figure;
+}						t_geometry;
 
 typedef struct			s_camera
 {
