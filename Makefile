@@ -6,12 +6,13 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/10 14:02:00 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/11 14:33:46 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS := $(shell uname)
 
+SRC_FILES :=
 SRC_FILES +=		main.c
 SRC_FILES +=		debug.c
 SRC_FILES +=		validations.c
@@ -27,6 +28,7 @@ OBJ_FILES := $(patsubst %.c, %.o, $(SRC_FILES))
 
 SRC_DIR := sources/
 OBJ_DIR := objects/
+INC_DIR := includes/
 
 SRC :=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ :=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
@@ -36,16 +38,16 @@ MLX := libmlx.a
 
 NAME = miniRT
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -I.
-LFLAGS += -L. -lft -lmlx
+CC := cc
+CFLAGS := -Wall -Werror -Wextra -I$(INC_DIR)
+LFLAGS := -L. -lft -lmlx
 ifeq ($(OS), Linux)
 	LFLAGS += -Xext -lX11
 else
 	LFLAGS += -framework OpenGL -framework AppKit
 endif
-AR = ar
-ARFLAGS = -rc
+AR := ar
+ARFLAGS := -rc
 
 .PHONY: all re clean fclean pft
 all : $(NAME)

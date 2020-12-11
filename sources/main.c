@@ -6,12 +6,12 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/10 13:59:44 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/11 14:35:18 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "minilibx/mlx.h"
+#include "../minilibx/mlx.h"
 #include <stdlib.h>
 
 #define X_CLOSE_BUTTON 17
@@ -47,11 +47,9 @@ int			main(int argn, char **args)
 		return (1); //TODO: Error handling.
 	save_conf(args[1], &scn);
 
-	double *col;
-	if ((col = sphere_collision(*(scn.sp), scn.cam->dir, scn.cam->dir)))
-		printf("This ray collides at a distance of: %f\n", *col);
-	else
-		printf("No collision\n");
+	double col;
+	col = sphere_collision(*(scn.sp), scn.cam->dir, scn.cam->dir);
+	printf("This ray collides at a distance of: %f\n", col);
 
 	view.mlx_ptr = mlx_init();//TODO: Error hanlding plz
 	view.win_ptr = mlx_new_window(view.mlx_ptr, scn.res[0], scn.res[1], "miniRT"); //TODO: Moar Error
