@@ -40,9 +40,9 @@ NAME = miniRT
 
 CC := cc
 CFLAGS := -g -Wall -Werror -Wextra -I$(INC_DIR)
-LFLAGS := -L. -lft -lmlx
+LFLAGS := -L. -lft -lmlx -lm
 ifeq ($(OS), Linux)
-	LFLAGS += -Xext -lX11
+	LFLAGS += -lXext -lX11
 else
 	LFLAGS += -framework OpenGL -framework AppKit
 endif
@@ -66,7 +66,7 @@ $(LIBFT) :
 
 $(NAME) : $(MLX) $(LIBFT) $(OBJ)
 	@echo "Building executable."
-	$(CC) $(CFLAGS) $(LFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LFLAGS) -o $(NAME)
 	@echo "______________________________"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
