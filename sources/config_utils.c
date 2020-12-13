@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/10 10:59:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:48:58 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	store_sphere(t_scene *pscn, char **params)
 		i++;
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
+	pscn->sp = malloc(sizeof(t_sphere)); //TODO: Temp shite
 	validate_coordinates(&pscn->sp->pos, params[1]);
 	pscn->sp->r = validate_double(params[2]);
 	pscn->sp->col = validate_colour(params[3]);

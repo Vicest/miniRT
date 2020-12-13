@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/11 11:25:17 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/13 14:05:25 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int		is_normal(t_vector v)
 **	Infinite solutions are treated as no solition, given as NULL.
 */
 
-void	linear_solver(double a, double b, double sol)
+void	linear_solver(double a, double b, double *sol)
 {
 	if (a == 0)
-		sol = NAN;
+		*sol = NAN;
 	else 
-		sol = -b / a;
+		*sol = -b / a;
 }
 
 /*
@@ -42,25 +42,25 @@ void	linear_solver(double a, double b, double sol)
 **	For a single solution sol2 points to NULL
 */
 
-void	quadratic_solver(double abc[3], double sol1, double sol2)
+void	quadratic_solver(double abc[3], double *sol1, double *sol2)
 {
 	int		discriminant;
 
 	if (abc[0] == 0)
 	{
-		sol2 = NAN;
+		*sol2 = NAN;
 		linear_solver(abc[0], abc[1], sol1);
 		return ;
 	}
-	discriminant = pow(abc[1], 2) + 4 * abc[0] * abc[2];
+	discriminant = pow(abc[1], 2) - 4 * abc[0] * abc[2];
 	if (discriminant > 0)
 	{
-		sol1 = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
-		sol2 = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
+		*sol1 = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
+		*sol2 = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
 	}
 	else if (discriminant == 0)
 	{
-		sol1 = -abc[1] / (2 * abc[0]);
-		sol2 = NAN;
+		*sol1 = -abc[1] / (2 * abc[0]);
+		*sol2 = NAN;
 	}
 }

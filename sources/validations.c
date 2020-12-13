@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/07 14:36:04 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/13 12:32:22 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void			validate_coordinates(t_coord *out, char *text)
 	{
 		coord_comp = validate_double(coords[i]); //TODO (?) min/max, 0, 255);
 		free(coords[i]);
-		(*out)[i++] = coord_comp;
+		(*out)[i] = coord_comp;
+		i++;
 	}
 	if (i > 3 || coords[i])
 		exit (-1); //TODO: Can only have 3 coords.
