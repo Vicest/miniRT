@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/11 14:33:46 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/13 12:25:27 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ MLX := libmlx.a
 NAME = miniRT
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -I$(INC_DIR)
+CFLAGS := -g -Wall -Werror -Wextra -I$(INC_DIR)
 LFLAGS := -L. -lft -lmlx
 ifeq ($(OS), Linux)
 	LFLAGS += -Xext -lX11
