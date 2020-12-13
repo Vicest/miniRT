@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/11 14:34:45 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/13 11:50:49 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
-typedef unsigned int	t_colour;
+//typedef unsigned int	t_colour;
 typedef unsigned int	t_resolution[2];
 
 typedef struct			s_ambient
