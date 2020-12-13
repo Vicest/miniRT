@@ -16,6 +16,8 @@
 
 #define X_CLOSE_BUTTON 17
 
+
+/*
 static int	win_close(int keycode)
 {
 	if (keycode == 53)
@@ -37,7 +39,7 @@ static int quit(void *params)
 	exit(-1);
 	return (1);
 }
-
+*/
 void		initialize(t_scene *scn)
 {
 	scn->flags = 0;
@@ -54,7 +56,7 @@ void		initialize(t_scene *scn)
 int			main(int argn, char **args)
 {
 	t_scene	scn;
-	t_view	view;
+//	t_view	view;
 
 	if (argn != 2)
 		return (1); //TODO: Error handling.
@@ -66,7 +68,7 @@ int			main(int argn, char **args)
 	printf("Hola.\n");
 	col = sphere_collision(*(scn.sp), scn.cam->dir, scn.cam->dir);
 	printf("This ray collides at a distance of: %f\n", col);
-
+/*
 	view.mlx_ptr = mlx_init();//TODO: Error hanlding plz
 	view.win_ptr = mlx_new_window(view.mlx_ptr, scn.res[0], scn.res[1], "miniRT"); //TODO: Moar Error
 	mlx_key_hook(view.win_ptr, &win_close, NULL);
@@ -74,10 +76,9 @@ int			main(int argn, char **args)
 	//mlx_loop(view.mlx_ptr);
 	//mlx_destroy_display(mlx_ptr);
 	//TODO: Bad place, needs new function.
-	printf("YO");
+*/
 	pop_all_c(&(scn.cam));
 	pop_all_l(&(scn.lgt));
-	printf("LO");
 	system("leaks -quiet miniRT");
 	return (0);
 }
