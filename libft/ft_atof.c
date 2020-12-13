@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:01:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/03 13:35:43 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/07 11:26:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@
 **	A very basic atof.
 */
 
-double	atof(char *a)
+double	ft_atof(const char *a)
 {
 	double	f;
 	int		i;
 	int		decimals;
-	char	sign;
+	double	sign;
 
 	sign = a[0] == '-' ? -1 : 1;
 	if (sign == -1)
 		a++;
 	i = 0;
+	f = 0.0;
 	while (ft_isdigit(a[i]))
 	{
 		if (f * 10 < f)

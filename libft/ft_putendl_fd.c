@@ -16,5 +16,5 @@
 void	ft_putendl_fd(char *c, int fd)
 {
 	ft_putstr_fd(c, fd);
-	write(fd, "\n", 1);
+	(void)!write(fd, "\n", 1);
 }

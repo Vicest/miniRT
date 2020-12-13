@@ -25,7 +25,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	{
 		if (*haystack == *needle && !(ft_memcmp(haystack, needle, needle_len)))
 			return ((char *)haystack);
-		haystack++ && len--;
+		haystack++;
+		len--;
 	}
 	return (NULL);
 }

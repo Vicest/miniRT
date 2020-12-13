@@ -18,6 +18,6 @@ int	ft_putrstr(const char *s, int c)
 
 	i = 0;
 	while (s[i] && (unsigned char)(s[i]) != c)
-		write(1, &s[i++], 1);
+		(void)!write(1, &s[i++], 1);
 	return (i + 1);
 }
