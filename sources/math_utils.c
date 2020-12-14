@@ -64,3 +64,11 @@ void	quadratic_solver(double abc[3], double *sol1, double *sol2)
 		*sol2 = NAN;
 	}
 }
+
+/*
+**	Rotation of a vector using the
+
+t_vector	rotate(t_vector v, double angle)
+{
+	t_vector
+}*/

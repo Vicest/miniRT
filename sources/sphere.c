@@ -18,7 +18,7 @@
 **	And a vector (x,y,z) = O + k*V
 **	I've done substitution to simplify it to a quadratic ecuation whose solution
 **	is k, the distance to the collision.
-**	Returns NULL if no collision happens.
+**	Returns NAN if no collision happens.
 */
 
 double	sphere_collision(t_sphere s, t_vector v, t_coord c)
@@ -36,9 +36,9 @@ double	sphere_collision(t_sphere s, t_vector v, t_coord c)
 	sol1 = NAN;
 	sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
-	if (sol1 == NAN && sol2 == NAN)
+	if (isnan(sol1) && isnan(sol2))
 		return (NAN);
-	else if (sol1 != NAN && sol2 == NAN)
+	else if (!isnan(sol1) && isnan(sol2))
 		return (sol1);
 	else
 		return (fabs(sol1) <= fabs(sol2) ? sol1 : sol2);

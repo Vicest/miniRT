@@ -39,6 +39,7 @@ int				strfind(char *elem, char **list)
 
 static void			store_element(t_scene *pscn, char **elem)
 {
+	printf("Storing:%s\n", *elem);
 	if (0 == ft_strcmp(elem[0], "R"))
 		store_resolution(pscn, elem);
 	else if (0 == ft_strcmp(elem[0], "A"))
