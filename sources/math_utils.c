@@ -6,14 +6,16 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 14:05:25 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/15 14:42:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
 #include <stdlib.h>
+#include <stdio.h>
 
-int		is_normal(t_vector v)
+
+int			is_normal(t_vector v)
 {
 	return (1 == sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2)));
 }
@@ -25,7 +27,7 @@ int		is_normal(t_vector v)
 **	Infinite solutions are treated as no solition, given as NULL.
 */
 
-void	linear_solver(double a, double b, double *sol)
+void		linear_solver(double a, double b, double *sol)
 {
 	if (a == 0)
 		*sol = NAN;
@@ -42,7 +44,7 @@ void	linear_solver(double a, double b, double *sol)
 **	For a single solution sol2 points to NULL
 */
 
-void	quadratic_solver(double abc[3], double *sol1, double *sol2)
+void		quadratic_solver(double abc[3], double *sol1, double *sol2)
 {
 	int		discriminant;
 
@@ -66,7 +68,28 @@ void	quadratic_solver(double abc[3], double *sol1, double *sol2)
 }
 
 /*
-**	Rotation of a vector using the
+**	Calculate a matrix to vector multiplication. Known as a transformation.
+*/
+
+void			l_transform(t_matrix m, t_vector v, t_vector *sol)
+{
+	unsigned	i;
+	unsigned	j;
+
+	if (!sol)
+		return ;
+	j = 0;
+	while (j < DIM)
+	{
+		i = -1;
+		(*sol)[j] = 0;
+		while (++i < DIM)
+			(*sol)[j] += m[i][j] * v[i];
+		j++;
+	}
+}
+/*
+**	Rotation of a vector/point around an axis (x, y, z)
 
 t_vector	rotate(t_vector v, double angle)
 {

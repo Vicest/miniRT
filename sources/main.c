@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 12:50:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/15 14:48:52 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	int			x;
 	int			y;
 	t_vector	ray;
+	t_vector	aux;
 	double		theta_step;
 	double		col;
 
@@ -63,7 +64,15 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	theta_step *= M_PI / 180;
 	printf("Theta:%f\n", theta_step);
 	//TODO: Do better, please, it  works weird with odd numbers.
-	//y = -(int)(scn.res[1] / 2);
+	aux[0] = 1;
+	aux[1] = 0;
+	aux[2] = 0;
+	yaw(aux, -(double)(M_PI * scn.cam->fov / 360.0), &ray);
+	aux[0] = ray[0];
+	aux[1] = ray[1];
+	aux[2] = ray[2];
+	pitch(aux, -(double)(M_PI * scn.cam->fov / 360.0), &ray);
+	//TODO: Angle ain't right here.
 	y = 0;
 	while (y < (int)(scn.res[1]))
 	{
@@ -71,16 +80,21 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 		//x = -(int)(scn.res[0] / 2);
 		while (x < (int)(scn.res[0]))
 		{
-			ray[0] = cos(theta_step * y) * cos(theta_step * x);
-			ray[1] = sin(theta_step * x);
-			ray[2] = sin(theta_step * y) * cos(theta_step * x);
-			col = sphere_collision(*(scn.sp), ray,  scn.cam->pos);
-			if (!isnan(col))
+			yaw(ray, theta_step * x, &aux);
+			//printf("Ray[%lf,%lf,%lf]\n", aux[0], aux[1], aux[2]);
+			/*
+			ray[0] = cos(theta_step * y) * cos(-scn.cam->fov/2.0 + theta_step * x);
+			ray[1] = sin(-scn.cam->fov/2.0 + theta_step * x);
+			ray[2] = sin(theta_step * y) * cos(-scn.cam->fov/2.0 + theta_step * x);
+			*/
+			col = sphere_collision(*(scn.sp), aux, scn.cam->pos);
+			if (!isnan(col) && col >= 0)
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.sp->col);
 			else
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.amb.col);
 			x++;
 		}
+		//pitch();
 		y++;
 	}
 }

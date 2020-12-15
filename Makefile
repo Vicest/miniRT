@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/13 12:25:27 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/15 13:27:38 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC_FILES +=		debug.c
 SRC_FILES +=		validations.c
 SRC_FILES +=		sphere.c
 SRC_FILES +=		math_utils.c
+SRC_FILES +=		rotations.c
 SRC_FILES +=		camera_list.c
 SRC_FILES +=		light_stack.c
 SRC_FILES +=		config_reader.c
