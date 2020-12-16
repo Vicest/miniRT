@@ -15,9 +15,16 @@
 #include <stdio.h>
 
 
+void		set_vector(t_vector *v, double x, double y, double z)
+{
+	(*v).x = x;
+	(*v).y = y;
+	(*v).z = z;
+}
+
 int			is_normal(t_vector v)
 {
-	return (1 == sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2)));
+	return (1 == sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2)));
 }
 
 /*
@@ -39,9 +46,9 @@ void		linear_solver(double a, double b, double *sol)
 **	Solve a quadratic equation in the form of ax^2 + bx + c = 0.
 **	Parameter abc is the array of coefficients, must be 3.
 **	Parameter sol1 and sol2 are where solutions are stored.
-**	Solutions can be redirected to NULL so caution is advised.
-**	If no solution is found sol1 and sol2 point to NULL.
-**	For a single solution sol2 points to NULL
+**	Solutions can be redirected to NAN so caution is advised.
+**	If no solution is found sol1 and sol2 point to NAN.
+**	For a single solution sol2 points to NAN.
 */
 
 void		quadratic_solver(double abc[3], double *sol1, double *sol2)
@@ -71,27 +78,12 @@ void		quadratic_solver(double abc[3], double *sol1, double *sol2)
 **	Calculate a matrix to vector multiplication. Known as a transformation.
 */
 
-void			l_transform(t_matrix m, t_vector v, t_vector *sol)
+t_vector		l_transform(t_matrix m, t_vector v)
 {
-	unsigned	i;
-	unsigned	j;
+	t_vector	sol;
 
-	if (!sol)
-		return ;
-	j = 0;
-	while (j < DIM)
-	{
-		i = -1;
-		(*sol)[j] = 0;
-		while (++i < DIM)
-			(*sol)[j] += m[i][j] * v[i];
-		j++;
-	}
+	sol.x = m.x.x * v.x + m.x.y * v.y + m.x.z + v.z;
+	sol.y = m.y.x * v.x + m.y.y * v.y + m.y.z + v.z;
+	sol.x = m.z.x * v.x + m.z.y * v.y + m.z.z + v.z;
+	return (sol);
 }
-/*
-**	Rotation of a vector/point around an axis (x, y, z)
-
-t_vector	rotate(t_vector v, double angle)
-{
-	t_vector
-}*/

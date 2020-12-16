@@ -21,10 +21,10 @@ static void	print_cams(t_scene scn)
 	while (scn.cam)
 	{
 		printf("Camera:%d\n", i);
-		printf("C[%d] Position:(%f,%f,%f)\n", i, scn.cam->pos[0],
-				scn.cam->pos[1], scn.cam->pos[2]);
-		printf("C[%d] Direction:(%f,%f,%f)\n", i, scn.cam->dir[0],
-				scn.cam->dir[1], scn.cam->dir[2]);
+		printf("C[%d] Position:(%f,%f,%f)\n", i, scn.cam->pos.x,
+				scn.cam->pos.y, scn.cam->pos.z);
+		printf("C[%d] Direction:(%f,%f,%f)\n", i, scn.cam->dir.x,
+				scn.cam->dir.y, scn.cam->dir.z);
 		printf("C[%d] FOV:%d\n", i, scn.cam->fov);
 		printf("---------\n");
 		scn.cam = scn.cam->next;
@@ -40,8 +40,8 @@ static void	print_lights(t_scene scn)
 	while (scn.lgt)
 	{
 		printf("Light:%d\n", i);
-		printf("L[%d] Position:(%f,%f,%f)\n", i, scn.lgt->pos[0],
-				scn.lgt->pos[1], scn.lgt->pos[2]);
+		printf("L[%d] Position:(%f,%f,%f)\n", i, scn.lgt->pos.x,
+				scn.lgt->pos.y, scn.lgt->pos.z);
 		printf("L[%d] Colour:%#.8X\n", i, scn.lgt->col);
 		printf("L[%d] Brightness:%f\n", i, scn.lgt->b_ratio);
 		printf("---------\n");

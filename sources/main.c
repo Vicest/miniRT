@@ -64,14 +64,9 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	theta_step *= M_PI / 180;
 	printf("Theta:%f\n", theta_step);
 	//TODO: Do better, please, it  works weird with odd numbers.
-	aux[0] = 1;
-	aux[1] = 0;
-	aux[2] = 0;
-	yaw(aux, -(double)(M_PI * scn.cam->fov / 360.0), &ray);
-	aux[0] = ray[0];
-	aux[1] = ray[1];
-	aux[2] = ray[2];
-	pitch(aux, -(double)(M_PI * scn.cam->fov / 360.0), &ray);
+	set_vector(&ray, 1, 0, 0);
+	ray = yaw(ray, -(double)(M_PI * scn.cam->fov / 360.0));
+	ray = pitch(ray, -(double)(M_PI * scn.cam->fov / 360.0));
 	//TODO: Angle ain't right here.
 	y = 0;
 	while (y < (int)(scn.res[1]))
@@ -80,7 +75,7 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 		//x = -(int)(scn.res[0] / 2);
 		while (x < (int)(scn.res[0]))
 		{
-			yaw(ray, theta_step * x, &aux);
+			aux = yaw(ray, theta_step * x);
 			//printf("Ray[%lf,%lf,%lf]\n", aux[0], aux[1], aux[2]);
 			/*
 			ray[0] = cos(theta_step * y) * cos(-scn.cam->fov/2.0 + theta_step * x);
@@ -94,7 +89,7 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.amb.col);
 			x++;
 		}
-		//pitch();
+		ray = pitch(ray, theta_step);
 		y++;
 	}
 }
