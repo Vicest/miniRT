@@ -57,8 +57,8 @@ void	store_camera(t_scene *pscn, char **params)
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
 	push_camera(&(pscn->cam));
-	validate_coordinates(&(pscn->cam->pos), params[1]);
-	validate_vector(&(pscn->cam->dir), params[2]);
+	pscn->cam->pos = validate_coordinates(params[1]);
+	pscn->cam->dir = validate_vector(params[2]);
 	pscn->cam->fov = validate_int(params[3], 0, 180);
 }
 
@@ -72,7 +72,7 @@ void	store_light(t_scene *pscn, char **params)
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
 	push_light(&(pscn->lgt));
-	validate_coordinates(&(pscn->lgt->pos), params[1]);
+	pscn->lgt->pos = validate_coordinates(params[1]);
 	pscn->lgt->b_ratio = validate_double(params[2]); //TODO dbl max && bbl min, 0, 180);
 	pscn->lgt->col = validate_colour(params[3]);
 }
@@ -87,7 +87,7 @@ void	store_sphere(t_scene *pscn, char **params)
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
 	pscn->sp = malloc(sizeof(t_sphere)); //TODO: Temp shite
-	validate_coordinates(&pscn->sp->pos, params[1]);
+	pscn->sp->pos = validate_coordinates(params[1]);
 	pscn->sp->r = validate_double(params[2]);
 	pscn->sp->col = validate_colour(params[3]);
 }

@@ -84,45 +84,48 @@ t_colour		validate_colour(char *text)
 	return (out);
 }
 
-void			validate_coordinates(t_coord *out, char *text)
+t_coord			validate_coordinates(char *text)
 {
 	char	**coords;
 	int		i;
-	double	coord_comp;
+	t_coord	out;
 
 	if (!(coords = ft_split(text, ',')))
 		exit(-1); //TODO: Syserror
 	i = 0;
-	while (i < 3 && *(coords[i]))
-	{
-		coord_comp = validate_double(coords[i]); //TODO (?) min/max, 0, 255);
-		free(coords[i]);
-		(*out)[i] = coord_comp;
-		i++;
-	}
+	if (!coords[0] || !coords[1] || !coords[2])
+		exit (-1); //TODO: Must have 3 components.
+	out.x = validate_double(coords[0]);
+	out.y = validate_double(coords[1]);
+	out.z = validate_double(coords[2]);
+	while (i < 3)
+		free(coords[i++]);
 	if (i > 3 || coords[i])
 		exit (-1); //TODO: Can only have 3 coords.
 	free(coords);
+	return (out);
 }
 
-void			validate_vector(t_vector *out, char *text)
+t_vector		validate_vector(char *text)
 {
 	char	**points;
 	int		i;
-	double	vector_comp;
+	t_vector out;
 
 	if (!(points = ft_split(text, ',')))
 		exit(-1); //TODO: Syserror
 	i = 0;
-	while (i < 3 && *(points[i]))
-	{
-		vector_comp = validate_double(points[i]);
-		free(points[i]);
-		(*out)[i++] = vector_comp;
-	}
-	if (!is_normal(*out))
+	if (!points[0] || !points[1] || !points[2])
+		exit (-1); //TODO: Must have 3 components.
+	out.x = validate_double(points[0]);
+	out.y = validate_double(points[1]);
+	out.z = validate_double(points[2]);
+	while (i < 3)
+		free(points[i++]);
+	if (!is_normal(out))
 		exit (-1); //TODO: Not normalized
 	if (i > 3 || points[i])
 		exit (-1); //TODO: Can only have 3 components.
 	free(points);
+	return (out);
 }

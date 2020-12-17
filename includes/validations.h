@@ -19,6 +19,6 @@
 int				validate_int(char *text, int min_val, int max_val);
 t_colour		validate_colour(char *text);
 double			validate_double(char *str);
-void			validate_coordinates(t_coord *out, char *text);
-void			validate_vector(t_coord *out, char *text);
+t_coord			validate_coordinates(char *text);
+t_vector		validate_vector(char *text);
 #endif

@@ -27,12 +27,12 @@ double	sphere_collision(t_sphere s, t_vector v, t_coord c)
 	double	sol1;
 	double	sol2;
 
-	coefficients[0] = pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2);
-	coefficients[1] = 2 * v[0] * (c[0] - s.pos[0]) +
-					2 * v[1] * (c[1] - s.pos[1]) +
-					2 * v[2] * (c[2] - s.pos[2]);
-	coefficients[2] = pow(c[0] - s.pos[0],2) + pow(c[1] - s.pos[1],2) +
-					pow(c[2] - s.pos[2],2) - pow(s.r, 2);
+	coefficients[0] = pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2);
+	coefficients[1] = 2 * v.x * (c.x - s.pos.x) +
+					2 * v.y * (c.y - s.pos.y) +
+					2 * v.z * (c.z - s.pos.z);
+	coefficients[2] = pow(c.x - s.pos.x,2) + pow(c.y - s.pos.y,2) +
+					pow(c.z - s.pos.z,2) - pow(s.r, 2);
 	sol1 = NAN;
 	sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);

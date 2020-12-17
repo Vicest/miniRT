@@ -82,8 +82,8 @@ t_vector		l_transform(t_matrix m, t_vector v)
 {
 	t_vector	sol;
 
-	sol.x = m.x.x * v.x + m.x.y * v.y + m.x.z + v.z;
-	sol.y = m.y.x * v.x + m.y.y * v.y + m.y.z + v.z;
-	sol.x = m.z.x * v.x + m.z.y * v.y + m.z.z + v.z;
+	sol.x = m.x.x * v.x + m.x.y * v.y + m.x.z * v.z;
+	sol.y = m.y.x * v.x + m.y.y * v.y + m.y.z * v.z;
+	sol.z = m.z.x * v.x + m.z.y * v.y + m.z.z * v.z;
 	return (sol);
 }
