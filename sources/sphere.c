@@ -6,12 +6,13 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 13:57:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/18 11:09:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "figures.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /*
 **	To solve the intersecction of a sphere: (x-a)^2 + (y-b)^2 +(z-c)^2 = r^2

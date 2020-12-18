@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/15 14:48:52 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/18 14:01:30 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,33 +57,28 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	int			y;
 	t_vector	ray;
 	t_vector	aux;
-	double		horizontal_step;
-	double		vertical_step;
+	long double		theta_step;
 	double		col;
 
-	horizontal_step = (double)scn.cam->fov / (double)scn.res[0];
-	horizontal_step *= M_PI / 180;
-	vertical_step = (double)scn.cam->fov / (double)scn.res[1];
-	vertical_step *= M_PI / 180;
-	printf("ThetaH:%f\n", horizontal_step);
-	printf("ThetaV:%f\n", vertical_step);
+	theta_step = (long double)(scn.cam->fov * M_PI / 180.0) / (long double)scn.res[0];
+	printf("Theta:%Lf\n", theta_step);
 	//TODO: Do better, please, it  works weird with odd numbers.
 	set_vector(&ray, 1, 0, 0);
-	ray = yaw(ray, -(double)(M_PI * scn.cam->fov / 360.0));
-	ray = pitch(ray, -(double)(M_PI * scn.cam->fov / 360.0));
+				printf("0Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
+	ray = pitch(ray, -(long double)(theta_step * scn.res[1] / 2.0));
+				printf("2Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
+	ray = yaw(ray, -(long double)(theta_step * scn.res[0] / 2.0));
+				printf("1Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
 	y = 0;
 	while (y < (int)(scn.res[1]))
 	{
 		x = 0;
+		aux = ray;
 		while (x < (int)(scn.res[0]))
 		{
-			aux = yaw(ray, horizontal_step * x);
-			//printf("Ray[%lf,%lf,%lf]\n", aux[0], aux[1], aux[2]);
-			/*
-			ray[0] = cos(theta_step * y) * cos(-scn.cam->fov/2.0 + theta_step * x);
-			ray[1] = sin(-scn.cam->fov/2.0 + theta_step * x);
-			ray[2] = sin(theta_step * y) * cos(-scn.cam->fov/2.0 + theta_step * x);
-			*/
+			printf("|%Lf|%Lf|", theta_step * x, theta_step * y);
+			aux = pitch(ray, theta_step * y);
+			aux = yaw(aux, theta_step * x);
 			col = sphere_collision(*(scn.sp), aux, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.sp->col);
@@ -91,7 +86,7 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.amb.col);
 			x++;
 		}
-		ray = pitch(ray, vertical_step);
+		printf("\n");
 		y++;
 	}
 }

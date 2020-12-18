@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/15 13:34:35 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/18 13:34:30 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			is_normal(t_vector v);
 void		linear_solver(double a, double b, double *sol);
 void		quadratic_solver(double abc[3], double *sol1, double *sol2);
 t_vector	l_transform(t_matrix m, t_vector v);
-t_vector	pitch(t_vector v, double angle);
-t_vector	roll(t_vector v, double angle);
-t_vector	yaw(t_vector v, double angle);
+t_vector	pitch(t_vector v, long double angle);
+t_vector	roll(t_vector v, long double angle);
+t_vector	yaw(t_vector v, long double angle);
 #endif
