@@ -51,6 +51,11 @@ void		initialize(t_scene *scn)
 	scn->sp = NULL;
 }
 
+long double	radians(long double degrees)
+{
+	return (M_PI * degrees / 180.0);
+}
+
 void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 {
 	int			x;
@@ -60,25 +65,25 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	long double		theta_step;
 	double		col;
 
-	theta_step = (long double)(scn.cam->fov * M_PI / 180.0) / (long double)scn.res[0];
+	theta_step = radians((long double)scn.cam->fov / 2.0 / scn.res[0]);
 	printf("Theta:%Lf\n", theta_step);
 	//TODO: Do better, please, it  works weird with odd numbers.
 	set_vector(&ray, 1, 0, 0);
 				printf("0Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
-	ray = pitch(ray, -(long double)(theta_step * scn.res[1] / 2.0));
+	ray = pitch(ray, -(long double)(theta_step * (scn.res[1] - 1) / 2.0));
 				printf("2Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
-	ray = yaw(ray, -(long double)(theta_step * scn.res[0] / 2.0));
+	ray = yaw(ray, -(long double)(theta_step * (scn.res[0] - 1) / 2.0));
 				printf("1Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
 	y = 0;
-	while (y < (int)(scn.res[1]))
+	while (y <= (int)(scn.res[1]))
 	{
 		x = 0;
-		aux = ray;
-		while (x < (int)(scn.res[0]))
+		while (x <= (int)(scn.res[0]))
 		{
-			printf("|%Lf|%Lf|", theta_step * x, theta_step * y);
-			aux = pitch(ray, theta_step * y);
-			aux = yaw(aux, theta_step * x);
+			//printf("|%Lf|%Lf|", theta_step * x, theta_step * y);
+			aux = yaw(pitch(ray, theta_step * y), theta_step * x);
+			//aux = yaw(aux, theta_step * x);
+			printf("ColRay[%lf,%lf,%lf]\n", aux.x, aux.y, aux.z);
 			col = sphere_collision(*(scn.sp), aux, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
 				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.sp->col);
