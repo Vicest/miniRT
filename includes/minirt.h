@@ -15,7 +15,6 @@
 //# include "error.h"
 # include "../libft/libft.h"
 # include "get_next_line.h"
-# include "figures.h"
 # include "lists.h"
 # include <stdio.h>
 # include <string.h>
@@ -23,12 +22,26 @@
 
 # define MAX_XRES 4096
 # define MAX_YRES 4096
+# ifdef __unix__
+#  define KEY_ESC 0xff1b
+# else
+#  define KEY_ESC 53
+# endif
 
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
 //typedef unsigned int	t_colour;
 typedef unsigned int	t_resolution[2];
+
+typedef struct			s_img
+{
+	void			*canv;
+	char			*addr;
+	int				bpp;
+	int				line_len;
+	int				endian;
+}						t_img;
 
 typedef struct			s_ambient
 {
@@ -43,8 +56,7 @@ typedef struct			s_scene
 	t_ambient		amb;
 	t_camera		*cam;
 	t_light			*lgt;
-	t_sphere		*sp;
-	//t_geometry		*geo;
+	void			*geo;
 }						t_scene;
 
 typedef struct			s_view

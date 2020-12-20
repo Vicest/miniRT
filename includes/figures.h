@@ -13,6 +13,7 @@
 #ifndef FIGURES_H
 # define FIGURES_H
 
+# include "minirt.h"
 # include "math_utils.h"
 //# include "validations.h"
 
@@ -20,12 +21,13 @@ typedef unsigned int	t_colour;
 
 typedef struct			s_sphere
 {
-	struct s_sphere		*next;
+	void				*next;
 	t_coord				pos;
 	t_colour			col;
 	double				r;
 	//colision TODO give nearest collision
 }						t_sphere;
 
+void					push_sphere(t_scene *pscn);
 double					sphere_collision(t_sphere s, t_vector v, t_coord c);
 #endif

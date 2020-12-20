@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "validations.h"
 #include "figures.h"
+#include "validations.h"
 
 /*
 **	Resolution, can only be set once, and must be exactly two values.
@@ -79,15 +79,15 @@ void	store_light(t_scene *pscn, char **params)
 
 void	store_sphere(t_scene *pscn, char **params)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	while (i < 4 && params[i])
 		i++;
 	if (i != 4 || params[i])
-		exit (-1); //TODO Error handling bad param number,
-	pscn->sp = malloc(sizeof(t_sphere)); //TODO: Temp shite
-	pscn->sp->pos = validate_coordinates(params[1]);
-	pscn->sp->r = validate_double(params[2]);
-	pscn->sp->col = validate_colour(params[3]);
+		exit (-1); //TODO Error handling bad param number.
+	push_sphere(pscn);
+	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
+	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
+	((t_sphere*)pscn->geo)->col = validate_colour(params[3]);
 }

@@ -19,13 +19,13 @@
 
 static int	win_close(int keycode)
 {
-	if (keycode == 53)
+	if (keycode == KEY_ESC)
 	{
 		//system("leaks -quiet miniRT");
 		exit(-1);
 	}
 	else
-		printf("nope\n");
+		printf("You pressed: %#x\n", keycode);
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
 }
@@ -51,12 +51,25 @@ void		initialize(t_scene *scn)
 	scn->sp = NULL;
 }
 
+t_img		img_init()
+{
+	t_img out;
+
+	out.canv = NULL;
+	out.addr = NULL;
+	out.bpp = 0;
+	out.line_len = 0;
+	out.endian = 0;
+	return (out);
+}
+
+
 long double	radians(long double degrees)
 {
 	return (M_PI * degrees / 180.0);
 }
 
-void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
+void		fill_viewport(t_scene scn, t_view view)
 {
 	int			x;
 	int			y;
@@ -64,36 +77,38 @@ void		fill_viewport(t_scene scn, void *mlx_ptr, void *win_ptr)
 	t_vector	aux;
 	long double		theta_step;
 	double		col;
+	void		*img_ptr;
+	t_img		img;
 
+	img = img_init();
+	img_ptr = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
+	img.addr = mlx_get_data_addr(img_ptr, &img.bpp, &img.line_len, &img.endian);
 	theta_step = radians((long double)scn.cam->fov / 2.0 / scn.res[0]);
-	printf("Theta:%Lf\n", theta_step);
-	//TODO: Do better, please, it  works weird with odd numbers.
+	//TODO: Do better, please, it  works weird with odd numbers. (or not :shrug:)
 	set_vector(&ray, 1, 0, 0);
-				printf("0Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
-	ray = pitch(ray, -(long double)(theta_step * (scn.res[1] - 1) / 2.0));
-				printf("2Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
 	ray = yaw(ray, -(long double)(theta_step * (scn.res[0] - 1) / 2.0));
-				printf("1Ray[%lf,%lf,%lf]\n", ray.x, ray.y, ray.z);
+	ray = pitch(ray, -(long double)(theta_step * (scn.res[1] - 1) / 2.0));
 	y = 0;
 	while (y <= (int)(scn.res[1]))
 	{
 		x = 0;
 		while (x <= (int)(scn.res[0]))
 		{
-			//printf("|%Lf|%Lf|", theta_step * x, theta_step * y);
-			aux = yaw(pitch(ray, theta_step * y), theta_step * x);
-			//aux = yaw(aux, theta_step * x);
-			printf("ColRay[%lf,%lf,%lf]\n", aux.x, aux.y, aux.z);
+			aux = pitch(yaw(ray, theta_step * x), theta_step * y);
 			col = sphere_collision(*(scn.sp), aux, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
-				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.sp->col);
+			{
+			*(unsigned *)(img.addr + x * img.bpp / 8 + y * img.line_len) = scn.sp->col;
+			}
+			/*
 			else
-				mlx_pixel_put(mlx_ptr, win_ptr, x, y, scn.amb.col);
+				mlx_pixel_put(mlx_ptr, view.win_ptr, x, y, scn.amb.col);
+			*/
 			x++;
 		}
-		printf("\n");
 		y++;
 	}
+	mlx_put_image_to_window(view.mlx_ptr, view.win_ptr, img_ptr, 0, 0);
 }
 
 int			main(int argn, char **args)
@@ -109,9 +124,7 @@ int			main(int argn, char **args)
 	view.win_ptr = mlx_new_window(view.mlx_ptr, scn.res[0], scn.res[1], "miniRT"); //TODO: Moar Error
 	mlx_key_hook(view.win_ptr, &win_close, NULL);
 	mlx_hook(view.win_ptr, X_CLOSE_BUTTON, 1L << 17, &quit, &view);
-	printf("----\n");
-	fill_viewport(scn, view.mlx_ptr, view.win_ptr);
-	printf("----\n");
+	fill_viewport(scn, view);
 	mlx_loop(view.mlx_ptr);
 	//TODO: Bad place, needs new function.
 	pop_all_c(&(scn.cam));
