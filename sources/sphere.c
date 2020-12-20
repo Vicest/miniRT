@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/18 11:09:35 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/20 14:47:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 **	Returns NAN if no collision happens.
 */
 
-double	sphere_collision(t_sphere s, t_vector v, t_coord c)
+double	sphere_collision(void *sphere, t_vector v, t_coord c)
 {
 	double	coefficients[3];
-	double	sol1;
-	double	sol2;
+	double		sol1;
+	double		sol2;
+	t_sphere	s;
 
+	s = *(t_sphere *)sphere;
 	coefficients[0] = pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2);
 	coefficients[1] = 2 * v.x * (c.x - s.pos.x) +
 					2 * v.y * (c.y - s.pos.y) +
@@ -39,7 +41,7 @@ double	sphere_collision(t_sphere s, t_vector v, t_coord c)
 		return (NAN);
 	else if (!isnan(sol1) && isnan(sol2))
 		return (sol1);
-	else
+	else //TODO: Give ouput only when positive distance.
 		return (fabs(sol1) <= fabs(sol2) ? sol1 : sol2);
 }
 
@@ -49,5 +51,6 @@ void	push_sphere(t_scene *pscn)
 
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
 	aux->next = pscn->geo;
+	aux->collision = sphere_collision;
 	pscn->geo = aux;
 }

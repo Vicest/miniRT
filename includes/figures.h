@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/11 11:32:47 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/20 12:26:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct			s_sphere
 	t_coord				pos;
 	t_colour			col;
 	double				r;
-	//colision TODO give nearest collision
+	double				*collision(void *,t_vector, t_coord);
 }						t_sphere;
 
 void					push_sphere(t_scene *pscn);
-double					sphere_collision(t_sphere s, t_vector v, t_coord c);
+double					sphere_collision(void *sphere, t_vector v, t_coord c);
 #endif

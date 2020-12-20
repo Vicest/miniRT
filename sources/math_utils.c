@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/15 14:42:16 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/20 12:35:02 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+long double	radians(long double degrees)
+{
+	return (M_PI * degrees / 180.0);
+}
 
 void		set_vector(t_vector *v, double x, double y, double z)
 {

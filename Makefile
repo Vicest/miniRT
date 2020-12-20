@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/15 13:27:38 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/20 13:15:24 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC_FILES +=		math_utils.c
 SRC_FILES +=		rotations.c
 SRC_FILES +=		camera_list.c
 SRC_FILES +=		light_stack.c
+SRC_FILES +=		ray_tracer.c
 SRC_FILES +=		config_reader.c
 SRC_FILES +=		config_utils.c
 SRC_FILES +=		get_next_line.c

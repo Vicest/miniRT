@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/18 14:01:30 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/20 12:35:55 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int quit(void *params)
 	return (1);
 }
 
-void		initialize(t_scene *scn)
+static void		initialize(t_scene *scn)
 {
 	scn->flags = 0;
 	scn->res[0] = 0;
@@ -48,10 +48,10 @@ void		initialize(t_scene *scn)
 	scn->amb.col = 0;
 	scn->cam = NULL;
 	scn->lgt = NULL;
-	scn->sp = NULL;
+	scn->geo = NULL;
 }
 
-t_img		img_init()
+static t_img	img_init()
 {
 	t_img out;
 
@@ -61,12 +61,6 @@ t_img		img_init()
 	out.line_len = 0;
 	out.endian = 0;
 	return (out);
-}
-
-
-long double	radians(long double degrees)
-{
-	return (M_PI * degrees / 180.0);
 }
 
 void		fill_viewport(t_scene scn, t_view view)
@@ -95,7 +89,7 @@ void		fill_viewport(t_scene scn, t_view view)
 		while (x <= (int)(scn.res[0]))
 		{
 			aux = pitch(yaw(ray, theta_step * x), theta_step * y);
-			col = sphere_collision(*(scn.sp), aux, scn.cam->pos);
+			col = sphere_collision(*(scn.geo), aux, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
 			{
 			*(unsigned *)(img.addr + x * img.bpp / 8 + y * img.line_len) = scn.sp->col;

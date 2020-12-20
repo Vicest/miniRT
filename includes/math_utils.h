@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/18 13:34:30 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/20 12:34:55 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <float.h>
 
 # define RADIANS(x) (x * M_PI / 180)
+
+//TODO: Redo this in favour of the more iterable-friendly method.
 
 typedef struct			s_vector
 {
@@ -33,6 +35,7 @@ typedef struct			s_matrix
 
 typedef t_vector		t_coord;
 
+long double	radians(long double degrees);
 void		set_vector(t_vector *v, double x, double y, double z);
 int			is_normal(t_vector v);
 void		linear_solver(double a, double b, double *sol);
