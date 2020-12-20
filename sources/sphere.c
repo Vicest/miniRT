@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "figures.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 /*
 **	To solve the intersecction of a sphere: (x-a)^2 + (y-b)^2 +(z-c)^2 = r^2
@@ -43,4 +41,13 @@ double	sphere_collision(t_sphere s, t_vector v, t_coord c)
 		return (sol1);
 	else
 		return (fabs(sol1) <= fabs(sol2) ? sol1 : sol2);
+}
+
+void	push_sphere(t_scene *pscn)
+{
+	t_sphere	*aux;
+
+	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
+	aux->next = pscn->geo;
+	pscn->geo = aux;
 }
