@@ -14,21 +14,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-long double	radians(long double degrees)
+void		normalize(t_vector *v)
 {
-	return (M_PI * degrees / 180.0);
+	long double	norm;
+	int			i;
+
+	norm = NORM(*v);
+	i = 0;
+	while (i < 3)
+		(*v).v[i++] /= norm;
 }
 
-void		set_vector(t_vector *v, double x, double y, double z)
+t_vector	vector(long double x, long double y, long double z)
 {
-	(*v).x = x;
-	(*v).y = y;
-	(*v).z = z;
-}
+	t_vector v;
 
-int			is_normal(t_vector v)
-{
-	return (1 == sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2)));
+	v.v[0] = x;
+	v.v[1] = y;
+	v.v[2] = z;
 }
 
 /*
@@ -81,7 +84,7 @@ void		quadratic_solver(double abc[3], double *sol1, double *sol2)
 /*
 **	Calculate a matrix to vector multiplication. Known as a transformation.
 */
-
+/*
 t_vector		l_transform(t_matrix m, t_vector v)
 {
 	t_vector	sol;
@@ -91,3 +94,4 @@ t_vector		l_transform(t_matrix m, t_vector v)
 	sol.z = m.z.x * v.x + m.z.y * v.y + m.z.z * v.z;
 	return (sol);
 }
+*/

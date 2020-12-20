@@ -39,16 +39,20 @@ static int quit(void *params)
 	return (1);
 }
 
-static void		initialize(t_scene *scn)
+static t_scene	scn_init()
 {
-	scn->flags = 0;
-	scn->res[0] = 0;
-	scn->res[1] = 0;
-	scn->amb.b_ratio = 0;
-	scn->amb.col = 0;
-	scn->cam = NULL;
-	scn->lgt = NULL;
-	scn->geo = NULL;
+	t_scene scn;
+
+	scn.flags = 0;
+	scn.res[0] = 0;
+	scn.res[1] = 0;
+	scn.amb.b_ratio = 0;
+	scn.amb.col = 0;
+	scn.cam = NULL;
+	scn.lgt = NULL;
+	scn.geo = NULL;
+
+	return (scn);
 }
 
 static t_img	img_init()
@@ -68,28 +72,27 @@ void		fill_viewport(t_scene scn, t_view view)
 	int			x;
 	int			y;
 	t_vector	ray;
-	t_vector	aux;
-	long double		theta_step;
-	double		col;
+	t_colour	col;
 	void		*img_ptr;
 	t_img		img;
+	long double	c;
 
 	img = img_init();
 	img_ptr = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
 	img.addr = mlx_get_data_addr(img_ptr, &img.bpp, &img.line_len, &img.endian);
-	theta_step = radians((long double)scn.cam->fov / 2.0 / scn.res[0]);
-	//TODO: Do better, please, it  works weird with odd numbers. (or not :shrug:)
-	set_vector(&ray, 1, 0, 0);
-	ray = yaw(ray, -(long double)(theta_step * (scn.res[0] - 1) / 2.0));
-	ray = pitch(ray, -(long double)(theta_step * (scn.res[1] - 1) / 2.0));
 	y = 0;
 	while (y <= (int)(scn.res[1]))
 	{
 		x = 0;
 		while (x <= (int)(scn.res[0]))
 		{
-			aux = pitch(yaw(ray, theta_step * x), theta_step * y);
-			col = sphere_collision(*(scn.geo), aux, scn.cam->pos);
+			//TODO: Gotta handle cam changing.
+			ray = trace_ray(*(scn.cam), scn.res,x , y);
+			/*
+			while (scn.geo)
+			{
+				c =
+			col = sphere_collision(*(scn.geo), ray, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
 			{
 			*(unsigned *)(img.addr + x * img.bpp / 8 + y * img.line_len) = scn.sp->col;
@@ -112,7 +115,7 @@ int			main(int argn, char **args)
 
 	if (argn != 2)
 		return (1); //TODO: Error handling.
-	initialize(&scn);
+	scn = scn_init();
 	save_conf(args[1], &scn);
 	view.mlx_ptr = mlx_init();//TODO: Error hanlding plz
 	view.win_ptr = mlx_new_window(view.mlx_ptr, scn.res[0], scn.res[1], "miniRT"); //TODO: Moar Error
