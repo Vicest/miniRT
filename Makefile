@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2020/12/20 13:15:24 by vicmarti         ###   ########.fr        #
+#    Updated: 2020/12/21 13:17:20 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ OS := $(shell uname)
 
 SRC_FILES :=
 SRC_FILES +=		main.c
+SRC_FILES +=		error.c
 SRC_FILES +=		debug.c
 SRC_FILES +=		validations.c
 SRC_FILES +=		sphere.c
@@ -41,7 +42,7 @@ MLX := libmlx.a
 NAME = miniRT
 
 CC := cc
-CFLAGS := -g -Wall -Werror -Wextra -I$(INC_DIR)
+CFLAGS := -g -Wall -Werror -Wextra -I$(INC_DIR) -fsanitize=address
 LFLAGS := -L. -lft -lmlx -lm
 ifeq ($(OS), Linux)
 	LFLAGS += -lXext -lX11
