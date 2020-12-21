@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 12:35:02 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 12:25:03 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_vector	vector(long double x, long double y, long double z)
 	v.v[0] = x;
 	v.v[1] = y;
 	v.v[2] = z;
+	
+	return (v);
 }
 
 /*

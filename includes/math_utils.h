@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 12:34:55 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:34:08 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include <float.h>
 
 # define RADIANS(x) ((x) * M_PI / 180)
-# define NORM(x) (sqrt(pow((x).v[0], 2) + pow((x).v[0], 2) + pow((x).v[0], 2)))
+# define NORM(x) (sqrt(pow((x).v[0], 2) + pow((x).v[1], 2) + pow((x).v[2], 2)))
 //TODO: Equals is too strict as a float comparison.
 //https://github.com/brazzy/floating-point-gui.define
 //geeksforgeeks.com/(something something about corrctly compare floats
-# define IS_NORMAL(x) (1 == NORM((x)))
+# define IS_NORMALIZED(x) (1 == NORM((x)))
 
 //TODO: Redo this in favour of the more iterable-friendly method.
 
@@ -37,7 +37,7 @@ typedef struct			s_matrix
 }						t_matrix;
 
 long double	radians(long double degrees);
-t_vector 	vector(double x, double y, double z);
+t_vector 	vector(long double x, long double y, long double z);
 void		normalize(t_vector *v);
 //TODO: Solutions as a struct or something.
 void		linear_solver(double a, double b, double *sol);

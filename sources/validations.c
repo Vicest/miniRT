@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 12:32:22 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:59:24 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int				validate_int(char *text, int min_val, int max_val)
 
 	out = ft_atoi(text);
 	if (ft_numdgts(out) != ft_strlen(text))
-		exit(-1);	//TODO: Error text is not only a number
+		config_err("Value is not an integer.\n");
 	if (out < min_val || out > max_val)
-		exit(-1);	//TODO: Error int is out of range
+		config_err("Integer out of range.\n");
 	return (out);
 }
 
@@ -50,7 +50,7 @@ double			validate_double(char *str)
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] != '\0')
-		exit(-1); //TODO: Error handling
+		config_err("Float has extraneus characters.\n");
 	return ft_atof(str);
 }
 
@@ -71,15 +71,17 @@ t_colour		validate_colour(char *text)
 		exit(-1); //TODO: Syserror
 	i = 0;
 	out = 0;
-	while (i < 3 && *(colours[i]))
+	while (i < 3 && colours[i])
 	{
 		colour_comp = validate_int(colours[i], 0, 255);
 		free(colours[i++]);
 		out = out << 8;
 		out += colour_comp;
 	}
-	if (i > 3 || colours[i])
-		exit (-1); //TODO: Can only have 3 colours.
+	if (i < 3)
+		config_err("Too few components for colour.\n");
+	if (colours[i])
+		config_err("Too many components for colour.\n");
 	free(colours);
 	return (out);
 }
@@ -93,39 +95,25 @@ t_coord			validate_coordinates(char *text)
 	if (!(coords = ft_split(text, ',')))
 		exit(-1); //TODO: Syserror
 	i = 0;
-	if (!coords[0] || !coords[1] || !coords[2])
-		exit (-1); //TODO: Must have 3 components.
-	out.x = validate_double(coords[0]);
-	out.y = validate_double(coords[1]);
-	out.z = validate_double(coords[2]);
 	while (i < 3)
+	{
+		if (!coords[i])
+			exit (-1); //TODO: Must have 3 components.
+		out.v[i] = validate_double(coords[i]);
 		free(coords[i++]);
-	if (i > 3 || coords[i])
-		exit (-1); //TODO: Can only have 3 coords.
+	}
+	if (coords[i])
+		config_err("Too many components for vector/coord.\n");
 	free(coords);
 	return (out);
 }
 
 t_vector		validate_vector(char *text)
 {
-	char	**points;
-	int		i;
 	t_vector out;
 
-	if (!(points = ft_split(text, ',')))
-		exit(-1); //TODO: Syserror
-	i = 0;
-	if (!points[0] || !points[1] || !points[2])
-		exit (-1); //TODO: Must have 3 components.
-	out.x = validate_double(points[0]);
-	out.y = validate_double(points[1]);
-	out.z = validate_double(points[2]);
-	while (i < 3)
-		free(points[i++]);
-	if (!is_normal(out))
-		exit (-1); //TODO: Not normalized
-	if (i > 3 || points[i])
-		exit (-1); //TODO: Can only have 3 components.
-	free(points);
+	out = validate_coordinates(text);
+	if (!IS_NORMALIZED(out))
+		config_err("Vector needs to be normalized.\n");
 	return (out);
 }

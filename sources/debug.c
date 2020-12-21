@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 13:08:17 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 11:26:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 12:44:02 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	print_cams(t_scene scn)
 	while (scn.cam)
 	{
 		printf("Camera:%d\n", i);
-		printf("C[%d] Position:(%f,%f,%f)\n", i, scn.cam->pos.x,
-				scn.cam->pos.y, scn.cam->pos.z);
-		printf("C[%d] Direction:(%f,%f,%f)\n", i, scn.cam->dir.x,
-				scn.cam->dir.y, scn.cam->dir.z);
+		printf("C[%d] Position:(%Lf,%Lf,%Lf)\n", i, scn.cam->pos.v[0],
+				scn.cam->pos.v[1], scn.cam->pos.v[2]);
+		printf("C[%d] Direction:(%Lf,%Lf,%Lf)\n", i, scn.cam->dir.v[0],
+				scn.cam->dir.v[1], scn.cam->dir.v[2]);
 		printf("C[%d] FOV:%d\n", i, scn.cam->fov);
 		printf("---------\n");
 		scn.cam = scn.cam->next;
@@ -40,8 +40,8 @@ static void	print_lights(t_scene scn)
 	while (scn.lgt)
 	{
 		printf("Light:%d\n", i);
-		printf("L[%d] Position:(%f,%f,%f)\n", i, scn.lgt->pos.x,
-				scn.lgt->pos.y, scn.lgt->pos.z);
+		printf("L[%d] Position:(%Lf,%Lf,%Lf)\n", i, scn.lgt->pos.v[0],
+				scn.lgt->pos.v[1], scn.lgt->pos.v[2]);
 		printf("L[%d] Colour:%#.8X\n", i, scn.lgt->col);
 		printf("L[%d] Brightness:%f\n", i, scn.lgt->b_ratio);
 		printf("---------\n");

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 11:50:49 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:18:03 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,9 @@ void				store_ambient(t_scene *pscn, char **element);
 void				store_camera(t_scene *pscn, char **element);
 void				store_light(t_scene *pscn, char **element);
 void				store_sphere(t_scene *pscn, char **element);
+
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
+t_colour			compute_colour(t_scene scn, t_vector ray);
+
+void				config_err(char *err_str);
 #endif

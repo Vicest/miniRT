@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/13 12:48:58 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:24:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ void	store_resolution(t_scene *pscn, char **element)
 	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
 	pscn->flags |= FLAG_RES;
 	if (element[3] != NULL)
-	{
-		write(1,element[3], 2);
-		printf("STRERR: %s\n", strerror(5));
-		exit(-1);//TODO: Error handling, too many values for resolution.
-	}
+		config_err("Resolution takes only two values.\n");
 }
 
 /*
@@ -40,12 +36,12 @@ void	store_resolution(t_scene *pscn, char **element)
 void	store_ambient(t_scene *pscn, char **element)
 {
 	if (pscn->flags & FLAG_AMB)
-		return ;//TODO Error handling, ambient light already assigned.
+		config_err("Ambient light can only be defined once.\n");
 	pscn->amb.b_ratio = validate_double(element[1]);//, 0.0, 1.0);
 	pscn->amb.col = validate_colour(element[2]);
 	pscn->flags |= FLAG_AMB;
 	if (element[3] != NULL)
-		return ; //TODO: Error handling, too many values for resolution.
+		config_err("Ambient light takes only two values.\n");
 }
 
 void	store_camera(t_scene *pscn, char **params)
@@ -65,6 +61,7 @@ void	store_camera(t_scene *pscn, char **params)
 void	store_light(t_scene *pscn, char **params)
 {
 	int i;
+	printf("lgt\n");
 
 	i = 0;
 	while (i < 4 && params[i])
@@ -80,6 +77,7 @@ void	store_light(t_scene *pscn, char **params)
 void	store_sphere(t_scene *pscn, char **params)
 {
 	int			i;
+	printf("sph\n");
 
 	i = 0;
 	while (i < 4 && params[i])

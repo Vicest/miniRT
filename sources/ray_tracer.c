@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 14:57:37 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:55:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,33 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 	return (ray);
 }
 
-t_colour	compute_colour(t_scene scn, t_vector ray, t_vector c)
+t_colour	compute_colour(t_scene scn, t_vector ray)
 {
 	t_colour	out;
 	long double	collision_dist;
+	long double	aux;
 	t_sphere	*curr_fig;
 
 	//TODO Does not use brightness ratio, maybe somewhere else makes sense
 	//TODO curr_fig is just temporal
 	curr_fig = (t_sphere*)scn.geo;
+	collision_dist = NAN;
+	out = scn.amb.col;
 	while (curr_fig)
 	{
-		collision_dist = (curr_fig)->collision(curr_fig, ray, c);
+		aux = (curr_fig)->collision(curr_fig, ray, scn.cam->pos);
+		if (!isnan(aux))
+			printf("%Lf: ->", aux);
+			if(isnan(collision_dist) ||  collision_dist > aux)
+			{
+				collision_dist = aux;
+				out = curr_fig->col;
+				printf("%#X\n", out);
+			}
+		aux = NAN;
+		curr_fig = curr_fig->next;
 	}
-	out = scn.amb.col;
+	if (isnan(collision_dist))
+		out = scn.amb.col;
 	return (out);
 }

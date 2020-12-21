@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 12:35:55 by vicmarti         ###   ########.fr       */
+/*   Updated: 2020/12/21 13:53:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,21 @@ void		fill_viewport(t_scene scn, t_view view)
 	t_colour	col;
 	void		*img_ptr;
 	t_img		img;
-	long double	c;
+	//long double	c;
 
 	img = img_init();
 	img_ptr = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
 	img.addr = mlx_get_data_addr(img_ptr, &img.bpp, &img.line_len, &img.endian);
 	y = 0;
-	while (y <= (int)(scn.res[1]))
+	while (y < (int)(scn.res[1]))
 	{
 		x = 0;
-		while (x <= (int)(scn.res[0]))
+		while (x < (int)(scn.res[0]))
 		{
 			//TODO: Gotta handle cam changing.
 			ray = trace_ray(*(scn.cam), scn.res,x , y);
+			col = compute_colour(scn, ray);
+			*(unsigned *)(img.addr + x * (img.bpp / 8) + y * img.line_len) = col;
 			/*
 			while (scn.geo)
 			{
@@ -95,9 +97,8 @@ void		fill_viewport(t_scene scn, t_view view)
 			col = sphere_collision(*(scn.geo), ray, scn.cam->pos);
 			if (!isnan(col) && col >= 0)
 			{
-			*(unsigned *)(img.addr + x * img.bpp / 8 + y * img.line_len) = scn.sp->col;
+			*(unsigned *)(img.addr + x * img.bpp / 8 + y * img.line_len) = col;
 			}
-			/*
 			else
 				mlx_pixel_put(mlx_ptr, view.win_ptr, x, y, scn.amb.col);
 			*/
