@@ -87,7 +87,7 @@ void		fill_viewport(t_scene scn, t_view view)
 		while (x < (int)(scn.res[0]))
 		{
 			//TODO: Gotta handle cam changing.
-			ray = trace_ray(*(scn.cam), scn.res,x , y);
+			ray = trace_ray(*(scn.cam), scn.res, x, y);
 			col = compute_colour(scn, ray);
 			*(unsigned *)(img.addr + x * (img.bpp / 8) + y * img.line_len) = col;
 			/*

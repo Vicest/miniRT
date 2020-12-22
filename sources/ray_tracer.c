@@ -21,8 +21,16 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 
 	//TODO: Handle even/odd resolutions and FOVs of 0/180.
 	distance = r[0] / (2 * tan(RADIANS(c.fov / 2.0)));
-	ray = vector(-r[0] / 2.0 + x, distance, r[1] / 2.0 - y);
+	/*
+	printf("%Lf\n", (-(r[0] / 2.0L) + x));
+	printf("%Lf\n", distance);
+	printf("%Lf\n", ((r[1] / 2.0L) - y));
+	*/
+	ray = vector(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
+	//print_vector(ray);
+	//printf("Norm:%f\n", NORM(ray));
 	normalize(&ray);
+	//print_vector(ray);
 	/*
 	if (r[0] % 2 == 0)
 		ray = cam.dir;
@@ -39,30 +47,30 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 t_colour	compute_colour(t_scene scn, t_vector ray)
 {
 	t_colour	out;
-	long double	collision_dist;
-	long double	aux;
-	t_sphere	*curr_fig;
+	long double	min_dist;
+	long double	obj_dist;
+	t_figure	*curr_fig;
 
 	//TODO Does not use brightness ratio, maybe somewhere else makes sense
 	//TODO curr_fig is just temporal
-	curr_fig = (t_sphere*)scn.geo;
-	collision_dist = NAN;
+	curr_fig = scn.geo;
+	min_dist = NAN;
 	out = scn.amb.col;
 	while (curr_fig)
 	{
-		aux = (curr_fig)->collision(curr_fig, ray, scn.cam->pos);
-		if (!isnan(aux))
-			printf("%Lf: ->", aux);
-			if(isnan(collision_dist) ||  collision_dist > aux)
+		obj_dist = curr_fig->collision(curr_fig, ray, scn.cam->pos);
+		if (!isnan(obj_dist))
+		{
+			if(isnan(min_dist) ||  min_dist > obj_dist)
 			{
-				collision_dist = aux;
+				min_dist = obj_dist;
 				out = curr_fig->col;
-				printf("%#X\n", out);
 			}
-		aux = NAN;
+		}
 		curr_fig = curr_fig->next;
 	}
-	if (isnan(collision_dist))
+	//TODO: Prolly useless
+	if (isnan(min_dist))
 		out = scn.amb.col;
 	return (out);
 }

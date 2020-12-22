@@ -13,21 +13,26 @@
 #ifndef FIGURES_H
 # define FIGURES_H
 
-# include "minirt.h"
 # include "math_utils.h"
 //# include "validations.h"
 
 typedef unsigned int	t_colour;
 
+typedef struct			s_figure
+{
+	struct s_figure		*next;
+	long double			(*collision)(void *,t_vector, t_coord);
+	t_colour			col;
+}						t_figure;
+
 typedef struct			s_sphere
 {
-	void				*next;
+	struct s_sphere		*next;
 	t_coord				pos;
 	t_colour			col;
 	double				r;
 	long double			(*collision)(void *,t_vector, t_coord);
 }						t_sphere;
 
-void					push_sphere(t_scene *pscn);
 long double				sphere_collision(void *sphere, t_vector v, t_coord c);
 #endif

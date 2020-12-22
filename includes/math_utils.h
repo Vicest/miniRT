@@ -46,4 +46,5 @@ void		quadratic_solver(double abc[3], double *sol1, double *sol2);
 //t_vector	pitch(t_vector v, long double angle);
 //t_vector	roll(t_vector v, long double angle);
 //t_vector	yaw(t_vector v, long double angle);
+void		print_vector(t_vector v);
 #endif

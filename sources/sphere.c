@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include "figures.h"
 
 /*
@@ -47,8 +48,9 @@ long double	sphere_collision(void *sphere, t_vector v, t_coord c)
 
 void	push_sphere(t_scene *pscn)
 {
-	t_sphere	*aux;
+	t_figure	*aux;
 
+	printf("New sphere.\n");
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
 	aux->next = pscn->geo;
 	aux->collision = sphere_collision;

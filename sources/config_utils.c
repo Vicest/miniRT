@@ -87,5 +87,5 @@ void	store_sphere(t_scene *pscn, char **params)
 	push_sphere(pscn);
 	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
 	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
-	((t_sphere*)pscn->geo)->col = validate_colour(params[3]);
+	pscn->geo->col = validate_colour(params[3]);
 }

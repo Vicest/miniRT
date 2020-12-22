@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include "get_next_line.h"
 # include "lists.h"
+# include "figures.h"
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
@@ -56,7 +57,7 @@ typedef struct		s_scene
 	t_ambient		amb;
 	t_camera		*cam;
 	t_light			*lgt;
-	void			*geo;
+	t_figure		*geo;
 }					t_scene;
 
 typedef struct		s_view
@@ -75,6 +76,8 @@ void				store_sphere(t_scene *pscn, char **element);
 
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
 t_colour			compute_colour(t_scene scn, t_vector ray);
+
+void				push_sphere(t_scene *pscn);
 
 void				config_err(char *err_str);
 #endif

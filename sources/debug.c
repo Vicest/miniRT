@@ -13,6 +13,16 @@
 #include <stdio.h>
 #include "minirt.h"
 
+void		print_vector(t_vector v)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+		printf("|%Lf", v.v[i++]);
+	printf("|\n");
+}
+
 static void	print_cams(t_scene scn)
 {
 	int i;
@@ -57,4 +67,10 @@ void	print_scene(t_scene scn)
 	printf("Ambient colour RGB:%#.8X\n", scn.amb.col);
 	print_cams(scn);
 	print_lights(scn);
+	while(scn.geo)
+	{
+		printf("Figure addr:%p\n", scn.geo);
+		printf("Next figure addr:%p\n", scn.geo->next);
+		scn.geo = scn.geo->next;
+	}
 }
