@@ -18,19 +18,33 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 {
 	t_vector	ray;
 	long double	distance;
+	long double	vert_angle;
+	long double	hor_angle;
 
 	//TODO: Handle even/odd resolutions and FOVs of 0/180.
 	distance = r[0] / (2 * tan(RADIANS(c.fov / 2.0)));
-	/*
-	printf("%Lf\n", (-(r[0] / 2.0L) + x));
-	printf("%Lf\n", distance);
-	printf("%Lf\n", ((r[1] / 2.0L) - y));
-	*/
+	vert_angle = M_PI * 0.5L - acosl(c.dir.v[2]);
+
+	if (x == y && x == 0)
+	{
+	if (fabsl(sinl(vert_angle)) < 0.000000001L)
+		printf("It is zero.\n");
+	else
+		printf("Is is %.20Lf\n", sinl(vert_angle));
+	}
+	hor_angle = fabsl(sinl(vert_angle)) < 0.000000001L ? 0 : asinl(c.dir.v[1] / sinl(vert_angle));
 	ray = vector(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
-	//print_vector(ray);
-	//printf("Norm:%f\n", NORM(ray));
+	if (x == y && x == 0)
+	{
+		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
+		printf("V:%Lf|H:%Lf\n", vert_angle, hor_angle);
+	}
 	normalize(&ray);
-	//print_vector(ray);
+	if (x == y && x == 0)
+		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
+	ray = pitch(yaw(ray ,hor_angle), vert_angle);
+	if (x == y && x == 0)
+		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
 	/*
 	if (r[0] % 2 == 0)
 		ray = cam.dir;

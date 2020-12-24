@@ -33,7 +33,7 @@ typedef t_vector		t_coord;
 
 typedef struct			s_matrix
 {
-	t_vector			m[3];
+	long double			m[3][3];
 }						t_matrix;
 
 long double	radians(long double degrees);
@@ -42,9 +42,9 @@ void		normalize(t_vector *v);
 //TODO: Solutions as a struct or something.
 void		linear_solver(double a, double b, double *sol);
 void		quadratic_solver(double abc[3], double *sol1, double *sol2);
-//t_vector	l_transform(t_matrix m, t_vector v);
-//t_vector	pitch(t_vector v, long double angle);
+t_vector	l_transform(t_matrix m, t_vector v);
+t_vector	pitch(t_vector v, long double angle);
+t_vector	yaw(t_vector v, long double angle);
 //t_vector	roll(t_vector v, long double angle);
-//t_vector	yaw(t_vector v, long double angle);
 void		print_vector(t_vector v);
 #endif

@@ -86,14 +86,19 @@ void		quadratic_solver(double abc[3], double *sol1, double *sol2)
 /*
 **	Calculate a matrix to vector multiplication. Known as a transformation.
 */
-/*
 t_vector		l_transform(t_matrix m, t_vector v)
 {
 	t_vector	sol;
+	int			i;
+	int			j;
 
-	sol.x = m.x.x * v.x + m.x.y * v.y + m.x.z * v.z;
-	sol.y = m.y.x * v.x + m.y.y * v.y + m.y.z * v.z;
-	sol.z = m.z.x * v.x + m.z.y * v.y + m.z.z * v.z;
+	i = -1;
+	while (++i < 3)
+	{
+		j = -1;
+		sol.v[i] = 0;
+		while (++j < 3)
+			sol.v[i] += m.m[i][j] * v.v[j];
+	}
 	return (sol);
 }
-*/
