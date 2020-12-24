@@ -13,7 +13,7 @@
 #ifndef LISTS_H
 # define LISTS_H
 # include "math_utils.h"
-typedef unsigned int	t_colour;
+typedef unsigned		t_colour;
 
 typedef struct			s_geometry
 {
@@ -21,9 +21,20 @@ typedef struct			s_geometry
 	void				*figure;
 }						t_geometry;
 
+typedef struct			s_img
+{
+	void				*pimg;
+	void				*canv;
+	char				*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
+}						t_img;
+
 typedef struct			s_camera
 {
 	struct s_camera		*next;
+	t_img				img;
 	t_coord				pos;
 	t_vector			dir;
 	unsigned char		fov;
@@ -37,9 +48,9 @@ typedef struct			s_light
 	double				b_ratio;
 }						t_light;
 
-void		push_camera(t_camera **c_lst);
-void		pop_camera(t_camera **c_lst);
-void		pop_all_c(t_camera **c_lst);
+void					push_camera(t_camera **c_lst);
+void					pop_camera(t_camera **c_lst);
+void					pop_all_c(t_camera **c_lst);
 
 void		push_light(t_light **l_lst);
 void		pop_light(t_light **l_lst);

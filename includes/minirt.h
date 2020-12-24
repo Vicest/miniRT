@@ -35,15 +35,6 @@
 //typedef unsigned int	t_colour;
 typedef unsigned	t_resolution[2];
 
-typedef struct		s_img
-{
-	void			*canv;
-	char			*addr;
-	int				bpp;
-	int				line_len;
-	int				endian;
-}					t_img;
-
 typedef struct		s_ambient
 {
 	double			b_ratio;
@@ -74,6 +65,7 @@ void				store_camera(t_scene *pscn, char **element);
 void				store_light(t_scene *pscn, char **element);
 void				store_sphere(t_scene *pscn, char **element);
 
+void				fill_viewport(t_view view, t_scene scn, t_camera cam);
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
 t_colour			compute_colour(t_scene scn, t_vector ray);
 
