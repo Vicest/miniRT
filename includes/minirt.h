@@ -29,6 +29,9 @@
 #  define KEY_ESC 53
 # endif
 
+//TODO minirt.h or a gui.h
+# define X_CLOSE_BUTTON 17
+
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
@@ -55,6 +58,7 @@ typedef struct		s_view
 {
 	void			*mlx_ptr;
 	void			*win_ptr;
+	t_scene			scn;
 }					t_view;
 
 int					get_next_line(int fd, char **line);

@@ -12,4 +12,6 @@
 
 #include "minirt.h"
 
-void	print_scene(t_scene scn);
+void		print_scene(t_scene scn);
+void		print_vector(t_vector v);
+void		print_cam(t_camera cam);

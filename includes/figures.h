@@ -21,7 +21,7 @@ typedef unsigned int	t_colour;
 typedef struct			s_figure
 {
 	struct s_figure		*next;
-	long double			(*collision)(void *,t_vector, t_coord);
+	long double			(*collision)(void *,t_vector);
 	t_colour			col;
 }						t_figure;
 
@@ -31,8 +31,8 @@ typedef struct			s_sphere
 	t_coord				pos;
 	t_colour			col;
 	double				r;
-	long double			(*collision)(void *,t_vector, t_coord);
+	long double			(*collision)(void *,t_vector);
 }						t_sphere;
 
-long double				sphere_collision(void *sphere, t_vector v, t_coord c);
+long double				sphere_collision(void *sphere, t_vector v);
 #endif

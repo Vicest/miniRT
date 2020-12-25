@@ -13,6 +13,7 @@
 #include "minirt.h"
 #include "figures.h"
 #include "math_utils.h"
+#include "debug.h"
 
 t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 {
@@ -22,29 +23,32 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 	long double	hor_angle;
 
 	//TODO: Handle even/odd resolutions and FOVs of 0/180.
+	ray = c.vect;
 	distance = r[0] / (2 * tan(RADIANS(c.fov / 2.0)));
-	vert_angle = M_PI * 0.5L - acosl(c.dir.v[2]);
-
-	if (x == y && x == 0)
-	{
-	if (fabsl(sinl(vert_angle)) < 0.000000001L)
-		printf("It is zero.\n");
-	else
-		printf("Is is %.20Lf\n", sinl(vert_angle));
-	}
-	hor_angle = fabsl(sinl(vert_angle)) < 0.000000001L ? 0 : asinl(c.dir.v[1] / sinl(vert_angle));
+	vert_angle = M_PI * 0.5L - acosl(ray.dir.x[2]);
+	hor_angle = fabsl(sinl(vert_angle)) < 0.000000001L ?
+			0 : asinl(ray.dir.x[1] / sinl(vert_angle));
 	ray = vector(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
-	if (x == y && x == 0)
-	{
-		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
-		printf("V:%Lf|H:%Lf\n", vert_angle, hor_angle);
-	}
-	normalize(&ray);
-	if (x == y && x == 0)
-		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
+	normalize(ray);
+	//TODO: Rotates on weird angles.
 	ray = pitch(yaw(ray ,hor_angle), vert_angle);
-	if (x == y && x == 0)
-		printf("%Lf|%Lf|%Lf|\n", ray.v[0],ray.v[1], ray.v[2]);
+	if (x == 0 && y == 0)
+	{
+		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
+		print_vector(ray);
+	} else if (x == (int)r[0] - 1 && y == 0)
+	{
+		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
+		print_vector(ray);
+	} else if (x == 0 && y == (int)r[1] - 1)
+	{
+		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
+		print_vector(ray);
+	} else if (x == (int)r[0] - 1 && y == (int)r[1] - 1)
+	{
+		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
+		print_vector(ray);
+	}
 	/*
 	if (r[0] % 2 == 0)
 		ray = cam.dir;
@@ -72,7 +76,7 @@ t_colour	compute_colour(t_scene scn, t_vector ray)
 	out = scn.amb.col;
 	while (curr_fig)
 	{
-		obj_dist = curr_fig->collision(curr_fig, ray, scn.cam->pos);
+		obj_dist = curr_fig->collision(curr_fig, ray);
 		if (!isnan(obj_dist))
 		{
 			if(isnan(min_dist) ||  min_dist > obj_dist)

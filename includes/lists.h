@@ -35,8 +35,7 @@ typedef struct			s_camera
 {
 	struct s_camera		*next;
 	t_img				img;
-	t_coord				pos;
-	t_vector			dir;
+	t_vector			vect;
 	unsigned char		fov;
 }						t_camera;
 

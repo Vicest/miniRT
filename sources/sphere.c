@@ -21,7 +21,7 @@
 **	Returns NAN if no collision happens.
 */
 
-long double	sphere_collision(void *sphere, t_vector v, t_coord c)
+long double	sphere_collision(void *sphere, t_vector v)
 {
 	double	coefficients[3];
 	double		sol1;
@@ -29,12 +29,15 @@ long double	sphere_collision(void *sphere, t_vector v, t_coord c)
 	t_sphere	s;
 
 	s = *(t_sphere *)sphere;
-	coefficients[0] = pow(v.v[0], 2) + pow(v.v[1], 2) + pow(v.v[2], 2);
-	coefficients[1] = 2 * v.v[0] * (c.v[0] - s.pos.v[0]) +
-					2 * v.v[1] * (c.v[1] - s.pos.v[1]) +
-					2 * v.v[2] * (c.v[2] - s.pos.v[2]);
-	coefficients[2] = pow(c.v[0] - s.pos.v[0],2) + pow(c.v[1] - s.pos.v[1],2) +
-					pow(c.v[2] - s.pos.v[2],2) - pow(s.r, 2);
+	coefficients[0] = pow(v.dir.x[0], 2) +
+					pow(v.dir.x[1], 2) +
+					pow(v.dir.x[2], 2);
+	coefficients[1] = 2 * v.dir.x[0] * (v.orig.x[0] - s.pos.x[0]) +
+					2 * v.dir.x[1] * (v.orig.x[1] - s.pos.x[1]) +
+					2 * v.dir.x[2] * (v.orig.x[2] - s.pos.x[2]);
+	coefficients[2] = pow(v.orig.x[0] - s.pos.x[0],2) +
+					pow(v.orig.x[1] - s.pos.x[1],2) +
+					pow(v.orig.x[2] - s.pos.x[2],2) - pow(s.r, 2);
 	sol1 = NAN;
 	sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);

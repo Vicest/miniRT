@@ -14,24 +14,37 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void		normalize(t_vector *v)
+long double	norm(t_vector v)
 {
-	long double	norm;
-	int			i;
+	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));
+}
 
-	norm = NORM(*v);
-	i = 0;
-	while (i < 3)
-		(*v).v[i++] /= norm;
+/*
+**	https://github.com/brazzy/floating-point-gui.define
+**	geeksforgeeks.com/(something something about corrctly compare floats
+*/
+int			is_normalized(t_vector v, long double error)
+{
+	return (fabsl(1 - norm(v)) < error ? 1 : 0);
+}
+
+void		normalize(t_vector v)
+{
+	long double	inv_norm;
+
+	inv_norm =  1.0L / norm(v);
+	v.dir.x[0] *= inv_norm;
+	v.dir.x[1] *= inv_norm;
+	v.dir.x[2] *= inv_norm;
 }
 
 t_vector	vector(long double x, long double y, long double z)
 {
 	t_vector v;
 
-	v.v[0] = x;
-	v.v[1] = y;
-	v.v[2] = z;
+	v.dir.x[0] = x;
+	v.dir.x[1] = y;
+	v.dir.x[2] = z;
 	
 	return (v);
 }
@@ -92,13 +105,14 @@ t_vector		l_transform(t_matrix m, t_vector v)
 	int			i;
 	int			j;
 
+	sol.orig = v.orig;
 	i = -1;
 	while (++i < 3)
 	{
 		j = -1;
-		sol.v[i] = 0;
+		sol.dir.x[i] = 0;
 		while (++j < 3)
-			sol.v[i] += m.m[i][j] * v.v[j];
+			sol.dir.x[i] += m.m[i][j] * v.dir.x[j];
 	}
 	return (sol);
 }

@@ -18,13 +18,19 @@
 **	before validating its value like an atoi.
 */
 
-int				validate_int(char *text, int min_val, int max_val)
+int				validate_int(char *str, int min_val, int max_val)
 {
+	int i;
 	int out;
 
-	out = ft_atoi(text);
-	if (ft_numdgts(out) != ft_strlen(text))
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] != '\0')
 		config_err("Value is not an integer.\n");
+	out = ft_atoi(str);
 	if (out < min_val || out > max_val)
 		config_err("Integer out of range.\n");
 	return (out);
@@ -51,7 +57,7 @@ double			validate_double(char *str)
 		i++;
 	if (str[i] != '\0')
 		config_err("Float has extraneus characters.\n");
-	return ft_atof(str);
+	return (ft_atof(str));
 }
 
 /*
@@ -98,8 +104,8 @@ t_coord			validate_coordinates(char *text)
 	while (i < 3)
 	{
 		if (!coords[i])
-			exit (-1); //TODO: Must have 3 components.
-		out.v[i] = validate_double(coords[i]);
+			config_err("Too few components for vector/coord.\n");
+		out.x[i] = validate_double(coords[i]);
 		free(coords[i++]);
 	}
 	if (coords[i])
@@ -108,12 +114,14 @@ t_coord			validate_coordinates(char *text)
 	return (out);
 }
 
-t_vector		validate_vector(char *text)
+t_coord		validate_direction(char *text)
 {
-	t_vector out;
+	t_coord out;
 
 	out = validate_coordinates(text);
+	/*
 	if (!IS_NORMALIZED(out))
 		config_err("Vector needs to be normalized.\n");
+		*/
 	return (out);
 }

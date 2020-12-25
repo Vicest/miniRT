@@ -44,21 +44,6 @@ void	store_ambient(t_scene *pscn, char **element)
 		config_err("Ambient light takes only two values.\n");
 }
 
-/*
-static t_img	*img_init()
-{
-	t_img	*out;
-
-	out->pimg = NULL;
-	out->canv = NULL;
-	out->addr = NULL;
-	out->bpp = 0;
-	out->line_len = 0;
-	out->endian = 0;
-	return (out);
-}
-*/
-
 void	store_camera(t_scene *pscn, char **params)
 {
 	int i;
@@ -69,8 +54,8 @@ void	store_camera(t_scene *pscn, char **params)
 		exit (-1); //TODO Error handling bad param number,
 	push_camera(&(pscn->cam));
 	ft_bzero(&pscn->cam->img, sizeof(t_img));
-	pscn->cam->pos = validate_coordinates(params[1]);
-	pscn->cam->dir = validate_vector(params[2]);
+	pscn->cam->vect.orig = validate_coordinates(params[1]);
+	pscn->cam->vect.dir = validate_direction(params[2]);
 	pscn->cam->fov = validate_int(params[3], 0, 180);
 }
 

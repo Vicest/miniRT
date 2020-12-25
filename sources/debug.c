@@ -13,60 +13,60 @@
 #include <stdio.h>
 #include "minirt.h"
 
-void		print_vector(t_vector v)
+void		print_coord(t_coord p)
 {
 	int	i;
 
+	printf("Coordinates:");
 	i = 0;
 	while (i < 3)
-		printf("|%Lf", v.v[i++]);
+		printf("|%15.10Lf", p.x[i++]);
 	printf("|\n");
 }
 
-static void	print_cams(t_scene scn)
+void		print_vector(t_vector v)
 {
-	int i;
-
-	i = 0;
-	while (scn.cam)
-	{
-		printf("Camera:%d\n", i);
-		printf("C[%d] Position:(%Lf,%Lf,%Lf)\n", i, scn.cam->pos.v[0],
-				scn.cam->pos.v[1], scn.cam->pos.v[2]);
-		printf("C[%d] Direction:(%Lf,%Lf,%Lf)\n", i, scn.cam->dir.v[0],
-				scn.cam->dir.v[1], scn.cam->dir.v[2]);
-		printf("C[%d] FOV:%d\n", i, scn.cam->fov);
-		printf("---------\n");
-		scn.cam = scn.cam->next;
-		i++;
-	}
+	printf("Vector:");
+	printf("\tOrigin ");
+	print_coord(v.orig);
+	printf("\tDirection ");
+	print_coord(v.dir);
 }
 
-static void	print_lights(t_scene scn)
+void		print_cam(t_camera cam)
 {
-	int i;
-
-	i = 0;
-	while (scn.lgt)
-	{
-		printf("Light:%d\n", i);
-		printf("L[%d] Position:(%Lf,%Lf,%Lf)\n", i, scn.lgt->pos.v[0],
-				scn.lgt->pos.v[1], scn.lgt->pos.v[2]);
-		printf("L[%d] Colour:%#.8X\n", i, scn.lgt->col);
-		printf("L[%d] Brightness:%f\n", i, scn.lgt->b_ratio);
-		printf("---------\n");
-		scn.lgt = scn.lgt->next;
-		i++;
-	}
+	printf("\n----\nCamera:\n");
+	printf("\tNext camera addr:%p\n", cam.next);
+	print_vector(cam.vect);
+	printf("\tFOV:%d\n", cam.fov);
+	printf("----\n");
 }
-void	print_scene(t_scene scn)
+
+void		print_light(t_light lgt)
+{
+	printf("\n----\nLight:\n");
+	printf("\tNext Light addr:%p\n", lgt.next);
+	print_coord(lgt.pos);
+	printf("\tColour:%#.8X\n", lgt.col);
+	printf("Brightness:%f\n", lgt.b_ratio);
+	printf("----\n");
+}
+void		print_scene(t_scene scn)
 {
 	printf("Flags:%#.2X\n", scn.flags);
 	printf("Resolution (X|Y):%u|%u\n", scn.res[0], scn.res[1]);
 	printf("Ambient light ratio:%lf\n",scn.amb.b_ratio);
 	printf("Ambient colour RGB:%#.8X\n", scn.amb.col);
-	print_cams(scn);
-	print_lights(scn);
+	while (scn.cam)
+	{
+		print_cam(*scn.cam);
+		scn.cam = scn.cam->next;
+	}
+	while (scn.lgt)
+	{
+		print_light(*scn.lgt);
+		scn.lgt = scn.lgt->next;
+	}
 	while(scn.geo)
 	{
 		printf("Figure addr:%p\n", scn.geo);
