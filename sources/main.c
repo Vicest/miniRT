@@ -56,12 +56,19 @@ void		fill_viewport(t_view view, t_scene scn, t_camera cam)
 	cam.img.addr = mlx_get_data_addr(cam.img.pimg, &cam.img.bpp,
 				&cam.img.line_len, &cam.img.endian);
 	y = 0;
+	printf("Fillvp cam:");
+	print_cam(cam);
 	while (y < (int)(scn.res[1]))
 	{
 		x = 0;
 		while (x < (int)(scn.res[0]))
 		{
 			ray = trace_ray(cam, scn.res, x, y);
+			if (x == y && x == 0)
+			{
+				printf("Fillvp ray:");
+				print_vector(ray);
+			}
 			col = compute_colour(scn, ray);
 			*(unsigned *)(cam.img.addr + x * (cam.img.bpp / 8) +
 				y * cam.img.line_len) = col;
@@ -80,7 +87,8 @@ static int	keypress(int keycode, t_view *pview)
 		exit(-1); //TODO: Exit routine.
 	else if (keycode == 0xff53 && NULL != pview->scn.cam->next) //TODO: Macro it to ->
 	{
-		//printf("Painting: %p\n", pview->scn.cam->next);
+		printf("LArrow\n");
+		print_cam(*pview->scn.cam->next);
 		fill_viewport(*pview, pview->scn, *pview->scn.cam->next);
 	}
 	else if (keycode == 0xff52) //TODO: Macro it to ->

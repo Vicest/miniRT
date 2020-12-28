@@ -42,7 +42,7 @@ MLX := libmlx.a
 NAME = miniRT
 
 CC := cc
-CFLAGS := -g -Wall -Werror -Wextra -O3 -I$(INC_DIR) -fsanitize=address
+CFLAGS := -g -Wall -Werror -Wextra -I$(INC_DIR) -fsanitize=address
 LFLAGS := -L. -lft -lmlx -lm
 ifeq ($(OS), Linux)
 	LFLAGS += -lXext -lX11

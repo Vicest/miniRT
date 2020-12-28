@@ -38,15 +38,15 @@ void		normalize(t_vector v)
 	v.dir.x[2] *= inv_norm;
 }
 
-t_vector	vector(long double x, long double y, long double z)
+t_coord	vector_dir(long double x, long double y, long double z)
 {
-	t_vector v;
+	t_coord dir;
 
-	v.dir.x[0] = x;
-	v.dir.x[1] = y;
-	v.dir.x[2] = z;
+	dir.x[0] = x;
+	dir.x[1] = y;
+	dir.x[2] = z;
 	
-	return (v);
+	return (dir);
 }
 
 /*
@@ -109,8 +109,8 @@ t_vector		l_transform(t_matrix m, t_vector v)
 	i = -1;
 	while (++i < 3)
 	{
-		j = -1;
 		sol.dir.x[i] = 0;
+		j = -1;
 		while (++j < 3)
 			sol.dir.x[i] += m.m[i][j] * v.dir.x[j];
 	}

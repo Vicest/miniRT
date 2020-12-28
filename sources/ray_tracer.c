@@ -22,13 +22,13 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 	long double	vert_angle;
 	long double	hor_angle;
 
-	//TODO: Handle even/odd resolutions and FOVs of 0/180.
 	ray = c.vect;
+	//TODO: Handle even/odd resolutions and FOVs of 0/180.
 	distance = r[0] / (2 * tan(RADIANS(c.fov / 2.0)));
 	vert_angle = M_PI * 0.5L - acosl(ray.dir.x[2]);
 	hor_angle = fabsl(sinl(vert_angle)) < 0.000000001L ?
 			0 : asinl(ray.dir.x[1] / sinl(vert_angle));
-	ray = vector(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
+	ray.dir = vector_dir(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
 	normalize(ray);
 	//TODO: Rotates on weird angles.
 	ray = pitch(yaw(ray ,hor_angle), vert_angle);

@@ -41,12 +41,14 @@ long double	sphere_collision(void *sphere, t_vector v)
 	sol1 = NAN;
 	sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
+	sol1 = sol1 < 0 ? NAN : sol1;
+	sol2 = sol2 < 0 ? NAN : sol2;
 	if (isnan(sol1) && isnan(sol2))
 		return (NAN);
 	else if (!isnan(sol1) && isnan(sol2))
 		return (sol1);
 	else //TODO: Give ouput only when positive distance.
-		return (fabs(sol1) <= fabs(sol2) ? sol1 : sol2);
+		return (sol1 <= sol2 ? sol1 : sol2);
 }
 
 void	push_sphere(t_scene *pscn)

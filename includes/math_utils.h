@@ -36,7 +36,7 @@ typedef struct			s_matrix
 
 long double	radians(long double degrees);
 
-t_vector 	vector(long double x, long double y, long double z);
+t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
 void		normalize(t_vector v);
 void		print_vector(t_vector v);
