@@ -35,7 +35,7 @@ static t_scene	scn_init()
 	scn.res[1] = 0;
 	scn.amb.b_ratio = 0;
 	scn.amb.col = 0;
-	scn.cam = NULL;
+	scn.at_cam = NULL;
 	scn.lgt = NULL;
 	scn.geo = NULL;
 
@@ -85,16 +85,17 @@ static int	keypress(int keycode, t_view *pview)
 	printf("You pressed: %#x\n", keycode);
 	if (keycode == KEY_ESC)
 		exit(-1); //TODO: Exit routine.
-	else if (keycode == 0xff53 && NULL != pview->scn.cam->next) //TODO: Macro it to ->
+	else if (keycode == 0xff53) //TODO: Macro it to ->
 	{
-		printf("LArrow\n");
-		print_cam(*pview->scn.cam->next);
-		fill_viewport(*pview, pview->scn, *pview->scn.cam->next);
+		printf("NextCam\n");
+		pview->scn.at_cam = pview->scn.at_cam->next;
+		fill_viewport(*pview, pview->scn, *pview->scn.at_cam);
 	}
-	else if (keycode == 0xff52) //TODO: Macro it to ->
+	else if (keycode == 0xff51) //TODO: Macro it to <-
 	{
-		//printf("Painting: %p\n", pview->scn.cam);
-		fill_viewport(*pview, pview->scn, *pview->scn.cam);
+		printf("PrevCam\n");
+		pview->scn.at_cam = pview->scn.at_cam->prev;
+		fill_viewport(*pview, pview->scn, *pview->scn.at_cam);
 	}
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
@@ -112,10 +113,10 @@ int			main(int argn, char **args)
 	view.win_ptr = mlx_new_window(view.mlx_ptr, view.scn.res[0], view.scn.res[1], "miniRT"); //TODO: Moar Error
 	mlx_key_hook(view.win_ptr, &keypress, &view);
 	mlx_hook(view.win_ptr, X_CLOSE_BUTTON, 1L << 17, &quit, &view);
-	fill_viewport(view, view.scn, *view.scn.cam);
+	fill_viewport(view, view.scn, *view.scn.at_cam);
 	mlx_loop(view.mlx_ptr);
 	//TODO: Bad place, needs new function.
-	pop_all_c(&(view.scn.cam));
+	//pop_all_c(&(view.scn.at_cam));
 	pop_all_l(&(view.scn.lgt));
 	//system("leaks -quiet miniRT");
 	return (0);

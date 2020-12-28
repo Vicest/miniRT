@@ -49,7 +49,7 @@ typedef struct		s_scene
 	char			flags;
 	t_resolution	res;
 	t_ambient		amb;
-	t_camera		*cam;
+	t_camera		*at_cam;
 	t_light			*lgt;
 	t_figure		*geo;
 }					t_scene;
@@ -74,6 +74,6 @@ t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
 t_colour			compute_colour(t_scene scn, t_vector ray);
 
 void				push_sphere(t_scene *pscn);
-
+//TODO Gimme my own .h :'(
 void				config_err(char *err_str);
 #endif

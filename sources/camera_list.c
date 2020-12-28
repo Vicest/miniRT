@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 /*
-**	Aux function to initialize de values of a camera.
+**	Cameras are stored in a sort of simplified doubly-linked list.
 */
 
 /*
@@ -29,7 +29,7 @@ static void	fill_camera(t_camera *pcam, char** params)
 **	Clear the first element of the list, much like a pop in a stack.
 */
 
-void		pop_camera(t_camera **c_lst)
+static void	pop_camera(t_camera **c_lst)
 {
 	t_camera	*aux;
 
@@ -56,7 +56,7 @@ void		pop_all_c(t_camera **c_lst)
 }
 
 /*
-**	Adds a new element to the list at the start. Behaves like a stack.
+**	Adds a new element to the list at the start.
 */
 
 void		push_camera(t_camera **c_lst)
@@ -64,13 +64,19 @@ void		push_camera(t_camera **c_lst)
 	t_camera *new;
 
 	if (c_lst == NULL)
-		return ; //TODO Error null camera_list
+		exit(-1);//config_err("Camera list destination is NULL\n");
 	if (!(new = malloc(sizeof(t_camera))))
-		return ; //TODO Sys Error
-	new->next = *c_lst;
-	(*c_lst) = new;
+		exit(-1);//config_err(NULL);
+	if (*c_lst == NULL)
+	{
+		new->next = new;
+		new->prev = new;
+	} else
+	{
+		new->next = *c_lst;
+		new->prev = (*c_lst)->prev;
+		new->next->prev = new;
+		new->prev->next = new;
+	}
+	*c_lst = new;
 }
-
-/*
-** /TODO: Iterate: Apply a function to every element of the list.
-*/

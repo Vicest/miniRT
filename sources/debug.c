@@ -35,8 +35,9 @@ void		print_vector(t_vector v)
 
 void		print_cam(t_camera cam)
 {
-	printf("\n----\nCamera:\n");
+	printf("\n----\nCamera[%p]:\n", &cam);
 	printf("\tNext camera addr:%p\n", cam.next);
+	printf("\tPrec camera addr:%p\n", cam.prev);
 	print_vector(cam.vect);
 	printf("\tFOV:%d\n", cam.fov);
 	printf("----\n");
@@ -53,14 +54,19 @@ void		print_light(t_light lgt)
 }
 void		print_scene(t_scene scn)
 {
+	t_camera	*first;
+
 	printf("Flags:%#.2X\n", scn.flags);
 	printf("Resolution (X|Y):%u|%u\n", scn.res[0], scn.res[1]);
 	printf("Ambient light ratio:%lf\n",scn.amb.b_ratio);
 	printf("Ambient colour RGB:%#.8X\n", scn.amb.col);
-	while (scn.cam)
+	first = scn.at_cam;
+	print_cam(*scn.at_cam);
+	scn.at_cam = scn.at_cam->next;
+	while (scn.at_cam != first)
 	{
-		print_cam(*scn.cam);
-		scn.cam = scn.cam->next;
+		print_cam(*scn.at_cam);
+		scn.at_cam = scn.at_cam->next;
 	}
 	while (scn.lgt)
 	{

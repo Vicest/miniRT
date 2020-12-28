@@ -34,6 +34,7 @@ typedef struct			s_img
 typedef struct			s_camera
 {
 	struct s_camera		*next;
+	struct s_camera		*prev;
 	t_img				img;
 	t_vector			vect;
 	unsigned char		fov;
@@ -48,7 +49,6 @@ typedef struct			s_light
 }						t_light;
 
 void					push_camera(t_camera **c_lst);
-void					pop_camera(t_camera **c_lst);
 void					pop_all_c(t_camera **c_lst);
 
 void		push_light(t_light **l_lst);

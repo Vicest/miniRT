@@ -52,11 +52,11 @@ void	store_camera(t_scene *pscn, char **params)
 		i++;
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
-	push_camera(&(pscn->cam));
-	ft_bzero(&pscn->cam->img, sizeof(t_img));
-	pscn->cam->vect.orig = validate_coordinates(params[1]);
-	pscn->cam->vect.dir = validate_direction(params[2]);
-	pscn->cam->fov = validate_int(params[3], 0, 180);
+	push_camera(&(pscn->at_cam));
+	ft_bzero(&pscn->at_cam->img, sizeof(t_img));
+	pscn->at_cam->vect.orig = validate_coordinates(params[1]);
+	pscn->at_cam->vect.dir = validate_direction(params[2]);
+	pscn->at_cam->fov = validate_int(params[3], 0, 180);
 }
 
 void	store_light(t_scene *pscn, char **params)
