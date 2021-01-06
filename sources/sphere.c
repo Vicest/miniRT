@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 15:14:55 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:17:01 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ long double	sphere_collision(void *sphere, t_vector v)
 		return (sol1 <= sol2 ? sol1 : sol2);
 }
 
-void		push_sphere(t_figure *pfig)
+void		push_sphere(t_figure **ppfig)
 {
 	t_figure	*aux;
 
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
-	aux->next = pfig;
+	aux->next = *ppfig;
 	aux->collision = sphere_collision;
-	pfig = aux;
+	*ppfig = aux;
 }

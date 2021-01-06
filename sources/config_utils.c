@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 15:39:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:14:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	store_sphere(t_scene *pscn, char **params)
 	while (i < 4 && params[i])
 		i++;
 	if (i != 4 || params[i])
-		config_err("Invalid parameter count, must be 3 exactly\n");
-	push_sphere(pscn->geo);
+		config_err("Invalid parameter count for sphere, must be 3 exactly\n");
+	push_sphere(&pscn->geo);
 	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
 	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
 	pscn->geo->col = validate_colour(params[3]);
@@ -96,8 +96,8 @@ void	store_plane(t_scene *pscn, char **params)
 	while (params[i])
 		i++;
 	if (i != 4)
-		config_err("Invalid parameter count, must be 3 exactly\n");
-	push_plane(pscn->geo);
+		config_err("Invalid parameter count for plane, must be 3 exactly\n");
+	push_plane(&pscn->geo);
 	((t_plane*)pscn->geo)->nvect.orig = validate_coordinates(params[1]);
 	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
 	pscn->geo->col = validate_colour(params[3]);

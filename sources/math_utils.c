@@ -6,13 +6,33 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 12:25:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 17:40:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+t_rota		inv_spherical(t_coord v)
+{
+	t_rota		out;
+	long double	xy_len;
+
+	xy_len = hypotl(v.x[0], v.x[1]);
+	if (xy_len != 0.0L)
+		out.latitude = atanl(v.x[2] / xy_len);
+	else
+		out.latitude = copysignl(M_PI_2, v.x[2]);
+	out.azimuth = copysignl(M_PI_2, v.x[1]);
+	if (v.x[0] != 0.0L)
+	{
+		out.azimuth = atanl(v.x[1] / v.x[0]);
+		if (v.x[0] < 0)
+			out.azimuth += copysignl(M_PI, v.x[1]);
+	}
+	return (out);
+}
 
 long double	norm(t_vector v)
 {

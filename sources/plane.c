@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 15:39:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:16:07 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ long double	plane_collision(void *plane, t_vector v)
 	return (NAN);
 }
 
-void		push_plane(t_figure *pfig)
+void		push_plane(t_figure **ppfig)
 {
 	t_figure	*aux;
 
 	aux = malloc(sizeof(t_plane)); //TODO: Tmp Shite.
-	aux->next = pfig;
+	aux->next = *ppfig;
 	aux->collision = plane_collision;
-	pfig = aux;
+	*ppfig = aux;
 }

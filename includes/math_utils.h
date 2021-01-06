@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 14:52:45 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 16:48:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 
 # define F_PREC_ERR 0.00000000005L
 # define RADIANS(x) ((x) * M_PI / 180)
+
+typedef struct			s_rota
+{
+	long double			azimuth;
+	long double			latitude;
+}						t_rota;
 
 typedef struct			s_coord
 {

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 15:20:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:16:37 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct			s_sphere
 	long double			(*collision)(void *,t_vector);
 }						t_sphere;
 
-void					push_sphere(t_figure *pscn);
+void					push_sphere(t_figure **ppfig);
 long double				sphere_collision(void *sphere, t_vector v);
-void					push_plane(t_figure *pscn);
+void					push_plane(t_figure **ppfig);
 long double				plane_collision(void *plane, t_vector v);
 #endif
