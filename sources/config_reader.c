@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/10 11:03:40 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:45:59 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void			store_element(t_scene *pscn, char **elem)
 		store_light(pscn, elem);
 	else if (0 == ft_strcmp(elem[0], "sp"))
 		store_sphere(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "pl"))
+		store_plane(pscn, elem);
 	else
 		return ; //TODO: Error management.
 }
@@ -79,19 +81,20 @@ static void			line_store(t_scene *pscn, char *line)
 **	Returns NULL if false. Returns the extension.
 */
 
-static char			*file_extension_check(char *file, char *ext)
+static char			*file_extension_check(char *path, char *ext)
 {
+	//TODO: Filter out directories to only evaluate the file name.
 	int		name_length;
 	int		ext_length;
 
-	if (!file || !ext)
+	if (!path || !ext)
 		exit(-1); //TODO: Errors plox
-	name_length = ft_strlen(file);
+	name_length = ft_strlen(path);
 	ext_length = ft_strlen(ext);
 	if ((name_length - ext_length) > 0)
 	{
-		file += name_length - ext_length;
-		if (0 == ft_strcmp(ext, file))
+		path += name_length - ext_length;
+		if (0 == ft_strcmp(ext, path))
 			return (ext);
 		else
 			return (NULL);

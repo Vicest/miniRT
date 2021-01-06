@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 15:13:56 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:29:49 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@
 
 # define MAX_XRES 4096
 # define MAX_YRES 4096
+//TODO minirt.h or a gui.h
 # ifdef __unix__
 #  define KEY_ESC 0xff1b
+#  define X_CLOSE_BUTTON 17//TODO Definitely wrong!
 # else
 #  define KEY_ESC 53
+#  define X_CLOSE_BUTTON 17
 # endif
 
-//TODO minirt.h or a gui.h
-# define X_CLOSE_BUTTON 17
 
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
@@ -68,6 +69,7 @@ void				store_ambient(t_scene *pscn, char **element);
 void				store_camera(t_scene *pscn, char **element);
 void				store_light(t_scene *pscn, char **element);
 void				store_sphere(t_scene *pscn, char **element);
+void				store_plane(t_scene *pscn, char **element);
 
 void				fill_viewport(t_view view, t_scene scn, t_camera cam);
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
