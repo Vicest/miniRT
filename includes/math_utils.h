@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:34:08 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 14:52:45 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <math.h>
 # include <float.h>
 
-# define F_PREC_ERR 0.0000000001
+# define F_PREC_ERR 0.00000000005L
 # define RADIANS(x) ((x) * M_PI / 180)
 
 typedef struct			s_coord

@@ -6,12 +6,12 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 14:47:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 15:14:55 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include "figures.h"
+#include <stdlib.h>
 
 /*
 **	To solve the intersecction of a sphere: (x-a)^2 + (y-b)^2 +(z-c)^2 = r^2
@@ -38,8 +38,8 @@ long double	sphere_collision(void *sphere, t_vector v)
 	coefficients[2] = pow(v.orig.x[0] - s.pos.x[0],2) +
 					pow(v.orig.x[1] - s.pos.x[1],2) +
 					pow(v.orig.x[2] - s.pos.x[2],2) - pow(s.r, 2);
-	sol1 = NAN;
-	sol2 = NAN;
+	//sol1 = NAN;
+	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
 	sol1 = sol1 < 0 ? NAN : sol1;
 	sol2 = sol2 < 0 ? NAN : sol2;
@@ -51,13 +51,12 @@ long double	sphere_collision(void *sphere, t_vector v)
 		return (sol1 <= sol2 ? sol1 : sol2);
 }
 
-void	push_sphere(t_scene *pscn)
+void		push_sphere(t_figure *pfig)
 {
 	t_figure	*aux;
 
-	printf("New sphere.\n");
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
-	aux->next = pscn->geo;
+	aux->next = pfig;
 	aux->collision = sphere_collision;
-	pscn->geo = aux;
+	pfig = aux;
 }

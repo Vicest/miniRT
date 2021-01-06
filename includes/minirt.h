@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:18:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 15:13:56 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void				fill_viewport(t_view view, t_scene scn, t_camera cam);
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
 t_colour			compute_colour(t_scene scn, t_vector ray);
 
-void				push_sphere(t_scene *pscn);
 //TODO Gimme my own .h :'(
 void				config_err(char *err_str);
 #endif
