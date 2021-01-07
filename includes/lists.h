@@ -35,8 +35,11 @@ typedef struct			s_camera
 {
 	struct s_camera		*next;
 	struct s_camera		*prev;
-	t_img				img;
 	t_vector			vect;
+	long double			vp_dist;
+	long double			v_to_ref;
+	long double			h_to_ref;
+	t_img				img;
 	unsigned char		fov;
 }						t_camera;
 
@@ -48,7 +51,7 @@ typedef struct			s_light
 	double				b_ratio;
 }						t_light;
 
-void					push_camera(t_camera **c_lst);
+t_camera				*push_camera(t_camera **c_lst);
 void					pop_all_c(t_camera **c_lst);
 
 void		push_light(t_light **l_lst);

@@ -16,7 +16,7 @@
 # include <float.h>
 
 # define F_PREC_ERR 0.00000000005L
-# define RADIANS(x) ((x) * M_PI / 180)
+//# define RADIANS(x) ((x) * M_PI / 180)
 
 typedef struct			s_rota
 {
@@ -52,6 +52,7 @@ void		linear_solver(double a, double b, double *sol);
 void		quadratic_solver(double abc[3], double *sol1, double *sol2);
 
 t_vector	l_transform(t_matrix m, t_vector v);
+void		v_to_spherical(t_vector v, long double *vert, long double *horz);
 t_vector	pitch(t_vector v, long double angle);
 t_vector	yaw(t_vector v, long double angle);
 //t_vector	roll(t_vector v, long double angle);

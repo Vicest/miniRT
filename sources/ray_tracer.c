@@ -18,20 +18,13 @@
 t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 {
 	t_vector	ray;
-	long double	distance;
-	long double	vert_angle;
-	long double	hor_angle;
 
 	ray = c.vect;
-	//TODO: Handle even/odd resolutions and FOVs of 0/180.
-	distance = r[0] / (2 * tan(RADIANS(c.fov / 2.0)));
-	vert_angle = M_PI * 0.5L - acosl(ray.dir.x[2]);
-	hor_angle = fabsl(sinl(vert_angle)) < 0.000000001L ?
-			0 : asinl(ray.dir.x[1] / sinl(vert_angle));
-	ray.dir = vector_dir(-(r[0] / 2.0L) + x, distance, (r[1] / 2.0L) - y);
+	//TODO: Handle even/odd resolutions.
+	ray.dir = vector_dir(-(r[0] * 0.5L) + x, c.vp_dist, (r[1] * 0.5L) - y);
 	normalize(ray);
-	//TODO: Rotates on weird angles.
-	ray = pitch(yaw(ray ,hor_angle), vert_angle);
+	ray = pitch(yaw(ray , c.h_to_ref), c.v_to_ref);
+	/*
 	if (x == 0 && y == 0)
 	{
 		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
@@ -49,6 +42,7 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 		printf("Rotate: V%Lf-|-H%LF\n", vert_angle, hor_angle);
 		print_vector(ray);
 	}
+	*/
 	/*
 	if (r[0] % 2 == 0)
 		ray = cam.dir;

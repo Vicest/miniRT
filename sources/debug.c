@@ -40,6 +40,9 @@ void		print_cam(t_camera cam)
 	printf("\tPrec camera addr:%p\n", cam.prev);
 	print_vector(cam.vect);
 	printf("\tFOV:%d\n", cam.fov);
+	printf("\tViewport distance:%Lf\n", cam.vp_dist);
+	printf("\tVertical rotation:%Lf\n", cam.v_to_ref);
+	printf("\tHorizontal rotation:%Lf\n", cam.h_to_ref);
 	printf("----\n");
 }
 

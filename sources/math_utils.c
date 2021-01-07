@@ -34,6 +34,17 @@ t_rota		inv_spherical(t_coord v)
 	return (out);
 }
 
+t_coord		point_at_dist(t_vector ray, long double dist)
+{
+	t_coord		point;
+	int			i;
+
+	i = -1;
+	while (++i)
+		point.x[i] = fmal(dist, ray.dir.x[i], ray.orig.x[i]);
+	return (point);
+}
+
 long double	norm(t_vector v)
 {
 	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));

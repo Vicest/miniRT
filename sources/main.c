@@ -43,7 +43,7 @@ static t_scene	scn_init()
 }
 
 
-void		fill_viewport(t_view view, t_scene scn, t_camera cam)
+void		fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 {
 	int			x;
 	int			y;
@@ -52,32 +52,33 @@ void		fill_viewport(t_view view, t_scene scn, t_camera cam)
 
 	//printf("----\nMy cam%p\n----\n", &cam);
 	//print_cam(cam);
-	cam.img.pimg = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
-	cam.img.addr = mlx_get_data_addr(cam.img.pimg, &cam.img.bpp,
-				&cam.img.line_len, &cam.img.endian);
+	pcam->img.pimg = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
+	pcam->img.addr = mlx_get_data_addr(pcam->img.pimg, &pcam->img.bpp,
+				&pcam->img.line_len, &pcam->img.endian);
 	y = 0;
 	printf("Fillvp cam:");
-	print_cam(cam);
+	print_cam(*pcam);
 	while (y < (int)(scn.res[1]))
 	{
 		x = 0;
 		while (x < (int)(scn.res[0]))
 		{
-			ray = trace_ray(cam, scn.res, x, y);
+			ray = trace_ray(*pcam, scn.res, x, y);
+			/*
 			if (x == y && x == 0)
 			{
 				printf("Fillvp ray:");
 				print_vector(ray);
-			}
+			}*/
 			col = compute_colour(scn, ray);
-			*(unsigned *)(cam.img.addr + x * (cam.img.bpp / 8) +
-				y * cam.img.line_len) = col;
+			*(unsigned *)(pcam->img.addr + x * (pcam->img.bpp / 8) +
+				y * pcam->img.line_len) = col;
 			x++;
 		}
 		y++;
 	}
 	//TODO: Out of this function.
-	mlx_put_image_to_window(view.mlx_ptr, view.win_ptr, cam.img.pimg, 0, 0);
+	mlx_put_image_to_window(view.mlx_ptr, view.win_ptr, pcam->img.pimg, 0, 0);
 }
 
 static int	keypress(int keycode, t_view *pview)
@@ -89,14 +90,19 @@ static int	keypress(int keycode, t_view *pview)
 	{
 		printf("NextCam\n");
 		pview->scn.at_cam = pview->scn.at_cam->next;
-		fill_viewport(*pview, pview->scn, *pview->scn.at_cam);
 	}
 	else if (keycode == 0xff51) //TODO: Macro it to <-
 	{
 		printf("PrevCam\n");
 		pview->scn.at_cam = pview->scn.at_cam->prev;
-		fill_viewport(*pview, pview->scn, *pview->scn.at_cam);
 	}
+	if (pview->scn.at_cam->img.pimg == NULL)
+	{
+		printf("Fillin' it\n");
+		fill_viewport(*pview, pview->scn, pview->scn.at_cam);
+	}
+	else
+		mlx_put_image_to_window(pview->mlx_ptr, pview->win_ptr, pview->scn.at_cam->img.pimg, 0, 0);
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
 }
@@ -113,7 +119,7 @@ int			main(int argn, char **args)
 	view.win_ptr = mlx_new_window(view.mlx_ptr, view.scn.res[0], view.scn.res[1], "miniRT"); //TODO: Moar Error
 	mlx_key_hook(view.win_ptr, &keypress, &view);
 	mlx_hook(view.win_ptr, X_CLOSE_BUTTON, 1L << 17, &quit, &view);
-	fill_viewport(view, view.scn, *view.scn.at_cam);
+	fill_viewport(view, view.scn, view.scn.at_cam);
 	mlx_loop(view.mlx_ptr);
 	//TODO: Bad place, needs new function.
 	//pop_all_c(&(view.scn.at_cam));
