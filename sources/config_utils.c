@@ -6,12 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:24:13 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:14:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "figures.h"
 #include "validations.h"
 
 /*
@@ -21,7 +20,7 @@
 void	store_resolution(t_scene *pscn, char **element)
 {
 	if (pscn->flags & FLAG_RES)
-		return ;//TODO Error handling, resolution already assigned
+		config_err("Resolution can only be defined once.\n");
 	pscn->res[0] = validate_int(element[1], 1, MAX_XRES);
 	pscn->res[1] = validate_int(element[2], 1, MAX_YRES);
 	pscn->flags |= FLAG_RES;
@@ -71,7 +70,6 @@ void	store_camera(t_scene *pscn, char **params)
 void	store_light(t_scene *pscn, char **params)
 {
 	int i;
-	printf("lgt\n");
 
 	i = 0;
 	while (i < 4 && params[i])
@@ -87,15 +85,29 @@ void	store_light(t_scene *pscn, char **params)
 void	store_sphere(t_scene *pscn, char **params)
 {
 	int			i;
-	printf("sph\n");
 
 	i = 0;
 	while (i < 4 && params[i])
 		i++;
 	if (i != 4 || params[i])
-		exit (-1); //TODO Error handling bad param number->
-	push_sphere(pscn);
+		config_err("Invalid parameter count for sphere, must be 3 exactly\n");
+	push_sphere(&pscn->geo);
 	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
 	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
+	pscn->geo->col = validate_colour(params[3]);
+}
+
+void	store_plane(t_scene *pscn, char **params)
+{
+	int			i;
+
+	i = 0;
+	while (params[i])
+		i++;
+	if (i != 4)
+		config_err("Invalid parameter count for plane, must be 3 exactly\n");
+	push_plane(&pscn->geo);
+	((t_plane*)pscn->geo)->nvect.orig = validate_coordinates(params[1]);
+	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
 	pscn->geo->col = validate_colour(params[3]);
 }

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/20 12:26:16 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:16:37 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FIGURES_H
 
 # include "math_utils.h"
-//# include "validations.h"
 
 typedef unsigned int	t_colour;
 
@@ -25,14 +24,23 @@ typedef struct			s_figure
 	t_colour			col;
 }						t_figure;
 
+typedef struct			s_plane
+{
+	t_figure			*next;
+	t_vector			nvect;
+}						t_plane;
+
 typedef struct			s_sphere
 {
-	struct s_sphere		*next;
+	t_figure			*next;
 	t_coord				pos;
 	t_colour			col;
 	double				r;
 	long double			(*collision)(void *,t_vector);
 }						t_sphere;
 
+void					push_sphere(t_figure **ppfig);
 long double				sphere_collision(void *sphere, t_vector v);
+void					push_plane(t_figure **ppfig);
+long double				plane_collision(void *plane, t_vector v);
 #endif

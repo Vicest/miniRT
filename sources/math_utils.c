@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 12:25:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 17:40:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//TODO: Check out alternate forms to not use divisions.
-void		v_to_spherical(t_vector v, long double *vert, long double *horz)
+t_rota		inv_spherical(t_coord v)
 {
-	*horz = copysign
-	*horz = M_PI_2;
-	if (v.dir.x[1] == 0 && v.dir.x[0] == -1)
-		*horz = -M_PI_2;
+	t_rota		out;
+	long double	xy_len;
 
-	*horz =  ? 0 : atanl(v.dir.x[0] / v.dir.x[1]);
-	if (v.dir.x[1] <= 0)
-		*horz += M_PI;
-	*vert = 0;
-	if (v.dir.x[2] != 0)
-		*vert = atanl(hypotl(v.dir.x[0] , v.dir.x[1]) / v.dir.x[2]);
-	if (v.dir.x[2] != 1)
-		*vert = M_PI_2 - *vert;
+	xy_len = hypotl(v.x[0], v.x[1]);
+	if (xy_len != 0.0L)
+		out.latitude = atanl(v.x[2] / xy_len);
+	else
+		out.latitude = copysignl(M_PI_2, v.x[2]);
+	out.azimuth = copysignl(M_PI_2, v.x[1]);
+	if (v.x[0] != 0.0L)
+	{
+		out.azimuth = atanl(v.x[1] / v.x[0]);
+		if (v.x[0] < 0)
+			out.azimuth += copysignl(M_PI, v.x[1]);
+	}
+	return (out);
 }
 
 t_coord		point_at_dist(t_vector ray, long double dist)

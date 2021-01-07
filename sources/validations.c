@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:59:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/06 14:48:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_coord		validate_direction(char *text)
 	t_coord out;
 
 	out = validate_coordinates(text);
-	/*
+	/* TODO!!!!!!!
 	if (!IS_NORMALIZED(out))
 		config_err("Vector needs to be normalized.\n");
 		*/
