@@ -69,7 +69,7 @@ void				store_camera(t_scene *pscn, char **element);
 void				store_light(t_scene *pscn, char **element);
 void				store_sphere(t_scene *pscn, char **element);
 
-void				fill_viewport(t_view view, t_scene scn, t_camera cam);
+void				fill_viewport(t_view view, t_scene scn, t_camera *pcam);
 t_vector			trace_ray(t_camera c, t_resolution r, int x, int y);
 t_colour			compute_colour(t_scene scn, t_vector ray);
 

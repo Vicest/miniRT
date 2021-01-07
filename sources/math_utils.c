@@ -14,6 +14,35 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//TODO: Check out alternate forms to not use divisions.
+void		v_to_spherical(t_vector v, long double *vert, long double *horz)
+{
+	*horz = copysign
+	*horz = M_PI_2;
+	if (v.dir.x[1] == 0 && v.dir.x[0] == -1)
+		*horz = -M_PI_2;
+
+	*horz =  ? 0 : atanl(v.dir.x[0] / v.dir.x[1]);
+	if (v.dir.x[1] <= 0)
+		*horz += M_PI;
+	*vert = 0;
+	if (v.dir.x[2] != 0)
+		*vert = atanl(hypotl(v.dir.x[0] , v.dir.x[1]) / v.dir.x[2]);
+	if (v.dir.x[2] != 1)
+		*vert = M_PI_2 - *vert;
+}
+
+t_coord		point_at_dist(t_vector ray, long double dist)
+{
+	t_coord		point;
+	int			i;
+
+	i = -1;
+	while (++i)
+		point.x[i] = fmal(dist, ray.dir.x[i], ray.orig.x[i]);
+	return (point);
+}
+
 long double	norm(t_vector v)
 {
 	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));

@@ -59,7 +59,7 @@ void		pop_all_c(t_camera **c_lst)
 **	Adds a new element to the list at the start.
 */
 
-void		push_camera(t_camera **c_lst)
+t_camera	*push_camera(t_camera **c_lst)
 {
 	t_camera *new;
 
@@ -79,4 +79,5 @@ void		push_camera(t_camera **c_lst)
 		new->prev->next = new;
 	}
 	*c_lst = new;
+	return (new);
 }
