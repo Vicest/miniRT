@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 17:40:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 14:23:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_rota		inv_spherical(t_coord v)
 	else
 		out.latitude = copysignl(M_PI_2, v.x[2]);
 	out.azimuth = copysignl(M_PI_2, v.x[1]);
+	if (v.x[0] == 0.0L && v.x[1] == 0.0L)
+		out.azimuth = 0.0L;
 	if (v.x[0] != 0.0L)
 	{
 		out.azimuth = atanl(v.x[1] / v.x[0]);
@@ -59,14 +61,14 @@ int			is_normalized(t_vector v, long double error)
 	return (fabsl(1 - norm(v)) < error ? 1 : 0);
 }
 
-void		normalize(t_vector v)
+void		normalize(t_vector *v)
 {
 	long double	inv_norm;
 
-	inv_norm =  1.0L / norm(v);
-	v.dir.x[0] *= inv_norm;
-	v.dir.x[1] *= inv_norm;
-	v.dir.x[2] *= inv_norm;
+	inv_norm =  1.0L / norm(*v);
+	v->dir.x[0] *= inv_norm;
+	v->dir.x[1] *= inv_norm;
+	v->dir.x[2] *= inv_norm;
 }
 
 t_coord	vector_dir(long double x, long double y, long double z)
@@ -87,7 +89,7 @@ t_coord	vector_dir(long double x, long double y, long double z)
 **	Infinite solutions are treated as no solition, given as NULL.
 */
 
-void		linear_solver(double a, double b, double *sol)
+void		linear_solver(long double a, long double b, long double *sol)
 {
 	if (a == 0)
 		*sol = NAN;
@@ -104,7 +106,7 @@ void		linear_solver(double a, double b, double *sol)
 **	For a single solution sol2 points to NAN.
 */
 
-void		quadratic_solver(double abc[3], double *sol1, double *sol2)
+void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 {
 	int		discriminant;
 

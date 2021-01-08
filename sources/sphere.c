@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 18:17:01 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 14:34:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 long double	sphere_collision(void *sphere, t_vector v)
 {
-	double	coefficients[3];
-	double		sol1;
-	double		sol2;
+	long double	coefficients[3];
+	long double	sol1;
+	long double	sol2;
 	t_sphere	s;
 
 	s = *(t_sphere *)sphere;

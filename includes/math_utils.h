@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 12:31:19 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 14:23:52 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ long double	radians(long double degrees);
 
 t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
-void		normalize(t_vector v);
+void		normalize(t_vector *v);
 void		print_vector(t_vector v);
 
 //TODO: Solutions as a struct or something.
-void		linear_solver(double a, double b, double *sol);
-void		quadratic_solver(double abc[3], double *sol1, double *sol2);
+void		linear_solver(long double a, long double b, long double *sol);
+void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2);
 
 t_vector	l_transform(t_matrix m, t_vector v);
 

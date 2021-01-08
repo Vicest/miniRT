@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 13:11:50 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 12:58:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 15:48:38 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ t_vector	pitch(t_vector v, long double angle)
 {
 	t_matrix	m;
 
-	m.m[0][0] = 1;
+	m.m[0][0] = cosl(angle);
 	m.m[0][1] = 0;
-	m.m[0][2] = 0;
+	m.m[0][2] = -sinl(angle);
 	m.m[1][0] = 0;
-	m.m[1][1] = cosl(angle);
-	m.m[1][2] = sinl(angle);;
-	m.m[2][0] = 0;
-	m.m[2][1] = -sinl(angle);
+	m.m[1][1] = 1;
+	m.m[1][2] = 0;
+	m.m[2][0] = sinl(angle);
+	m.m[2][1] = 0;
 	m.m[2][2] = cosl(angle);
 	return (l_transform(m, v));
 }
