@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 18:14:40 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 12:59:08 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,21 @@ void	store_ambient(t_scene *pscn, char **element)
 void	store_camera(t_scene *pscn, char **params)
 {
 	int			i;
-	t_camera	*pcam;
+	t_camera	cam;
 
 	i = 0;
 	while (i < 4 && params[i])
 		i++;
 	if (i != 4 || params[i])
 		exit (-1); //TODO Error handling bad param number,
-	pcam = push_camera(&(pscn->at_cam));
-	ft_bzero(&pcam->img, sizeof(t_img));
-	pcam->vect.orig = validate_coordinates(params[1]);
-	pcam->vect.dir = validate_direction(params[2]);
-	pcam->fov = validate_int(params[3], 1, 179);//TODO 0 and 180 fov how?
-	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI /360);
-	//TODO: This is spherical coord to cartesian.
-	v_to_spherical(pcam->vect, &pcam->v_to_ref, &pcam->h_to_ref);
+	push_camera(&(pscn->at_cam));
+	cam = *pscn->at_cam;
+	ft_bzero(&cam.img, sizeof(t_img));
+	cam.vect.orig = validate_coordinates(params[1]);
+	cam.vect.dir = validate_direction(params[2]);
+	cam.fov = validate_int(params[3], 1, 179);//TODO 0 and 180 fov how?
+	cam.vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI /360);
+	cam.rota = inv_spherical(cam.vect.dir);
 }
 
 void	store_light(t_scene *pscn, char **params)

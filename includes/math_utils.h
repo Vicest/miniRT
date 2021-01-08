@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 16:48:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 12:31:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void		linear_solver(double a, double b, double *sol);
 void		quadratic_solver(double abc[3], double *sol1, double *sol2);
 
 t_vector	l_transform(t_matrix m, t_vector v);
-void		v_to_spherical(t_vector v, long double *vert, long double *horz);
+
+t_rota		inv_spherical(t_coord v);
 t_vector	pitch(t_vector v, long double angle);
 t_vector	yaw(t_vector v, long double angle);
 //t_vector	roll(t_vector v, long double angle);

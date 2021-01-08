@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:30:20 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/09 12:49:17 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 12:59:51 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ typedef struct			s_camera
 {
 	struct s_camera		*next;
 	struct s_camera		*prev;
-	t_vector			vect;
-	long double			vp_dist;
-	long double			v_to_ref;
-	long double			h_to_ref;
 	t_img				img;
+	t_vector			vect; //TODO: Need dis? Don't think so. (Need the origin coord, though.)
+	t_rota				rota;
+	long double			vp_dist;
 	unsigned char		fov;
 }						t_camera;
 
@@ -51,10 +50,10 @@ typedef struct			s_light
 	double				b_ratio;
 }						t_light;
 
-t_camera				*push_camera(t_camera **c_lst);
+void					push_camera(t_camera **c_lst);
 void					pop_all_c(t_camera **c_lst);
 
-void		push_light(t_light **l_lst);
-void		pop_light(t_light **l_lst);
-void		pop_all_l(t_light **l_lst);
+void					push_light(t_light **l_lst);
+void					pop_light(t_light **l_lst);
+void					pop_all_l(t_light **l_lst);
 #endif

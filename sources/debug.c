@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 13:08:17 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 12:44:02 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 13:10:52 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void		print_cam(t_camera cam)
 	print_vector(cam.vect);
 	printf("\tFOV:%d\n", cam.fov);
 	printf("\tViewport distance:%Lf\n", cam.vp_dist);
-	printf("\tVertical rotation:%Lf\n", cam.v_to_ref);
-	printf("\tHorizontal rotation:%Lf\n", cam.h_to_ref);
+	printf("\tVertical rotation:%Lf\n", cam.rota.latitude);
+	printf("\tHorizontal rotation:%Lf\n", cam.rota.azimuth);
 	printf("----\n");
 }
 

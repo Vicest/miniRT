@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:29:19 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 10:25:36 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 13:02:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		pop_all_c(t_camera **c_lst)
 **	Adds a new element to the list at the start.
 */
 
-t_camera	*push_camera(t_camera **c_lst)
+void		push_camera(t_camera **c_lst)
 {
 	t_camera *new;
 
@@ -79,5 +79,4 @@ t_camera	*push_camera(t_camera **c_lst)
 		new->prev->next = new;
 	}
 	*c_lst = new;
-	return (new);
 }

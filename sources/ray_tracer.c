@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:55:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 13:09:44 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 	//TODO: Handle even/odd resolutions.
 	ray.dir = vector_dir(-(r[0] * 0.5L) + x, c.vp_dist, (r[1] * 0.5L) - y);
 	normalize(ray);
-	ray = pitch(yaw(ray , c.h_to_ref), c.v_to_ref);
+	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
 	/*
 	if (x == 0 && y == 0)
 	{
