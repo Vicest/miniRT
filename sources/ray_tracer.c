@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 14:39:38 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:05:06 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 	ray = c.vect;
 	//TODO: Handle even/odd resolutions.
 	ray.dir = vector_dir(c.vp_dist, (r[0] * 0.5L) - x, (r[1] * 0.5L) - y);
-	
+/*	
 	if (x == 0 && y == 0)
 		print_vector(ray);
 	else if (x == (int)r[0] - 1 && y == 0)
@@ -31,7 +31,9 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 		print_vector(ray);
 	else if (x == (int)r[0] - 1 && y == (int)r[1] - 1)
 		print_vector(ray);
+		*/
 	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
+	/*
 	if (x == 0 && y == 0)
 		print_vector(ray);
 	else if (x == (int)r[0] - 1 && y == 0)
@@ -40,7 +42,7 @@ t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
 		print_vector(ray);
 	else if (x == (int)r[0] - 1 && y == (int)r[1] - 1)
 		print_vector(ray);
-
+*/
 	normalize(&ray);
 	/*
 	if (r[0] % 2 == 0)
@@ -70,8 +72,6 @@ t_colour	compute_colour(t_scene scn, t_vector ray)
 	while (curr_fig)
 	{
 		obj_dist = curr_fig->collision(curr_fig, ray);
-		if(!isnan(obj_dist))
-			printf("|C%.2Lf|", obj_dist);
 		if (!isnan(obj_dist))
 		{
 			if(isnan(min_dist) ||  min_dist > obj_dist)

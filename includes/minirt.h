@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 18:29:49 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:00:29 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@
 //TODO minirt.h or a gui.h
 # ifdef __unix__
 #  define KEY_ESC 0xff1b
-#  define X_CLOSE_BUTTON 17//TODO Definitely wrong!
+#  define X_CLOSE_BUTTON 17//TODO Definitely wrong!(?)
+#  define LARROW 0xff51
+#  define RARROW 0xff53
 # else
 #  define KEY_ESC 53
 #  define X_CLOSE_BUTTON 17
+#  define LARROW 0x7b
+#  define RARROW 0x7c
 # endif
 
 

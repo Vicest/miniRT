@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/21 13:53:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:12:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ static int quit(void *params)
 {
 	(void)params;
 	//system("leaks -quiet miniRT");
-	printf("Lolailo\n");
+	printf("MiniRT OUT.\n");
 	exit(-1);
 	return (1);
 }
 
 //TODO: Initializers with calloc.
-
 static t_scene	scn_init()
 {
 	t_scene scn;
@@ -41,7 +40,6 @@ static t_scene	scn_init()
 
 	return (scn);
 }
-
 
 void		fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 {
@@ -86,21 +84,12 @@ static int	keypress(int keycode, t_view *pview)
 	printf("You pressed: %#x\n", keycode);
 	if (keycode == KEY_ESC)
 		exit(-1); //TODO: Exit routine.
-	else if (keycode == 0xff53) //TODO: Macro it to ->
-	{
-		printf("NextCam\n");
+	else if (keycode == RARROW)
 		pview->scn.at_cam = pview->scn.at_cam->next;
-	}
-	else if (keycode == 0xff51) //TODO: Macro it to <-
-	{
-		printf("PrevCam\n");
+	else if (keycode == LARROW)
 		pview->scn.at_cam = pview->scn.at_cam->prev;
-	}
 	if (pview->scn.at_cam->img.pimg == NULL)
-	{
-		printf("Fillin' it\n");
 		fill_viewport(*pview, pview->scn, pview->scn.at_cam);
-	}
 	else
 		mlx_put_image_to_window(pview->mlx_ptr, pview->win_ptr, pview->scn.at_cam->img.pimg, 0, 0);
 	return (-1);
