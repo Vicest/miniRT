@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 16:05:06 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:18:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "math_utils.h"
 #include "debug.h"
 
-t_vector	trace_ray(t_camera c, t_resolution r, int x, int y)
+t_vector	trace_pray(t_camera c, t_resolution r, int x, int y)
 {
 	t_vector	ray;
 

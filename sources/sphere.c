@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 14:34:05 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:22:09 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 **	And a vector (x,y,z) = O + k*V
 **	I've done substitution to simplify it to a quadratic ecuation whose solution
 **	is k, the distance to the collision.
+**	Only positive values count as solution. TODO: VERIFY!!
 **	Returns NAN if no collision happens.
 */
 
@@ -32,9 +33,9 @@ long double	sphere_collision(void *sphere, t_vector v)
 	coefficients[0] = pow(v.dir.x[0], 2) +
 					pow(v.dir.x[1], 2) +
 					pow(v.dir.x[2], 2);
-	coefficients[1] = 2 * v.dir.x[0] * (v.orig.x[0] - s.pos.x[0]) +
-					2 * v.dir.x[1] * (v.orig.x[1] - s.pos.x[1]) +
-					2 * v.dir.x[2] * (v.orig.x[2] - s.pos.x[2]);
+	coefficients[1] = 2 * (v.dir.x[0] * (v.orig.x[0] - s.pos.x[0]) +
+					v.dir.x[1] * (v.orig.x[1] - s.pos.x[1]) +
+					v.dir.x[2] * (v.orig.x[2] - s.pos.x[2]));
 	coefficients[2] = pow(v.orig.x[0] - s.pos.x[0],2) +
 					pow(v.orig.x[1] - s.pos.x[1],2) +
 					pow(v.orig.x[2] - s.pos.x[2],2) - pow(s.r, 2);
