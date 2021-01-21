@@ -76,8 +76,7 @@ void				store_sphere(t_scene *pscn, char **element);
 void				store_plane(t_scene *pscn, char **element);
 
 void				fill_viewport(t_view view, t_scene scn, t_camera *pcam);
-t_vector			trace_pray(t_camera c, t_resolution r, int x, int y);
-t_colour			compute_colour(t_scene scn, t_vector ray);
+//t_colour			compute_colour(t_scene scn, t_vector ray);
 
 //TODO Gimme my own .h :'(
 void				config_err(char *err_str);

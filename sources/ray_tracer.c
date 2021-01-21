@@ -14,76 +14,127 @@
 #include "figures.h"
 #include "math_utils.h"
 #include "debug.h"
+//TODO: Very tmp plz
+#include "../minilibx/mlx.h"
 
-t_vector	trace_pray(t_camera c, t_resolution r, int x, int y)
+static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 {
 	t_vector	ray;
 
 	ray = c.vect;
-	//TODO: Handle even/odd resolutions.
-	ray.dir = vector_dir(c.vp_dist, (r[0] * 0.5L) - x, (r[1] * 0.5L) - y);
-/*	
-	if (x == 0 && y == 0)
+	//TODO: Handle even/odd resolutions better.
+	ray.dir = vector_dir(c.vp_dist, (r[0] * 0.5L) - x[0], (r[1] * 0.5L) - x[1]);
+	if (x[0] == 0 && x[1] == r[1] * 0.5L)
+	{
 		print_vector(ray);
-	else if (x == (int)r[0] - 1 && y == 0)
-		print_vector(ray);
-	else if (x == 0 && y == (int)r[1] - 1)
-		print_vector(ray);
-	else if (x == (int)r[0] - 1 && y == (int)r[1] - 1)
-		print_vector(ray);
-		*/
+		print_vector(pitch(yaw(ray , c.rota.azimuth), c.rota.latitude));
+	}
 	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
-	/*
-	if (x == 0 && y == 0)
-		print_vector(ray);
-	else if (x == (int)r[0] - 1 && y == 0)
-		print_vector(ray);
-	else if (x == 0 && y == (int)r[1] - 1)
-		print_vector(ray);
-	else if (x == (int)r[0] - 1 && y == (int)r[1] - 1)
-		print_vector(ray);
-*/
 	normalize(&ray);
-	/*
-	if (r[0] % 2 == 0)
-		ray = cam.dir;
-	else
-		ray = cam.dir;
-	if (r[1] % 2 == 0)
-		ray = cam.dir;
-	else
-		ray = cam.dir;
-		*/
 	return (ray);
 }
 
-t_colour	compute_colour(t_scene scn, t_vector ray)
+static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 {
-	t_colour	out;
-	long double	min_dist;
 	long double	obj_dist;
-	t_figure	*curr_fig;
+	long double	min_dist;
 
-	//TODO Does not use brightness ratio, maybe somewhere else makes sense
-	//TODO curr_fig is just temporal
-	curr_fig = scn.geo;
+	*nearest = NULL;
 	min_dist = NAN;
-	out = scn.amb.col;
-	while (curr_fig)
+	while (geo)
 	{
-		obj_dist = curr_fig->collision(curr_fig, ray);
-		if (!isnan(obj_dist))
+		obj_dist = geo->collision(geo, ray);
+		min_dist = fminl(min_dist, obj_dist);
+		if (min_dist == obj_dist)
+			*nearest = geo;
+		geo = geo->next;
+	}
+	return (min_dist);
+}
+
+//TODO: somewhere else.
+//TODO: (Veeery pliz do)Perhaps code macros to separate RGB and don't loop this.
+static t_colour	mix_colour(t_colour c1, t_colour c2)
+{
+	t_colour	final;
+
+	final = 0;
+	final += ft_max(c1 & 0x000000FF, c2 & 0x000000FF);
+	final += ft_max(c1 & 0x0000FF00, c2 & 0x0000FF00);
+	final += ft_max(c1 & 0x00FF0000, c2 & 0x00FF0000);
+	return (final);
+}
+
+static t_colour	illuminate(t_scene scn, t_vector ray, long double d)
+{
+	t_light		*curr_lgt;
+	t_colour	lgt_col;
+	t_vector	lgt_ray;
+	t_figure	*fig_in_path;
+	int			i;
+
+	//TODO: Illuminate computes the point to illuminate??? Nonsense!?
+	//TODO: Don't I have a function for this(?) Probably should, right?
+	i = -1;
+	while (++i < 3)
+		lgt_ray.orig.x[i] = fmal(ray.dir.x[i], d, ray.orig.x[i]);
+	curr_lgt = scn.lgt;
+	lgt_col = 0;
+	while(curr_lgt)
+	{
+		//TODO: Don't I have a function for this(?) Probably should, right?
+		i = -1;
+		while (++i < 3)
+			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
+		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
+		if (isnan(nearest_at(scn.geo, &fig_in_path, lgt_ray)))
+			lgt_col = mix_colour(lgt_col, curr_lgt->col);
+		curr_lgt = curr_lgt->next;
+	}
+	return (lgt_col);
+}
+
+//TODO: The args could be simplified (???)
+void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
+{
+	long double	d;
+	t_vector	ray;
+	t_figure	*render_fig;
+	t_colour	lgt_col; //TODO HURMPF... Means light color
+	int			x[2];
+
+	//TODO: This should be initilized somewhere else.
+	pcam->img.pimg = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
+	pcam->img.addr = mlx_get_data_addr(pcam->img.pimg, &pcam->img.bpp,
+				&pcam->img.line_len, &pcam->img.endian);
+	x[1] = -1;
+	while (++x[1] < (int)(scn.res[1]))
+	{
+		x[0] = -1;
+		while (++x[0] < (int)(scn.res[0]))
 		{
-			if(isnan(min_dist) ||  min_dist > obj_dist)
+			render_fig = NULL; //Sholdn't be needed.
+			ray = gen_pray(*pcam, scn.res, x);
+			//TODO:If not hits. I'm certain this could be simpler, rethink it.
+			d = nearest_at(scn.geo, &render_fig, ray);
+			if (render_fig == NULL)
+				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
+					x[1] * pcam->img.line_len) = 0;
+			else
 			{
-				min_dist = obj_dist;
-				out = curr_fig->col;
+			/*
+				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
+					x[1] * pcam->img.line_len) = render_fig->col;
+			*/
+				lgt_col = illuminate(scn, ray, d);//TODO Give illuminate the coords.
+				//printf("Light:%#X\n", lgt_col);
+				if (lgt_col == 0) //No illumination
+					lgt_col = scn.amb.col;
+				else
+					printf("Black swan!!\n");
+				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
+					x[1] * pcam->img.line_len) = render_fig->col & lgt_col;
 			}
 		}
-		curr_fig = curr_fig->next;
 	}
-	//TODO: Prolly useless
-	if (isnan(min_dist))
-		out = scn.amb.col;
-	return (out);
 }

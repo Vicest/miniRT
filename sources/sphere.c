@@ -30,6 +30,7 @@ long double	sphere_collision(void *sphere, t_vector v)
 	t_sphere	s;
 
 	s = *(t_sphere *)sphere;
+	//TODO: A loop to ease readability.
 	coefficients[0] = pow(v.dir.x[0], 2) +
 					pow(v.dir.x[1], 2) +
 					pow(v.dir.x[2], 2);
@@ -42,8 +43,10 @@ long double	sphere_collision(void *sphere, t_vector v)
 	//sol1 = NAN;
 	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
-	sol1 = sol1 < 0 ? NAN : sol1;
-	sol2 = sol2 < 0 ? NAN : sol2;
+	if (!isnan(sol1))
+		sol1 = sol1 <= 0 ? NAN : sol1;
+	if (!isnan(sol2))
+		sol2 = sol2 <= 0 ? NAN : sol2;
 	if (isnan(sol1) && isnan(sol2))
 		return (NAN);
 	else if (!isnan(sol1) && isnan(sol2))

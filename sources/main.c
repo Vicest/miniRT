@@ -41,34 +41,6 @@ static t_scene	scn_init()
 	return (scn);
 }
 
-void		fill_viewport(t_view view, t_scene scn, t_camera *pcam)
-{
-	int			x;
-	int			y;
-	t_vector	ray;
-	t_colour	col;
-
-	pcam->img.pimg = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
-	pcam->img.addr = mlx_get_data_addr(pcam->img.pimg, &pcam->img.bpp,
-				&pcam->img.line_len, &pcam->img.endian);
-	y = 0;
-	printf("Fillvp cam:");
-	print_cam(*pcam);
-	while (y < (int)(scn.res[1]))
-	{
-		x = 0;
-		while (x < (int)(scn.res[0]))
-		{
-			ray = trace_pray(*pcam, scn.res, x, y);
-			col = compute_colour(scn, ray);
-			*(unsigned *)(pcam->img.addr + x * (pcam->img.bpp / 8) +
-				y * pcam->img.line_len) = col;
-			x++;
-		}
-		y++;
-	}
-}
-
 static int	keypress(int keycode, t_view *pview)
 {
 	printf("You pressed: %#x\n", keycode);
