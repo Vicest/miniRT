@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 18:16:37 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:17:30 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct			s_plane
 {
 	t_figure			*next;
 	t_vector			nvect;
+	long double			ind_term;
 }						t_plane;
 
 typedef struct			s_sphere

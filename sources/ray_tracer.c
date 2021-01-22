@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 16:18:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:54:24 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 
 	ray = c.vect;
 	//TODO: Handle even/odd resolutions better.
-	ray.dir = vector_dir(c.vp_dist, (r[0] * 0.5L) - x[0], (r[1] * 0.5L) - x[1]);
-	if (x[0] == 0 && x[1] == r[1] * 0.5L)
-	{
-		print_vector(ray);
-		print_vector(pitch(yaw(ray , c.rota.azimuth), c.rota.latitude));
-	}
+	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (x[1]) - r[1] * 0.5L);
 	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
 	normalize(&ray);
 	return (ray);
@@ -44,8 +39,10 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	while (geo)
 	{
 		obj_dist = geo->collision(geo, ray);
+		if (!isnan(obj_dist) && obj_dist < 9.5L)
+			obj_dist = NAN;
 		min_dist = fminl(min_dist, obj_dist);
-		if (min_dist == obj_dist)
+		if (!isnan(min_dist) && min_dist == obj_dist)
 			*nearest = geo;
 		geo = geo->next;
 	}
@@ -53,7 +50,7 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 }
 
 //TODO: somewhere else.
-//TODO: (Veeery pliz do)Perhaps code macros to separate RGB and don't loop this.
+//TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
 static t_colour	mix_colour(t_colour c1, t_colour c2)
 {
 	t_colour	final;
@@ -86,8 +83,10 @@ static t_colour	illuminate(t_scene scn, t_vector ray, long double d)
 		i = -1;
 		while (++i < 3)
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
+		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
-		if (isnan(nearest_at(scn.geo, &fig_in_path, lgt_ray)))
+		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
+		if (fig_in_path == NULL)
 			lgt_col = mix_colour(lgt_col, curr_lgt->col);
 		curr_lgt = curr_lgt->next;
 	}
@@ -100,7 +99,7 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 	long double	d;
 	t_vector	ray;
 	t_figure	*render_fig;
-	t_colour	lgt_col; //TODO HURMPF... Means light color
+	t_colour	lgt_col;
 	int			x[2];
 
 	//TODO: This should be initilized somewhere else.
@@ -127,13 +126,10 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 					x[1] * pcam->img.line_len) = render_fig->col;
 			*/
 				lgt_col = illuminate(scn, ray, d);//TODO Give illuminate the coords.
-				//printf("Light:%#X\n", lgt_col);
 				if (lgt_col == 0) //No illumination
 					lgt_col = scn.amb.col;
-				else
-					printf("Black swan!!\n");
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = render_fig->col & lgt_col;
+					x[1] * pcam->img.line_len) = render_fig->col;// & lgt_col;
 			}
 		}
 	}

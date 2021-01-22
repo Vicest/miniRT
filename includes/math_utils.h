@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 14:23:52 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:29:48 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ long double	radians(long double degrees);
 
 t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
+long double	dot_prod(t_coord v1, t_coord v2);
 void		normalize(t_vector *v);
 void		print_vector(t_vector v);
 

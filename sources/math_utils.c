@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 14:23:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:48:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ long double	norm(t_vector v)
 	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));
 }
 
+long double	dot_prod(t_coord v1, t_coord v2)
+{
+	return (v1.x[0] * v2.x[0] + v1.x[1] * v2.x[1] + v1.x[2] * v2.x[2]);
+}
 /*
 **	https://github.com/brazzy/floating-point-gui.define
 **	geeksforgeeks.com/(something something about corrctly compare floats

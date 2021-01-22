@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 13:34:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:35:01 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ void	store_plane(t_scene *pscn, char **params)
 	push_plane(&pscn->geo);
 	((t_plane*)pscn->geo)->nvect.orig = validate_coordinates(params[1]);
 	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
+	((t_plane*)pscn->geo)->ind_term = dot_prod(
+		((t_plane*)pscn->geo)->nvect.dir, ((t_plane*)pscn->geo)->nvect.orig);
 	pscn->geo->col = validate_colour(params[3]);
 }
