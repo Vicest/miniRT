@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 13:08:17 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 13:10:52 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/29 14:14:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void		print_scene(t_scene scn)
 	while(scn.geo)
 	{
 		printf("Figure addr:%p\n", scn.geo);
+		printf("Colour RGB:%#.8X\n", scn.geo->col);
 		printf("Next figure addr:%p\n", scn.geo->next);
 		scn.geo = scn.geo->next;
 	}
