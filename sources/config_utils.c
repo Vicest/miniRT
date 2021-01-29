@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/22 16:35:01 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/29 16:15:09 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	store_camera(t_scene *pscn, char **params)
 	pcam->vect.orig = validate_coordinates(params[1]);
 	pcam->vect.dir = validate_direction(params[2]);
 	pcam->fov = validate_int(params[3], 1, 179);//TODO 0 and 180 fov how?
-	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI /360);
+	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI / 360);
 	pcam->rota = inv_spherical(pcam->vect.dir);
 }
 

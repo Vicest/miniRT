@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/29 14:41:18 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/29 17:05:33 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,6 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 					x[1] * pcam->img.line_len) = 0;
 			else
 			{
-			/*
-				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = render_fig->col;
-			*/
 				lgt_col = illuminate(scn, ray, d);//TODO Give illuminate the coords.
 				if (lgt_col == 0) //No illumination
 					lgt_col = scn.amb.col;
