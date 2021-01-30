@@ -114,6 +114,8 @@ void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 {
 	int		discriminant;
 
+	*sol1 = NAN;
+	*sol2 = NAN;
 	if (abc[0] == 0)
 	{
 		*sol2 = NAN;

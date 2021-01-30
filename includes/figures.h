@@ -35,7 +35,6 @@ typedef struct			s_sphere
 {
 	t_figure			*next;
 	t_coord				pos;
-	t_colour			col;
 	double				r;
 	long double			(*collision)(void *, t_vector);
 }						t_sphere;

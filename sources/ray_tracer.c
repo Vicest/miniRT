@@ -23,7 +23,7 @@ static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 
 	ray = c.vect;
 	//TODO: Handle even/odd resolutions better.
-	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]);
+	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]));
 	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
 	normalize(&ray);
 	return (ray);
@@ -125,7 +125,7 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 				if (lgt_col == 0) //No illumination
 					lgt_col = scn.amb.col;
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = render_fig->col;// & lgt_col;
+					x[1] * pcam->img.line_len) = render_fig->col & lgt_col;
 			}
 		}
 	}

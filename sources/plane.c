@@ -16,13 +16,13 @@
 
 long double	plane_collision(void *plane, t_vector v)
 {
-	//TODO: Do some math :D
 	long double	dist;
 	t_plane		p;
 
 	p = *(t_plane *)plane;
 	dist = p.ind_term - dot_prod(v.orig, p.nvect.dir);
 	dist /= dot_prod(v.dir, p.nvect.dir);
+	//TODO: Look at the signbit method, maybe I don't need isnan.
 	return ((!isnan(dist) && signbit(dist) == 0 ? dist : NAN));
 }
 

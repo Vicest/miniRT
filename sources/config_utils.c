@@ -109,7 +109,7 @@ void	store_plane(t_scene *pscn, char **params)
 	push_plane(&pscn->geo);
 	((t_plane*)pscn->geo)->nvect.orig = validate_coordinates(params[1]);
 	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
-	((t_plane*)pscn->geo)->ind_term = dot_prod(
+	((t_plane*)pscn->geo)->ind_term = -dot_prod(
 		((t_plane*)pscn->geo)->nvect.dir, ((t_plane*)pscn->geo)->nvect.orig);
 	pscn->geo->col = validate_colour(params[3]);
 }
