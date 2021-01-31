@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 16:01:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 16:51:24 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,17 @@ long double	sphere_collision(void *sphere, t_vector v)
 	return (fminl(sol1, sol2));
 }
 
+t_vector	sphere_normal(void *sphere, t_coord at)
+{
+	t_vector	normal;
+
+	normal.orig = at;
+	normal.dir.x[0] = at.x[0] - ((t_sphere*)sphere)->pos.x[0];
+	normal.dir.x[1] = at.x[1] - ((t_sphere*)sphere)->pos.x[1];
+	normal.dir.x[2] = at.x[2] - ((t_sphere*)sphere)->pos.x[2];
+	return (normal);
+}
+
 void		push_sphere(t_figure **ppfig)
 {
 	t_figure	*aux;
@@ -57,5 +68,6 @@ void		push_sphere(t_figure **ppfig)
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
 	aux->next = *ppfig;
 	aux->collision = sphere_collision;
+	aux->normal_at = sphere_normal;
 	*ppfig = aux;
 }

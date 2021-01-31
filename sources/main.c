@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 16:36:38 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:00:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ static int	keypress(int keycode, t_view *pview)
 	else if (keycode == LARROW)
 		pview->scn.at_cam = pview->scn.at_cam->prev;
 	if (pview->scn.at_cam->img.pimg == NULL)
-		fill_viewport(*pview, pview->scn, pview->scn.at_cam);
+	{
+		fill_viewport(pview->scn, pview->scn.at_cam);
+	}
 	mlx_put_image_to_window(pview->mlx_ptr, pview->win_ptr, pview->scn.at_cam->img.pimg, 0, 0);
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
@@ -69,7 +71,10 @@ int			main(int argn, char **args)
 	view.win_ptr = mlx_new_window(view.mlx_ptr, view.scn.res[0], view.scn.res[1], "miniRT"); //TODO: Moar Error
 	mlx_key_hook(view.win_ptr, &keypress, &view);
 	mlx_hook(view.win_ptr, X_CLOSE_BUTTON, 1L << 17, &quit, &view);
-	fill_viewport(view, view.scn, view.scn.at_cam);
+	view.scn.at_cam->img.pimg = mlx_new_image(view.mlx_ptr, view.scn.res[0], view.scn.res[1]);
+		view.scn.at_cam->img.addr = mlx_get_data_addr(view.scn.at_cam->img.pimg, &view.scn.at_cam->img.bpp,
+					&view.scn.at_cam->img.line_len, &view.scn.at_cam->img.endian);
+	fill_viewport(view.scn, view.scn.at_cam);
 	mlx_put_image_to_window(view.mlx_ptr, view.win_ptr, view.scn.at_cam->img.pimg, 0, 0);
 	mlx_loop(view.mlx_ptr);
 	//TODO: Bad place, needs new function.

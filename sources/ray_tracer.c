@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 15:45:01 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:39:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "figures.h"
 #include "math_utils.h"
 #include "debug.h"
-//TODO: Very tmp plz
-#include "../minilibx/mlx.h"
 
 static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 {
@@ -53,27 +51,25 @@ static t_colour	mix_colour(t_colour c1, t_colour c2)
 {
 	t_colour	final;
 
-	final = 0;
-	final += ft_max(c1 & 0x000000FF, c2 & 0x000000FF);
+	final = ft_max(c1 & 0x000000FF, c2 & 0x000000FF);
 	final += ft_max(c1 & 0x0000FF00, c2 & 0x0000FF00);
 	final += ft_max(c1 & 0x00FF0000, c2 & 0x00FF0000);
 	return (final);
 }
 
-static t_colour	illuminate(t_scene scn, t_vector ray, long double d)
+static t_colour	illuminate(t_scene scn, t_coord hit, long double d, t_vector nv)
 {
 	t_light		*curr_lgt;
 	t_colour	lgt_col;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
+	long double	angle;
 	int			i;
 
 	//TODO: Illuminate computes the point to illuminate??? Nonsense!?
 	//TODO: Don't I have a function for this(?) Probably should, right?
-	i = -1;
-	while (++i < 3)
-		lgt_ray.orig.x[i] = fmal(ray.dir.x[i], d, ray.orig.x[i]);
 	curr_lgt = scn.lgt;
+	lgt_ray.orig = hit;
 	lgt_col = 0;
 	while(curr_lgt)
 	{
@@ -85,14 +81,24 @@ static t_colour	illuminate(t_scene scn, t_vector ray, long double d)
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
 		if (fig_in_path == NULL)
+		{
+			angle = acosl(dot_prod(nv.dir, lgt_ray.dir) / (norm(lgt_ray) * norm(nv)));
 			lgt_col = mix_colour(lgt_col, curr_lgt->col);
+			if (fabsl(angle) < 0.2L) //TODO: Bright spots
+			{
+				lgt_col = 0x00FFFFFF;
+			} else if (fabsl(angle) > 1.5L)
+			{
+				lgt_col = scn.amb.col;
+			}
+		}
 		curr_lgt = curr_lgt->next;
 	}
 	return (lgt_col);
 }
 
 //TODO: The args could be simplified (???)
-void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
+void			fill_viewport(t_scene scn, t_camera *pcam)
 {
 	long double	d;
 	t_vector	ray;
@@ -100,10 +106,6 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 	t_colour	lgt_col;
 	int			x[2];
 
-	//TODO: This should be initilized somewhere else.
-	pcam->img.pimg = mlx_new_image(view.mlx_ptr, scn.res[0], scn.res[1]);
-	pcam->img.addr = mlx_get_data_addr(pcam->img.pimg, &pcam->img.bpp,
-				&pcam->img.line_len, &pcam->img.endian);
 	x[1] = -1;
 	while (++x[1] < (int)(scn.res[1]))
 	{
@@ -119,7 +121,8 @@ void			fill_viewport(t_view view, t_scene scn, t_camera *pcam)
 					x[1] * pcam->img.line_len) = 0;
 			else
 			{
-				lgt_col = illuminate(scn, ray, d);//TODO Give illuminate the coords.
+				ray.orig = point_at_dist(ray, d);
+				lgt_col = illuminate(scn, ray.orig, d, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
 				if (lgt_col == 0) //No illumination
 					lgt_col = scn.amb.col;
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +

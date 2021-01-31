@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 15:38:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:27:04 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ t_rota		inv_spherical(t_coord v)
 	return (out);
 }
 
-t_coord		point_at_dist(t_vector ray, long double dist)
+t_coord		point_at_dist(t_vector v, long double dist)
 {
 	t_coord		point;
 	int			i;
 
 	i = -1;
-	while (++i)
-		point.x[i] = fmal(dist, ray.dir.x[i], ray.orig.x[i]);
+	while (++i < 3)
+		point.x[i] = fmal(dist, v.dir.x[i], v.orig.x[i]);
 	return (point);
 }
 
