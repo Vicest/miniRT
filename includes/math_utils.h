@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/22 16:29:48 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 15:51:36 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <math.h>
 # include <float.h>
 
-# define F_PREC_ERR 0.00000000005L
+# define EPSILON 0.5L
 //# define RADIANS(x) ((x) * M_PI / 180)
 
 typedef struct			s_rota
@@ -41,11 +41,13 @@ typedef struct			s_matrix
 }						t_matrix;
 
 long double	radians(long double degrees);
+int			equals_zero(long double l);
 
 t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
 long double	dot_prod(t_coord v1, t_coord v2);
 void		normalize(t_vector *v);
+int			is_normalized(t_vector v);
 void		print_vector(t_vector v);
 
 //TODO: Solutions as a struct or something.

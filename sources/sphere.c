@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/29 17:07:59 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 16:01:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 **	And a vector (x,y,z) = O + k*V
 **	I've done substitution to simplify it to a quadratic ecuation whose solution
 **	is k, the distance to the collision.
-**	Only positive values count as solution. TODO: VERIFY!!
-**	Returns NAN if no collision happens.
+**	Only positive values count as solution.
+**	Returns NAN if no solution is found.
 */
 
 long double	sphere_collision(void *sphere, t_vector v)
@@ -43,16 +43,11 @@ long double	sphere_collision(void *sphere, t_vector v)
 	//sol1 = NAN;
 	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
-	if (!isnan(sol1))
-		sol1 = sol1 <= 0 ? NAN : sol1;
-	if (!isnan(sol2))
-		sol2 = sol2 <= 0 ? NAN : sol2;
-	if (isnan(sol1) && isnan(sol2))
-		return (NAN);
-	else if (!isnan(sol1) && isnan(sol2))
-		return (sol1);
-	else //TODO: Give ouput only when positive distance.
-		return (sol1 <= sol2 ? sol1 : sol2);
+	if (!isnan(sol1) && (signbit(sol1) == 1 || equals_zero(sol1)))
+		sol1 = NAN;
+	if (!isnan(sol2) && (signbit(sol2) == 1 || equals_zero(sol2)))
+		sol2 = NAN;
+	return (fminl(sol1, sol2));
 }
 
 void		push_sphere(t_figure **ppfig)

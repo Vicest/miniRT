@@ -6,13 +6,18 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/22 16:48:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 15:38:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+int			equals_zero(long double l)
+{
+	return (fabsl(l) < EPSILON);
+}
 
 t_rota		inv_spherical(t_coord v)
 {
@@ -60,9 +65,9 @@ long double	dot_prod(t_coord v1, t_coord v2)
 **	https://github.com/brazzy/floating-point-gui.define
 **	geeksforgeeks.com/(something something about corrctly compare floats
 */
-int			is_normalized(t_vector v, long double error)
+int			is_normalized(t_vector v)
 {
-	return (fabsl(1 - norm(v)) < error ? 1 : 0);
+	return (equals_zero(fabsl(1 - norm(v))));
 }
 
 void		normalize(t_vector *v)
@@ -95,7 +100,7 @@ t_coord	vector_dir(long double x, long double y, long double z)
 
 void		linear_solver(long double a, long double b, long double *sol)
 {
-	if (a == 0)
+	if (equals_zero(a))
 		*sol = NAN;
 	else 
 		*sol = -b / a;
@@ -116,7 +121,7 @@ void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 
 	*sol1 = NAN;
 	*sol2 = NAN;
-	if (abc[0] == 0)
+	if (equals_zero(abc[0]))
 	{
 		*sol2 = NAN;
 		linear_solver(abc[0], abc[1], sol1);
@@ -128,7 +133,7 @@ void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 		*sol1 = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
 		*sol2 = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
 	}
-	else if (discriminant == 0)
+	else if (equals_zero(discriminant))
 	{
 		*sol1 = -abc[1] / (2 * abc[0]);
 		*sol2 = NAN;

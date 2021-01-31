@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 14:09:58 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/01/31 15:45:01 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	while (geo)
 	{
 		obj_dist = geo->collision(geo, ray);
-		if (!isnan(obj_dist) && obj_dist < 0.1L)
-			obj_dist = NAN;
 		min_dist = fminl(min_dist, obj_dist);
 		if (!isnan(min_dist) && min_dist == obj_dist)
 			*nearest = geo;
