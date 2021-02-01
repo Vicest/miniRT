@@ -63,12 +63,10 @@ static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 	t_colour	lgt_col;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
-	long double	angle;
+	long double	cos;
 	long double	d;
 	int			i;
 
-	//TODO: Illuminate computes the point to illuminate??? Nonsense!?
-	//TODO: Don't I have a function for this(?) Probably should, right?
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
 	lgt_col = 0;
@@ -83,14 +81,16 @@ static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
 		if (fig_in_path == NULL || equals_zero(d))
 		{
-			angle = acosl(dot_prod(nv.dir, lgt_ray.dir) / (norm(lgt_ray) * norm(nv)));
-			lgt_col = mix_colour(lgt_col, curr_lgt->col);
+			cos = dot_prod(nv.dir, lgt_ray.dir) / (norm(lgt_ray) * norm(nv));
+			/*
 			if (fabsl(angle) < 0.2L) //TODO: Bright spots
 			{
 				lgt_col = 0x00FFFFFF;
-			} else if (fabsl(angle) > 1.5L)
+			} else 
+			*/
+			if (fabsl(cos) > 0.1L)
 			{
-				lgt_col = scn.amb.col;
+				lgt_col = mix_colour(lgt_col, curr_lgt->col);
 			}
 		}
 		curr_lgt = curr_lgt->next;

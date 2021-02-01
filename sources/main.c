@@ -41,21 +41,26 @@ static t_scene	scn_init()
 	return (scn);
 }
 
-static int	keypress(int keycode, t_view *pview)
+static int	keypress(int keycode, t_view *pv)
 {
 	printf("You pressed: %#x\n", keycode);
 	if (keycode == KEY_ESC)
 		exit(-1); //TODO: Exit routine.
 	else if (keycode == RARROW)
-		pview->scn.at_cam = pview->scn.at_cam->next;
+		pv->scn.at_cam = pv->scn.at_cam->next;
 	else if (keycode == LARROW)
-		pview->scn.at_cam = pview->scn.at_cam->prev;
-	if (pview->scn.at_cam->img.pimg == NULL)
+		pv->scn.at_cam = pv->scn.at_cam->prev;
+	if (pv->scn.at_cam->img.pimg == NULL)
 	{
-		fill_viewport(pview->scn, pview->scn.at_cam);
+		pv->scn.at_cam->img.pimg = mlx_new_image(
+					pv->pmlx, pv->scn.res[0], pv->scn.res[1]);
+		pv->scn.at_cam->img.addr = mlx_get_data_addr(
+					pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
+					&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);
+		fill_viewport(pv->scn, pv->scn.at_cam);
 	}
-	mlx_put_image_to_window(pview->pmlx, pview->pwin,
-					pview->scn.at_cam->img.pimg, 0, 0);
+	mlx_put_image_to_window(pv->pmlx, pv->pwin,
+					pv->scn.at_cam->img.pimg, 0, 0);
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
 }
@@ -68,16 +73,13 @@ static void	mlx_setup(t_view *pv)
 	pv->pwin = mlx_new_window(pv->pmlx, pv->scn.res[0], pv->scn.res[1], "myRT");
 	mlx_key_hook(pv->pwin, &keypress, pv);
 	mlx_hook(pv->pwin, X_CLOSE_BUTTON, 1L << 17, &quit, &pv);
-	while (pv->scn.at_cam->img.pimg == NULL)
-	{
-		printf("Hey\n");
-		pv->scn.at_cam->img.pimg = mlx_new_image(
-					pv->pmlx, pv->scn.res[0], pv->scn.res[1]);
-		pv->scn.at_cam->img.addr = mlx_get_data_addr(
-					pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
-					&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);
-		pv->scn.at_cam = pv->scn.at_cam->next;
-	}
+	pv->scn.at_cam->img.pimg = mlx_new_image(
+				pv->pmlx, pv->scn.res[0], pv->scn.res[1]);
+	pv->scn.at_cam->img.addr = mlx_get_data_addr(
+				pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
+				&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);
+	fill_viewport(pv->scn, pv->scn.at_cam);
+	mlx_put_image_to_window(pv->pmlx, pv->pwin, pv->scn.at_cam->img.pimg, 0, 0);
 }
 
 int			main(int argn, char **args)
@@ -89,8 +91,6 @@ int			main(int argn, char **args)
 	view.scn = scn_init();
 	save_conf(args[1], &view.scn);
 	mlx_setup(&view);
-	fill_viewport(view.scn, view.scn.at_cam);
-	mlx_put_image_to_window(view.pmlx, view.pwin, view.scn.at_cam->img.pimg, 0, 0);
 	mlx_loop(view.pmlx);
 	//TODO: Bad place, needs new function.
 	//pop_all_c(&(view.scn.at_cam));

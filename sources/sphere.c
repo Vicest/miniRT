@@ -43,9 +43,9 @@ long double	sphere_collision(void *sphere, t_vector v)
 	//sol1 = NAN;
 	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
-	if (!isnan(sol1) && (signbit(sol1) == 1 || equals_zero(sol1)))
+	if (!isnan(sol1) && (sol1 < 0.0L || equals_zero(sol1)))
 		sol1 = NAN;
-	if (!isnan(sol2) && (signbit(sol2) == 1 || equals_zero(sol2)))
+	if (!isnan(sol2) && (sol2 < 0.0L || equals_zero(sol2)))
 		sol2 = NAN;
 	return (fminl(sol1, sol2));
 }
