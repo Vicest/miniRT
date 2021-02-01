@@ -57,13 +57,14 @@ static t_colour	mix_colour(t_colour c1, t_colour c2)
 	return (final);
 }
 
-static t_colour	illuminate(t_scene scn, t_coord hit, long double d, t_vector nv)
+static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 {
 	t_light		*curr_lgt;
 	t_colour	lgt_col;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
 	long double	angle;
+	long double	d;
 	int			i;
 
 	//TODO: Illuminate computes the point to illuminate??? Nonsense!?
@@ -80,7 +81,7 @@ static t_colour	illuminate(t_scene scn, t_coord hit, long double d, t_vector nv)
 		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
-		if (fig_in_path == NULL)
+		if (fig_in_path == NULL || equals_zero(d))
 		{
 			angle = acosl(dot_prod(nv.dir, lgt_ray.dir) / (norm(lgt_ray) * norm(nv)));
 			lgt_col = mix_colour(lgt_col, curr_lgt->col);
@@ -122,7 +123,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				lgt_col = illuminate(scn, ray.orig, d, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
+				lgt_col = illuminate(scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
 				if (lgt_col == 0) //No illumination
 					lgt_col = scn.amb.col;
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +

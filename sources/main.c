@@ -54,9 +54,30 @@ static int	keypress(int keycode, t_view *pview)
 	{
 		fill_viewport(pview->scn, pview->scn.at_cam);
 	}
-	mlx_put_image_to_window(pview->mlx_ptr, pview->win_ptr, pview->scn.at_cam->img.pimg, 0, 0);
+	mlx_put_image_to_window(pview->pmlx, pview->pwin,
+					pview->scn.at_cam->img.pimg, 0, 0);
 	return (-1);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
+}
+
+static void	mlx_setup(t_view *pv)
+{
+	//TODO: Error hanlding plz
+	pv->pmlx = mlx_init();
+	//TODO: Moar Error
+	pv->pwin = mlx_new_window(pv->pmlx, pv->scn.res[0], pv->scn.res[1], "myRT");
+	mlx_key_hook(pv->pwin, &keypress, pv);
+	mlx_hook(pv->pwin, X_CLOSE_BUTTON, 1L << 17, &quit, &pv);
+	while (pv->scn.at_cam->img.pimg == NULL)
+	{
+		printf("Hey\n");
+		pv->scn.at_cam->img.pimg = mlx_new_image(
+					pv->pmlx, pv->scn.res[0], pv->scn.res[1]);
+		pv->scn.at_cam->img.addr = mlx_get_data_addr(
+					pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
+					&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);
+		pv->scn.at_cam = pv->scn.at_cam->next;
+	}
 }
 
 int			main(int argn, char **args)
@@ -67,16 +88,10 @@ int			main(int argn, char **args)
 		return (1); //TODO: Error handling.
 	view.scn = scn_init();
 	save_conf(args[1], &view.scn);
-	view.mlx_ptr = mlx_init();//TODO: Error hanlding plz
-	view.win_ptr = mlx_new_window(view.mlx_ptr, view.scn.res[0], view.scn.res[1], "miniRT"); //TODO: Moar Error
-	mlx_key_hook(view.win_ptr, &keypress, &view);
-	mlx_hook(view.win_ptr, X_CLOSE_BUTTON, 1L << 17, &quit, &view);
-	view.scn.at_cam->img.pimg = mlx_new_image(view.mlx_ptr, view.scn.res[0], view.scn.res[1]);
-		view.scn.at_cam->img.addr = mlx_get_data_addr(view.scn.at_cam->img.pimg, &view.scn.at_cam->img.bpp,
-					&view.scn.at_cam->img.line_len, &view.scn.at_cam->img.endian);
+	mlx_setup(&view);
 	fill_viewport(view.scn, view.scn.at_cam);
-	mlx_put_image_to_window(view.mlx_ptr, view.win_ptr, view.scn.at_cam->img.pimg, 0, 0);
-	mlx_loop(view.mlx_ptr);
+	mlx_put_image_to_window(view.pmlx, view.pwin, view.scn.at_cam->img.pimg, 0, 0);
+	mlx_loop(view.pmlx);
 	//TODO: Bad place, needs new function.
 	//pop_all_c(&(view.scn.at_cam));
 	pop_all_l(&(view.scn.lgt));

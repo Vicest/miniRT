@@ -61,8 +61,8 @@ typedef struct		s_scene
 
 typedef struct		s_view
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
+	void			*pmlx;
+	void			*pwin;
 	t_scene			scn;
 }					t_view;
 
