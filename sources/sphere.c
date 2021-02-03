@@ -58,6 +58,7 @@ t_vector	sphere_normal(void *sphere, t_coord at)
 	normal.dir.x[0] = at.x[0] - ((t_sphere*)sphere)->pos.x[0];
 	normal.dir.x[1] = at.x[1] - ((t_sphere*)sphere)->pos.x[1];
 	normal.dir.x[2] = at.x[2] - ((t_sphere*)sphere)->pos.x[2];
+	normalize(&normal);
 	return (normal);
 }
 

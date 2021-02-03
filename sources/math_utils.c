@@ -61,6 +61,14 @@ long double	dot_prod(t_coord v1, t_coord v2)
 {
 	return (v1.x[0] * v2.x[0] + v1.x[1] * v2.x[1] + v1.x[2] * v2.x[2]);
 }
+
+t_coord		cross_prod(t_coord out, t_coord v1, t_coord v2)
+{
+	out.x[0] = v1.x[1] * v2.x[2] - v1.x[2] * v2.x[1];
+	out.x[1] = v1.x[0] * v2.x[2] - v1.x[2] * v2.x[0];
+	out.x[2] = v1.x[0] * v2.x[1] - v1.x[1] * v2.x[0];
+	return (out);
+}
 /*
 **	https://github.com/brazzy/floating-point-gui.define
 **	geeksforgeeks.com/(something something about corrctly compare floats
@@ -130,8 +138,9 @@ void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 	discriminant = pow(abc[1], 2) - 4 * abc[0] * abc[2];
 	if (discriminant > 0)
 	{
-		*sol1 = (-abc[1] + sqrt(discriminant)) / (2 * abc[0]);
-		*sol2 = (-abc[1] - sqrt(discriminant)) / (2 * abc[0]);
+		discriminant = sqrt(discriminant);
+		*sol1 = (-abc[1] + discriminant) / (2 * abc[0]);
+		*sol2 = (-abc[1] - discriminant) / (2 * abc[0]);
 	}
 	else if (equals_zero(discriminant))
 	{

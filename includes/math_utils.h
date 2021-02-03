@@ -15,7 +15,7 @@
 # include <math.h>
 # include <float.h>
 
-# define EPSILON 0.5L
+# define EPSILON 0.0000005L
 //# define RADIANS(x) ((x) * M_PI / 180)
 
 typedef struct			s_rota

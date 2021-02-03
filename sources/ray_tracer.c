@@ -47,6 +47,7 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 
 //TODO: somewhere else.
 //TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
+//TODO: More colour math neeeded, somewhere else.
 static t_colour	mix_colour(t_colour c1, t_colour c2)
 {
 	t_colour	final;
@@ -57,13 +58,23 @@ static t_colour	mix_colour(t_colour c1, t_colour c2)
 	return (final);
 }
 
+
+static t_colour	apply_brightness(t_colour c, long double b)
+{
+	t_colour	final;
+
+	final = (((c & 0x00FF0000) >> 16) * b);
+	final = (final << 8) + ((c & 0x0000FF00) >> 8) * b;
+	final = (final << 8) + (c & 0x000000FF) * b;
+	return (final);
+}
+
 static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 {
 	t_light		*curr_lgt;
 	t_colour	lgt_col;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
-	long double	cos;
 	long double	d;
 	int			i;
 
@@ -75,24 +86,16 @@ static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 		//TODO: Don't I have a function for this(?) Probably should, right?
 		i = -1;
 		while (++i < 3)
+		{
+		//TODO: Shadow Bias
+			lgt_ray.orig.x[i] += 0.1L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
+		}
 		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
 		if (fig_in_path == NULL || equals_zero(d))
-		{
-			cos = dot_prod(nv.dir, lgt_ray.dir) / (norm(lgt_ray) * norm(nv));
-			/*
-			if (fabsl(angle) < 0.2L) //TODO: Bright spots
-			{
-				lgt_col = 0x00FFFFFF;
-			} else 
-			*/
-			if (fabsl(cos) > 0.1L)
-			{
-				lgt_col = mix_colour(lgt_col, curr_lgt->col);
-			}
-		}
+			lgt_col = mix_colour(lgt_col, apply_brightness(curr_lgt->col, fabsl(dot_prod(nv.dir, lgt_ray.dir))));
 		curr_lgt = curr_lgt->next;
 	}
 	return (lgt_col);

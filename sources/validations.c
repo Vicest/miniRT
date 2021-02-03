@@ -114,14 +114,15 @@ t_coord			validate_coordinates(char *text)
 	return (out);
 }
 
+
+//TODO: I have doubts, this looks like different work somewhere else.
 t_coord		validate_direction(char *text)
 {
-	t_coord out;
+	t_vector out;
 
-	out = validate_coordinates(text);
-	/* TODO!!!!!!!
-	if (!IS_NORMALIZED(out))
-		config_err("Vector needs to be normalized.\n");
-		*/
-	return (out);
+	out.dir = validate_coordinates(text);
+	if (!equals_zero(fabsl(norm(out) - 1.0L)))
+		config_err("Camera direction is not normalized.\n");
+	printf("Norm is:%Lf\n", norm(out));
+	return (out.dir);
 }
