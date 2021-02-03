@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 20:39:50 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:16:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,36 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	return (min_dist);
 }
 
+static unsigned	col2int(t_colour c)
+{
+	unsigned out;
+
+	out = c[0] << 16;
+	out += c[1] << 18;
+	out += c[2];
+	return (out);
+}
+
 //TODO: somewhere else.
 //TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
 //TODO: More colour math neeeded, somewhere else.
-static t_colour	mix_colour(t_colour c1, t_colour c2)
+static void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
 {
-	t_colour	final;
-
-	final = ft_max(c1 & 0x000000FF, c2 & 0x000000FF);
-	final += ft_max(c1 & 0x0000FF00, c2 & 0x0000FF00);
-	final += ft_max(c1 & 0x00FF0000, c2 & 0x00FF0000);
-	return (final);
+	final[0] = ft_max(c1[0] , c2[0]);
+	final[1] = ft_max(c1[1] , c2[1]);
+	final[2] = ft_max(c1[2] , c2[2]);
 }
 
-
-static t_colour	apply_brightness(t_colour c, long double b)
+static void		mix_light_colour(t_colour c1, t_colour c2)
 {
-	t_colour	final;
-
-	final = (((c & 0x00FF0000) >> 16) * b);
-	final = (final << 8) + ((c & 0x0000FF00) >> 8) * b;
-	final = (final << 8) + (c & 0x000000FF) * b;
-	return (final);
+	c1[0] += c2[0];
+	c1[1] += c2[1];
+	c1[2] += c2[2];
 }
 
-static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
+static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 {
 	t_light		*curr_lgt;
-	t_colour	lgt_col;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
 	long double	d;
@@ -80,7 +82,9 @@ static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	lgt_col = 0;
+	lgt_col[0] = 0;
+	lgt_col[1] = 0;
+	lgt_col[2] = 0;
 	while(curr_lgt)
 	{
 		//TODO: Don't I have a function for this(?) Probably should, right?
@@ -95,10 +99,9 @@ static t_colour	illuminate(t_scene scn, t_coord hit, t_vector nv)
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
 		if (fig_in_path == NULL || equals_zero(d))
-			lgt_col = mix_colour(lgt_col, apply_brightness(curr_lgt->col, fabsl(dot_prod(nv.dir, lgt_ray.dir))));
+			mix_light_colour(lgt_col, curr_lgt->col);
 		curr_lgt = curr_lgt->next;
 	}
-	return (lgt_col);
 }
 
 //TODO: The args could be simplified (???)
@@ -110,6 +113,9 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 	t_colour	lgt_col;
 	int			x[2];
 
+	lgt_col[0] = 0;
+	lgt_col[1] = 0;
+	lgt_col[2] = 0;
 	x[1] = -1;
 	while (++x[1] < (int)(scn.res[1]))
 	{
@@ -126,11 +132,10 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				lgt_col = illuminate(scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
-				if (lgt_col == 0) //No illumination
-					lgt_col = scn.amb.col;
+				illuminate(lgt_col, scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
+				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = render_fig->col & lgt_col;
+					x[1] * pcam->img.line_len) = col2int(lgt_col);
 			}
 		}
 	}

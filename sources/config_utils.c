@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/29 16:15:09 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:42:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	store_ambient(t_scene *pscn, char **element)
 	if (pscn->flags & FLAG_AMB)
 		config_err("Ambient light can only be defined once.\n");
 	pscn->amb.b_ratio = validate_double(element[1]);//, 0.0, 1.0);
-	pscn->amb.col = validate_colour(element[2]);
+	validate_colour(element[2], pscn->amb.col);
 	pscn->flags |= FLAG_AMB;
 	if (element[3] != NULL)
 		config_err("Ambient light takes only two values.\n");
@@ -79,7 +79,7 @@ void	store_light(t_scene *pscn, char **params)
 	push_light(&(pscn->lgt));
 	pscn->lgt->pos = validate_coordinates(params[1]);
 	pscn->lgt->b_ratio = validate_double(params[2]); //TODO dbl max && bbl min, 0, 180);
-	pscn->lgt->col = validate_colour(params[3]);
+	validate_colour(params[3], pscn->lgt->col);
 }
 
 void	store_sphere(t_scene *pscn, char **params)
@@ -94,7 +94,7 @@ void	store_sphere(t_scene *pscn, char **params)
 	push_sphere(&pscn->geo);
 	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
 	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
-	pscn->geo->col = validate_colour(params[3]);
+	validate_colour(params[3], pscn->geo->col);
 }
 
 void	store_plane(t_scene *pscn, char **params)
@@ -111,5 +111,5 @@ void	store_plane(t_scene *pscn, char **params)
 	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
 	((t_plane*)pscn->geo)->ind_term = -dot_prod(
 		((t_plane*)pscn->geo)->nvect.dir, ((t_plane*)pscn->geo)->nvect.orig);
-	pscn->geo->col = validate_colour(params[3]);
+	validate_colour(params[3], pscn->geo->col);
 }

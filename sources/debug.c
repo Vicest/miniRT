@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 13:08:17 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/29 14:14:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:25:29 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void		print_light(t_light lgt)
 	printf("\n----\nLight:\n");
 	printf("\tNext Light addr:%p\n", lgt.next);
 	print_coord(lgt.pos);
-	printf("\tColour:%#.8X\n", lgt.col);
+	//TODO printf("\tColour:%#.8X\n", lgt.col);
 	printf("Brightness:%f\n", lgt.b_ratio);
 	printf("----\n");
 }
@@ -62,7 +62,7 @@ void		print_scene(t_scene scn)
 	printf("Flags:%#.2X\n", scn.flags);
 	printf("Resolution (X|Y):%u|%u\n", scn.res[0], scn.res[1]);
 	printf("Ambient light ratio:%lf\n",scn.amb.b_ratio);
-	printf("Ambient colour RGB:%#.8X\n", scn.amb.col);
+	//TODO printf("Ambient colour RGB:%#.8X\n", scn.amb.col);
 	first = scn.at_cam;
 	print_cam(*scn.at_cam);
 	scn.at_cam = scn.at_cam->next;
@@ -79,7 +79,7 @@ void		print_scene(t_scene scn)
 	while(scn.geo)
 	{
 		printf("Figure addr:%p\n", scn.geo);
-		printf("Colour RGB:%#.8X\n", scn.geo->col);
+		//TODO: printf("Colour RGB:%#.8X\n", scn.geo->col);
 		printf("Next figure addr:%p\n", scn.geo->next);
 		scn.geo = scn.geo->next;
 	}

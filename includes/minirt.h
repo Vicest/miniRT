@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 19:53:01 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:49:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,24 @@
 #  define X_CLOSE_BUTTON 17//TODO Definitely wrong!(?)
 #  define LARROW 0xff51
 #  define RARROW 0xff53
+//TODO Wronk
+#  define MV_Q 0xc
+#  define MV_W 0xd
+#  define MV_E 0xe
+#  define MV_A 0x0
+#  define MV_S 0x1
+#  define MV_D 0x2
 # else
 #  define KEY_ESC 53
 #  define X_CLOSE_BUTTON 17
 #  define LARROW 0x7b
 #  define RARROW 0x7c
+#  define MV_Q 0xc
+#  define MV_E 0xd
+#  define MV_W 0xe
+#  define MV_A 0x0
+#  define MV_S 0x1
+#  define MV_D 0x2
 # endif
 
 

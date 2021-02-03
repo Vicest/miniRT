@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/06 14:48:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:38:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,30 +66,24 @@ double			validate_double(char *str)
 **	The colour is stored in an integer using said values.
 */
 
-t_colour		validate_colour(char *text)
+void		validate_colour(char *text, t_colour out)
 {
 	char		**colours;
-	t_colour	out;
 	int			i;
-	int			colour_comp;
 
 	if (!(colours = ft_split(text, ',')))
 		exit(-1); //TODO: Syserror
 	i = 0;
-	out = 0;
 	while (i < 3 && colours[i])
 	{
-		colour_comp = validate_int(colours[i], 0, 255);
+		out[i] = validate_int(colours[i], 0, 255);
 		free(colours[i++]);
-		out = out << 8;
-		out += colour_comp;
 	}
 	if (i < 3)
 		config_err("Too few components for colour.\n");
 	if (colours[i])
 		config_err("Too many components for colour.\n");
 	free(colours);
-	return (out);
 }
 
 t_coord			validate_coordinates(char *text)

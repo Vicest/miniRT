@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 13:09:59 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/11 14:36:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:39:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //typedef unsigned int	t_colour;
 
 int				validate_int(char *text, int min_val, int max_val);
-t_colour		validate_colour(char *text);
+void			validate_colour(char *text, t_colour out);
 double			validate_double(char *str);
 t_coord			validate_coordinates(char *text);
 t_coord			validate_direction(char *text);

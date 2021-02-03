@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 20:00:16 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:54:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,33 @@ static int quit(void *params)
 	return (1);
 }
 
-//TODO: Initializers with calloc.
-static t_scene	scn_init()
+static void	move_cam(t_scene scn, int dir)
 {
-	t_scene scn;
+	int			axis;
 
-	scn.flags = 0;
-	scn.res[0] = 0;
-	scn.res[1] = 0;
-	scn.amb.b_ratio = 0;
-	scn.amb.col = 0;
-	scn.at_cam = NULL;
-	scn.lgt = NULL;
-	scn.geo = NULL;
-
-	return (scn);
+	axis = 0;
+	if (dir == MV_D || dir == MV_A)
+		axis = 1;
+	else if (dir == MV_Q || dir == MV_E)
+		axis = 2;
+	if (dir == MV_S || dir == MV_A || dir == MV_Q)
+		scn.at_cam->vect.orig.x[axis] -= 1.0L;
+	else
+		scn.at_cam->vect.orig.x[axis] += 1.0L;
+	fill_viewport(scn, scn.at_cam);
 }
 
-static int	keypress(int keycode, t_view *pv)
+static int	keypress(int kc, t_view *pv)
 {
-	printf("You pressed: %#x\n", keycode);
-	if (keycode == KEY_ESC)
+	printf("You pressed: %#x\n", kc);
+	if (kc == KEY_ESC)
 		exit(-1); //TODO: Exit routine.
-	else if (keycode == RARROW)
+	else if (kc == RARROW)
 		pv->scn.at_cam = pv->scn.at_cam->next;
-	else if (keycode == LARROW)
+	else if (kc == LARROW)
 		pv->scn.at_cam = pv->scn.at_cam->prev;
+	else if (kc == MV_W || kc == MV_A || kc == MV_S || kc == MV_D || kc == MV_Q || kc == MV_E)
+		move_cam(pv->scn, kc);
 	if (pv->scn.at_cam->img.pimg == NULL)
 	{
 		pv->scn.at_cam->img.pimg = mlx_new_image(
@@ -88,7 +89,7 @@ int			main(int argn, char **args)
 
 	if (argn != 2)
 		return (1); //TODO: Error handling.
-	view.scn = scn_init();
+	ft_memset(&view, 0, sizeof(t_view));
 	save_conf(args[1], &view.scn);
 	mlx_setup(&view);
 	mlx_loop(view.pmlx);

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 18:34:13 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/03 13:51:11 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "math_utils.h"
 
-typedef unsigned int	t_colour;
+typedef unsigned char	t_colour[3];
 
 typedef struct			s_figure
 {
