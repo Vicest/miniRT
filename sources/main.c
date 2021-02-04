@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/04 13:32:39 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:06:17 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	mlx_setup(t_view *pv)
 	//TODO: Error hanlding plz
 	pv->pmlx = mlx_init();
 	//TODO: Moar Error
+	mlx_get_screen_size(pv->pmlx, &pv->scn.res[0], &pv->scn.res[1]);
 	pv->pwin = mlx_new_window(pv->pmlx, pv->scn.res[0], pv->scn.res[1], "myRT");
 	mlx_key_hook(pv->pwin, &keypress, pv);
 	mlx_hook(pv->pwin, X_CLOSE_BUTTON, 1L << 17, &quit, &pv);
