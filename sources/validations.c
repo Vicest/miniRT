@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:38:05 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/04 15:04:38 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ t_coord		validate_direction(char *text)
 	t_vector out;
 
 	out.dir = validate_coordinates(text);
-	if (!equals_zero(fabsl(norm(out) - 1.0L)))
-		config_err("Camera direction is not normalized.\n");
 	printf("Norm is:%Lf\n", norm(out));
+	if (!equals_zero(fabsl(norm(out) - 1.0L)))
+		config_err("Vector direction is not normalized.\n");
 	return (out.dir);
 }
