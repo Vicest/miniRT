@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:54:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:32:39 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	move_cam(t_scene scn, int kc)
 	t_coord		dir;
 	t_coord		*pos;
 
-	printf("I'm in\n");
 	pos = &(scn.at_cam->vect.orig);
 	dir = scn.at_cam->vect.dir;
 	if (kc == MV_D || kc == MV_A)
@@ -38,13 +37,22 @@ static void	move_cam(t_scene scn, int kc)
 		dir = scn.at_cam->ud_dir;
 	if (kc == MV_S || kc == MV_A || kc == MV_Q)
 		scalar_prod(&dir, -1.0L, dir);
-	printf("Pre\n");
-	print_coord(*pos);
-	printf("Dir\n");
-	print_coord(dir);
 	vect_sum(pos, *pos, dir);
-	printf("Post\n");
-	print_coord(*pos);
+	fill_viewport(scn, scn.at_cam);
+}
+
+//TODO: Directly use angle arithmetic and stop using camera direction.
+static void	rot_cam(t_scene scn, int kc)
+{
+	if (kc == RARROW)
+		scn.at_cam->vect.dir = yaw(scn.at_cam->vect.dir, M_PI_4 * 0.5L);
+	else if (kc == LARROW)
+		scn.at_cam->vect.dir = yaw(scn.at_cam->vect.dir, -M_PI_4 * 0.5L);
+	else if (kc == UARROW)
+		scn.at_cam->vect.dir = pitch(scn.at_cam->vect.dir, M_PI_4 * 0.5L);
+	else if (kc == DARROW)
+		scn.at_cam->vect.dir = pitch(scn.at_cam->vect.dir, -M_PI_4 * 0.5L);
+	scn.at_cam->rota = inv_spherical(scn.at_cam->vect.dir);
 	fill_viewport(scn, scn.at_cam);
 }
 
@@ -53,12 +61,14 @@ static int	keypress(int kc, t_view *pv)
 	printf("You pressed: %#x\n", kc);
 	if (kc == KEY_ESC)
 		exit(-1); //TODO: Exit routine.
-	else if (kc == RARROW)
+	else if (kc == NEXT_X)
 		pv->scn.at_cam = pv->scn.at_cam->next;
-	else if (kc == LARROW)
+	else if (kc == PREV_Z)
 		pv->scn.at_cam = pv->scn.at_cam->prev;
 	else if (kc == MV_W || kc == MV_A || kc == MV_S || kc == MV_D || kc == MV_Q || kc == MV_E)
 		move_cam(pv->scn, kc);
+	else if (kc == LARROW || kc == RARROW || kc == DARROW || kc == UARROW)
+		rot_cam(pv->scn, kc);
 	if (pv->scn.at_cam->img.pimg == NULL)
 	{
 		pv->scn.at_cam->img.pimg = mlx_new_image(

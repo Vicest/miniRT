@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:49:20 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:11:02 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@
 #  define X_CLOSE_BUTTON 17
 #  define LARROW 0x7b
 #  define RARROW 0x7c
+#  define DARROW 0x7d
+#  define UARROW 0x7e
 #  define MV_Q 0xc
-#  define MV_E 0xd
-#  define MV_W 0xe
+#  define MV_W 0xd
+#  define MV_E 0xe
 #  define MV_A 0x0
 #  define MV_S 0x1
 #  define MV_D 0x2
+#  define PREV_Z 0x6
+#  define NEXT_X 0x7
 # endif
 
 
