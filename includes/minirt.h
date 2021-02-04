@@ -29,13 +29,12 @@
 #  define X_CLOSE_BUTTON 17//TODO Definitely wrong!(?)
 #  define LARROW 0xff51
 #  define RARROW 0xff53
-//TODO Wronk
-#  define MV_Q 0xc
-#  define MV_W 0xd
-#  define MV_E 0xe
-#  define MV_A 0x0
-#  define MV_S 0x1
-#  define MV_D 0x2
+#  define MV_Q 0x71
+#  define MV_W 0x77
+#  define MV_E 0x65
+#  define MV_A 0x61
+#  define MV_S 0x73
+#  define MV_D 0x64
 # else
 #  define KEY_ESC 53
 #  define X_CLOSE_BUTTON 17

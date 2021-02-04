@@ -45,6 +45,8 @@ int			equals_zero(long double l);
 
 t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
+t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2);
+t_coord		scalar_prod(t_coord *out, long double k, t_coord v);
 long double	dot_prod(t_coord v1, t_coord v2);
 void		normalize(t_vector *v);
 int			is_normalized(t_vector v);
@@ -55,10 +57,10 @@ void		print_vector(t_vector v);
 void		linear_solver(long double a, long double b, long double *sol);
 void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2);
 
-t_vector	l_transform(t_matrix m, t_vector v);
+t_coord		l_transform(t_matrix m, t_coord v);
 
 t_rota		inv_spherical(t_coord v);
-t_vector	pitch(t_vector v, long double angle);
-t_vector	yaw(t_vector v, long double angle);
+t_coord	pitch(t_coord v, long double angle);
+t_coord	yaw(t_coord v, long double angle);
 //t_vector	roll(t_vector v, long double angle);
 #endif

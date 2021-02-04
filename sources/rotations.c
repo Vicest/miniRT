@@ -13,7 +13,7 @@
 #include "math_utils.h"
 #include <stdio.h>
 
-t_vector	pitch(t_vector v, long double angle)
+t_coord		pitch(t_coord v, long double angle)
 {
 	t_matrix	m;
 
@@ -29,7 +29,7 @@ t_vector	pitch(t_vector v, long double angle)
 	return (l_transform(m, v));
 }
 
-t_vector	yaw(t_vector v,  long double angle)
+t_coord		yaw(t_coord v,  long double angle)
 {
 	t_matrix	m;
 

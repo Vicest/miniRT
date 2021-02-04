@@ -22,7 +22,7 @@ static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 	ray = c.vect;
 	//TODO: Handle even/odd resolutions better.
 	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]));
-	ray = pitch(yaw(ray , c.rota.azimuth), c.rota.latitude);
+	ray.dir = pitch(yaw(ray.dir , c.rota.azimuth), c.rota.latitude);
 	normalize(&ray);
 	return (ray);
 }

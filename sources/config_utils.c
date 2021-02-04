@@ -65,6 +65,10 @@ void	store_camera(t_scene *pscn, char **params)
 	pcam->fov = validate_int(params[3], 1, 179);//TODO 0 and 180 fov how?
 	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI / 360);
 	pcam->rota = inv_spherical(pcam->vect.dir);
+	pcam->lr_dir = vector_dir(0, 1, 0);
+	pcam->lr_dir = pitch(yaw(pcam->lr_dir, pcam->rota.azimuth), pcam->rota.latitude);
+	pcam->ud_dir = vector_dir(0, 0, 1);
+	pcam->ud_dir = pitch(yaw(pcam->ud_dir, pcam->rota.azimuth), pcam->rota.latitude);
 }
 
 void	store_light(t_scene *pscn, char **params)

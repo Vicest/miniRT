@@ -24,19 +24,27 @@ static int quit(void *params)
 	return (1);
 }
 
-static void	move_cam(t_scene scn, int dir)
+static void	move_cam(t_scene scn, int kc)
 {
-	int			axis;
+	t_coord		dir;
+	t_coord		*pos;
 
-	axis = 0;
-	if (dir == MV_D || dir == MV_A)
-		axis = 1;
-	else if (dir == MV_Q || dir == MV_E)
-		axis = 2;
-	if (dir == MV_S || dir == MV_A || dir == MV_Q)
-		scn.at_cam->vect.orig.x[axis] -= 1.0L;
-	else
-		scn.at_cam->vect.orig.x[axis] += 1.0L;
+	printf("I'm in\n");
+	pos = &(scn.at_cam->vect.orig);
+	dir = scn.at_cam->vect.dir;
+	if (kc == MV_D || kc == MV_A)
+		dir = scn.at_cam->lr_dir;
+	else if (kc == MV_Q || kc == MV_E)
+		dir = scn.at_cam->ud_dir;
+	if (kc == MV_S || kc == MV_A || kc == MV_Q)
+		scalar_prod(&dir, -1.0L, dir);
+	printf("Pre\n");
+	print_coord(*pos);
+	printf("Dir\n");
+	print_coord(dir);
+	vect_sum(pos, *pos, dir);
+	printf("Post\n");
+	print_coord(*pos);
 	fill_viewport(scn, scn.at_cam);
 }
 

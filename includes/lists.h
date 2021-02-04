@@ -36,7 +36,9 @@ typedef struct			s_camera
 	struct s_camera		*next;
 	struct s_camera		*prev;
 	t_img				img;
-	t_vector			vect; //TODO: Need dis? Don't think so. (Need the origin coord, though.)
+	t_vector			vect;
+	t_coord				lr_dir;
+	t_coord				ud_dir;
 	t_rota				rota;
 	long double			vp_dist;
 	unsigned char		fov;

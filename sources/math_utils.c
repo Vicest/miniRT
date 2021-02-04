@@ -57,17 +57,34 @@ long double	norm(t_vector v)
 	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));
 }
 
+t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2)
+{
+	out->x[0] = v1.x[0] + v2.x[0];
+	out->x[1] = v1.x[1] + v2.x[1];
+	out->x[2] = v1.x[2] + v2.x[2];
+	return (*out);
+}
+
+
+t_coord		scalar_prod(t_coord *out, long double k, t_coord v)
+{
+	out->x[0] = k * v.x[0];
+	out->x[1] = k * v.x[1];
+	out->x[2] = k * v.x[2];
+	return (*out);
+}
+
 long double	dot_prod(t_coord v1, t_coord v2)
 {
 	return (v1.x[0] * v2.x[0] + v1.x[1] * v2.x[1] + v1.x[2] * v2.x[2]);
 }
 
-t_coord		cross_prod(t_coord out, t_coord v1, t_coord v2)
+t_coord		cross_prod(t_coord *out, t_coord v1, t_coord v2)
 {
-	out.x[0] = v1.x[1] * v2.x[2] - v1.x[2] * v2.x[1];
-	out.x[1] = v1.x[0] * v2.x[2] - v1.x[2] * v2.x[0];
-	out.x[2] = v1.x[0] * v2.x[1] - v1.x[1] * v2.x[0];
-	return (out);
+	out->x[0] = v1.x[1] * v2.x[2] - v1.x[2] * v2.x[1];
+	out->x[1] = v1.x[0] * v2.x[2] - v1.x[2] * v2.x[0];
+	out->x[2] = v1.x[0] * v2.x[1] - v1.x[1] * v2.x[0];
+	return (*out);
 }
 /*
 **	https://github.com/brazzy/floating-point-gui.define
@@ -152,20 +169,19 @@ void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 /*
 **	Calculate a matrix to vector multiplication. Known as a transformation.
 */
-t_vector		l_transform(t_matrix m, t_vector v)
+t_coord		l_transform(t_matrix m, t_coord v)
 {
-	t_vector	sol;
+	t_coord		sol;
 	int			i;
 	int			j;
 
-	sol.orig = v.orig;
 	i = -1;
 	while (++i < 3)
 	{
-		sol.dir.x[i] = 0;
+		sol.x[i] = 0;
 		j = -1;
 		while (++j < 3)
-			sol.dir.x[i] += m.m[i][j] * v.dir.x[j];
+			sol.x[i] += m.m[i][j] * v.x[j];
 	}
 	return (sol);
 }
