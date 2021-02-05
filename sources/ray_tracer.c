@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/05 15:21:02 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/05 20:49:22 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static unsigned	col2int(t_colour c)
 //TODO: somewhere else.
 //TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
 //TODO: More colour math neeeded, somewhere else.
-static void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
+static void		reflect_colour(t_colour *final, t_colour c1, t_colour c2)
 {
-	final[0] = ft_min(c1[0] , c2[0]);
-	final[1] = ft_min(c1[1] , c2[1]);
-	final[2] = ft_min(c1[2] , c2[2]);
+	*final[0] = ft_min(c1[0] , c2[0]);
+	*final[1] = ft_min(c1[1] , c2[1]);
+	*final[2] = ft_min(c1[2] , c2[2]);
 }
 
 static void		apply_light_brightness(t_colour c, long double b)
@@ -72,6 +72,18 @@ static void		apply_light_brightness(t_colour c, long double b)
 	c[1] *= b;
 	c[2] *= b;
 }
+/*
+static t_colour	sph_lgt_brightness(t_light l, long double d)
+{
+	long double	dist_factor;
+	t_colour	*out;
+
+	ft_memcpy(*out, l.col, sizeof(char) * 3);
+	dist_factor = 1 / (4 * M_PI * d * d);
+	return (out);
+}*/
+
+
 static void		mix_light_colour(t_colour c1, t_colour c2)
 {
 
@@ -80,7 +92,7 @@ static void		mix_light_colour(t_colour c1, t_colour c2)
 	i = -1;
 	while (++i < 3)
 	{
-		if (c1[i] + c2[i] < c1[i])
+		if ((unsigned char)(c1[i] + c2[i]) < c1[i])
 			c1[i] = 255;
 		else
 			c1[i] += c2[i];
@@ -92,13 +104,14 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 	t_light		*curr_lgt;
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
+	t_colour	aux;
+	long double	ld;
 	long double	d;
 	int			i;
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	lgt_col = scn.amb.col;
-	apply_light_brightness(lgt_col, scn.amb.b_ratio);
+	ft_memcpy(lgt_col, scn.amb.col, sizeof(char) * 3);
 	while(curr_lgt)
 	{
 		//TODO: Don't I have a function for this(?) Probably should, right?
@@ -106,14 +119,25 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 		while (++i < 3)
 		{
 		//TODO: Shadow Bias
-			lgt_ray.orig.x[i] += 0.1L * nv.dir.x[i];
+			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
+		ld = norm(lgt_ray);
 		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
 		if (fig_in_path == NULL || equals_zero(d))
-			mix_light_colour(lgt_col, curr_lgt->col);
+		{
+			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
+			//apply_light_brightness(aux, 0.25 * M_1_PI / norm(lgt_ray));
+			/*
+			printf("BEFORE: %#.6x\n", col2int(aux));
+			apply_light_brightness(aux, 1 / ld);
+			printf("AFTER: %#.6x\n", col2int(aux));
+			*/
+			apply_light_brightness(aux, dot_prod(lgt_ray.dir, nv.dir));
+			mix_light_colour(lgt_col, aux);
+		}
 		curr_lgt = curr_lgt->next;
 	}
 }
@@ -127,10 +151,6 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 	t_colour	lgt_col;
 	int			x[2];
 
-	lgt_col[0] = scn.amb.col[0];
-	lgt_col[1] = scn.amb.col[1];
-	lgt_col[2] = scn.amb.col[2];
-	apply_light_brightness(lgt_col, scn.amb.b_ratio);
 	x[1] = -1;
 	while (++x[1] < (int)(scn.res[1]))
 	{
@@ -148,7 +168,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			{
 				ray.orig = point_at_dist(ray, d);
 				illuminate(lgt_col, scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
-				reflect_colour(lgt_col, render_fig->col, lgt_col);
+				reflect_colour(&lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);
 			}

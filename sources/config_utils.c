@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:42:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/05 18:18:53 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	store_ambient(t_scene *pscn, char **element)
 		config_err("Ambient light can only be defined once.\n");
 	pscn->amb.b_ratio = validate_double(element[1]);//, 0.0, 1.0);
 	validate_colour(element[2], pscn->amb.col);
+	pscn->amb.col[0] *= pscn->amb.b_ratio;
+	pscn->amb.col[1] *= pscn->amb.b_ratio;
+	pscn->amb.col[2] *= pscn->amb.b_ratio;
 	pscn->flags |= FLAG_AMB;
 	if (element[3] != NULL)
 		config_err("Ambient light takes only two values.\n");
