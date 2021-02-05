@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:16:35 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:21:02 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static unsigned	col2int(t_colour c)
 	unsigned out;
 
 	out = c[0] << 16;
-	out += c[1] << 18;
+	out += c[1] << 8;
 	out += c[2];
 	return (out);
 }
@@ -60,16 +60,31 @@ static unsigned	col2int(t_colour c)
 //TODO: More colour math neeeded, somewhere else.
 static void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
 {
-	final[0] = ft_max(c1[0] , c2[0]);
-	final[1] = ft_max(c1[1] , c2[1]);
-	final[2] = ft_max(c1[2] , c2[2]);
+	final[0] = ft_min(c1[0] , c2[0]);
+	final[1] = ft_min(c1[1] , c2[1]);
+	final[2] = ft_min(c1[2] , c2[2]);
 }
 
+static void		apply_light_brightness(t_colour c, long double b)
+{
+
+	c[0] *= b;
+	c[1] *= b;
+	c[2] *= b;
+}
 static void		mix_light_colour(t_colour c1, t_colour c2)
 {
-	c1[0] += c2[0];
-	c1[1] += c2[1];
-	c1[2] += c2[2];
+
+	int	i;
+
+	i = -1;
+	while (++i < 3)
+	{
+		if (c1[i] + c2[i] < c1[i])
+			c1[i] = 255;
+		else
+			c1[i] += c2[i];
+	}
 }
 
 static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
@@ -82,9 +97,8 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	lgt_col[0] = 0;
-	lgt_col[1] = 0;
-	lgt_col[2] = 0;
+	lgt_col = scn.amb.col;
+	apply_light_brightness(lgt_col, scn.amb.b_ratio);
 	while(curr_lgt)
 	{
 		//TODO: Don't I have a function for this(?) Probably should, right?
@@ -113,9 +127,10 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 	t_colour	lgt_col;
 	int			x[2];
 
-	lgt_col[0] = 0;
-	lgt_col[1] = 0;
-	lgt_col[2] = 0;
+	lgt_col[0] = scn.amb.col[0];
+	lgt_col[1] = scn.amb.col[1];
+	lgt_col[2] = scn.amb.col[2];
+	apply_light_brightness(lgt_col, scn.amb.b_ratio);
 	x[1] = -1;
 	while (++x[1] < (int)(scn.res[1]))
 	{
