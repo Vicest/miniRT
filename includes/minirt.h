@@ -28,13 +28,17 @@
 #  define KEY_ESC 0xff1b
 #  define X_CLOSE_BUTTON 17//TODO Definitely wrong!(?)
 #  define LARROW 0xff51
+#  define UARROW 0xff52
 #  define RARROW 0xff53
+#  define DARROW 0xff54
 #  define MV_Q 0x71
 #  define MV_W 0x77
 #  define MV_E 0x65
 #  define MV_A 0x61
 #  define MV_S 0x73
 #  define MV_D 0x64
+#  define PREV_Z 0x7a
+#  define NEXT_X 0x78
 # else
 #  define KEY_ESC 53
 #  define X_CLOSE_BUTTON 17

@@ -68,10 +68,17 @@ static void		reflect_colour(t_colour *final, t_colour c1, t_colour c2)
 static void		apply_light_brightness(t_colour c, long double b)
 {
 
-	c[0] *= b;
-	c[1] *= b;
-	c[2] *= b;
+	int	i;
+
+	while (++i < 3)
+	{
+		if ((unsigned)(c[i] * b) > 255)
+			c[i] = 255;
+		else
+			c[i] *= b;
+	}
 }
+
 /*
 static t_colour	sph_lgt_brightness(t_light l, long double d)
 {
@@ -105,13 +112,15 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
 	t_colour	aux;
-	long double	ld;
-	long double	d;
+	//long double	d;
 	int			i;
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	ft_memcpy(lgt_col, scn.amb.col, sizeof(char) * 3);
+	//ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
+	lgt_col[0] = scn.amb.col[0];
+	lgt_col[1] = scn.amb.col[1];
+	lgt_col[2] = scn.amb.col[2];
 	while(curr_lgt)
 	{
 		//TODO: Don't I have a function for this(?) Probably should, right?
@@ -122,20 +131,24 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
-		ld = norm(lgt_ray);
 		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
-		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
-		if (fig_in_path == NULL || equals_zero(d))
+		/*d = */nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
+		if (fig_in_path == NULL)// || equals_zero(d))
 		{
-			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
+			//ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
+			aux[0] = curr_lgt->col[0];
+			aux[1] = curr_lgt->col[1];
+			aux[2] = curr_lgt->col[2];
 			//apply_light_brightness(aux, 0.25 * M_1_PI / norm(lgt_ray));
 			/*
 			printf("BEFORE: %#.6x\n", col2int(aux));
 			apply_light_brightness(aux, 1 / ld);
 			printf("AFTER: %#.6x\n", col2int(aux));
 			*/
-			apply_light_brightness(aux, dot_prod(lgt_ray.dir, nv.dir));
+			//if (dot_prod(lgt_ray.dir, nv.dir) < 0)
+			//	apply_light_brightness(aux, 0);// dot_prod(lgt_ray.dir, nv.dir));
+			apply_light_brightness(aux, fmaxl(0, dot_prod(lgt_ray.dir, nv.dir)));
 			mix_light_colour(lgt_col, aux);
 		}
 		curr_lgt = curr_lgt->next;
