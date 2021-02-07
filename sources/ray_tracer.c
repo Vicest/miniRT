@@ -58,11 +58,11 @@ static unsigned	col2int(t_colour c)
 //TODO: somewhere else.
 //TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
 //TODO: More colour math neeeded, somewhere else.
-static void		reflect_colour(t_colour *final, t_colour c1, t_colour c2)
+static void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
 {
-	*final[0] = ft_min(c1[0] , c2[0]);
-	*final[1] = ft_min(c1[1] , c2[1]);
-	*final[2] = ft_min(c1[2] , c2[2]);
+	final[0] = ft_min((int)c1[0] , (int)c2[0]);
+	final[1] = ft_min((int)c1[1] , (int)c2[1]);
+	final[2] = ft_min((int)c1[2] , (int)c2[2]);
 }
 
 static void		apply_light_brightness(t_colour c, long double b)
@@ -70,6 +70,7 @@ static void		apply_light_brightness(t_colour c, long double b)
 
 	int	i;
 
+	i = -1;
 	while (++i < 3)
 	{
 		if ((unsigned)(c[i] * b) > 255)
@@ -112,7 +113,8 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 	t_vector	lgt_ray;
 	t_figure	*fig_in_path;
 	t_colour	aux;
-	//long double	d;
+	long double	lightd;
+	long double	d;
 	int			i;
 
 	curr_lgt = scn.lgt;
@@ -128,13 +130,14 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 		while (++i < 3)
 		{
 		//TODO: Shadow Bias
-			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
+			lgt_ray.orig.x[i] += 1.0L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
-		normalize(&lgt_ray);
 		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
-		/*d = */nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
-		if (fig_in_path == NULL)// || equals_zero(d))
+		lightd = norm(lgt_ray);
+		normalize(&lgt_ray);//Manually do the division for one sqrt less.
+		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
+		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
 		{
 			//ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
 			aux[0] = curr_lgt->col[0];
@@ -181,7 +184,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			{
 				ray.orig = point_at_dist(ray, d);
 				illuminate(lgt_col, scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
-				reflect_colour(&lgt_col, render_fig->col, lgt_col);
+				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);
 			}
