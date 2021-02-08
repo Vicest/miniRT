@@ -26,12 +26,17 @@ long double	plane_collision(void *plane, t_vector v)
 	return ((!isnan(dist) && signbit(dist) == 0 && !equals_zero(dist) ? dist : NAN));
 }
 
-t_vector	plane_normal(void *plane, t_coord at)
+t_vector	plane_normal(void *plane, t_coord at, t_coord facing)
 {
 	t_vector	normal;
 
+	(void)facing;
 	normal = ((t_plane*)plane)->nvect;
 	normal.orig = at;
+	/*
+	if(dot_prod(normal.dir, facing) < 0)
+		scalar_prod(&normal.dir, -1.0L, normal.dir);
+		*/
 	return (normal);
 }
 

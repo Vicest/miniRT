@@ -100,7 +100,7 @@ void	store_sphere(t_scene *pscn, char **params)
 		config_err("Invalid parameter count for sphere, must be 3 exactly\n");
 	push_sphere(&pscn->geo);
 	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
-	((t_sphere*)pscn->geo)->r = validate_double(params[2]);
+	((t_sphere*)pscn->geo)->r = validate_double(params[2]) * 0.5L;
 	validate_colour(params[3], pscn->geo->col);
 }
 

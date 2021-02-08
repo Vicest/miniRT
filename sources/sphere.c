@@ -27,13 +27,14 @@ long double	sphere_collision(void *sphere, t_vector v)
 	long double	coefficients[3];
 	long double	sol1;
 	long double	sol2;
+	//t_coord		aux;
 	t_sphere	s;
 
 	s = *(t_sphere *)sphere;
-	//TODO: A loop to ease readability.
-	coefficients[0] = pow(v.dir.x[0], 2) +
-					pow(v.dir.x[1], 2) +
-					pow(v.dir.x[2], 2);
+	/*
+	aux = vect_sub(
+	*/
+	coefficients[0] = dot_prod(v.dir, v.dir);
 	coefficients[1] = 2 * (v.dir.x[0] * (v.orig.x[0] - s.pos.x[0]) +
 					v.dir.x[1] * (v.orig.x[1] - s.pos.x[1]) +
 					v.dir.x[2] * (v.orig.x[2] - s.pos.x[2]));
@@ -50,15 +51,16 @@ long double	sphere_collision(void *sphere, t_vector v)
 	return (fminl(sol1, sol2));
 }
 
-t_vector	sphere_normal(void *sphere, t_coord at)
+t_vector	sphere_normal(void *s, t_coord at, t_coord facing)
 {
 	t_vector	normal;
 
 	normal.orig = at;
-	normal.dir.x[0] = at.x[0] - ((t_sphere*)sphere)->pos.x[0];
-	normal.dir.x[1] = at.x[1] - ((t_sphere*)sphere)->pos.x[1];
-	normal.dir.x[2] = at.x[2] - ((t_sphere*)sphere)->pos.x[2];
-	normalize(&normal);
+	normal.dir.x[0] = (at.x[0] - ((t_sphere*)s)->pos.x[0]) / ((t_sphere*)s)->r;
+	normal.dir.x[1] = (at.x[1] - ((t_sphere*)s)->pos.x[1]) / ((t_sphere*)s)->r;
+	normal.dir.x[2] = (at.x[2] - ((t_sphere*)s)->pos.x[2]) / ((t_sphere*)s)->r;
+	if(dot_prod(normal.dir, facing) < 0)
+		scalar_prod(&normal.dir, 1.0L, normal.dir);
 	return (normal);
 }
 

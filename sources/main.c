@@ -36,7 +36,9 @@ static void	move_cam(t_scene scn, int kc)
 	else if (kc == MV_Q || kc == MV_E)
 		dir = scn.at_cam->ud_dir;
 	if (kc == MV_S || kc == MV_A || kc == MV_Q)
-		scalar_prod(&dir, -1.0L, dir);
+		scalar_prod(&dir, -2.5L, dir);
+	else
+		scalar_prod(&dir, 2.5L, dir);
 	vect_sum(pos, *pos, dir);
 	fill_viewport(scn, scn.at_cam);
 }

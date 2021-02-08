@@ -107,10 +107,11 @@ static void		mix_light_colour(t_colour c1, t_colour c2)
 	}
 }
 
-static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
+static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure fig)
 {
 	t_light		*curr_lgt;
 	t_vector	lgt_ray;
+	t_vector	nv;
 	t_figure	*fig_in_path;
 	t_colour	aux;
 	long double	lightd;
@@ -119,6 +120,7 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
+	nv = fig.normal_at(&fig, hit, curr_lgt->pos);
 	//ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
 	lgt_col[0] = scn.amb.col[0];
 	lgt_col[1] = scn.amb.col[1];
@@ -133,24 +135,17 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_vector nv)
 			lgt_ray.orig.x[i] += 1.0L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
-		//TODO MINOR: Just... that's dirty and disgusting. (EEEEWW)
 		lightd = norm(lgt_ray);
 		normalize(&lgt_ray);//Manually do the division for one sqrt less.
-		d = nearest_at(scn.geo, &fig_in_path, lgt_ray); //TODO AYAYA
+		d = nearest_at(scn.geo, &fig_in_path, lgt_ray);
 		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
 		{
-			//ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
+			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
+			/*
 			aux[0] = curr_lgt->col[0];
 			aux[1] = curr_lgt->col[1];
 			aux[2] = curr_lgt->col[2];
-			//apply_light_brightness(aux, 0.25 * M_1_PI / norm(lgt_ray));
-			/*
-			printf("BEFORE: %#.6x\n", col2int(aux));
-			apply_light_brightness(aux, 1 / ld);
-			printf("AFTER: %#.6x\n", col2int(aux));
 			*/
-			//if (dot_prod(lgt_ray.dir, nv.dir) < 0)
-			//	apply_light_brightness(aux, 0);// dot_prod(lgt_ray.dir, nv.dir));
 			apply_light_brightness(aux, fmaxl(0, dot_prod(lgt_ray.dir, nv.dir)));
 			mix_light_colour(lgt_col, aux);
 		}
@@ -183,7 +178,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				illuminate(lgt_col, scn, ray.orig, render_fig->normal_at(render_fig, ray.orig));//TODO Give illuminate the coords.
+				illuminate(lgt_col, scn, ray.orig, *render_fig);//TODO Give illuminate the coords.
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);

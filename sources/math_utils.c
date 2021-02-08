@@ -48,7 +48,8 @@ t_coord		point_at_dist(t_vector v, long double dist)
 
 	i = -1;
 	while (++i < 3)
-		point.x[i] = fmal(dist, v.dir.x[i], v.orig.x[i]);
+		point.x[i] = dist * v.dir.x[i] + v.orig.x[i];
+		//point.x[i] = fmal(dist, v.dir.x[i], v.orig.x[i]);
 	return (point);
 }
 
@@ -65,6 +66,11 @@ t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2)
 	return (*out);
 }
 
+/*
+t_coord		neg_vect(t_coord v)
+{
+	n.x
+*/
 
 t_coord		scalar_prod(t_coord *out, long double k, t_coord v)
 {
