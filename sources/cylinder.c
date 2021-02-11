@@ -28,7 +28,7 @@ long double	cylinder_collision(void *cylinder, t_vector v)
 
 	c = *(t_cylinder*)cylinder;
 	vect_sub(&p_m_x1, v.orig, c.pos.orig);
-	vect_sub(&p_m_x2, v.orig, c.pos.dir);
+	vect_sub(&p_m_x2, v.orig, vect_sum(&p_m_x2, c.pos.orig, c.pos.dir));
 	cross_prod(&b, p_m_x1, p_m_x2);
 	vect_sum(&a, cross_prod(&a, v.dir, p_m_x2), cross_prod(&a, p_m_x1, v.dir));
 	coefficients[0] = dot_prod(a, a);
