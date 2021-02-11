@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/05 18:18:53 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:40:36 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,24 @@ void	store_plane(t_scene *pscn, char **params)
 	((t_plane*)pscn->geo)->ind_term = dot_prod(
 		((t_plane*)pscn->geo)->nvect.dir, ((t_plane*)pscn->geo)->nvect.orig);
 	validate_colour(params[3], pscn->geo->col);
+}
+
+void	store_cylinder(t_scene *pscn, char **params)
+{
+	int			i;
+	t_cylinder	*c;
+
+	i = 0;
+	while (i < 6 && params[i])
+		i++;
+	if (i != 6 || params[i])
+		config_err("Invalid parameter count for cylinder, must be 6 exactly\n");
+	push_cylinder(&pscn->geo);
+	c = ((t_cylinder*)pscn->geo);
+	c->pos.orig = validate_coordinates(params[1]);
+	c->pos.dir = validate_direction(params[2]);
+	validate_colour(params[3], pscn->geo->col);
+	c->r = validate_double(params[4]) * 0.5L;
+	c->h = validate_double(params[5]);
+	c->pos.dir = point_at_dist(c->pos, c->h);
 }

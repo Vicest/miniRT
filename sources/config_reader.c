@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 18:38:30 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:39:44 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static void			store_element(t_scene *pscn, char **elem)
 		store_sphere(pscn, elem);
 	else if (0 == ft_strcmp(elem[0], "pl"))
 		store_plane(pscn, elem);
+	else if (0 == ft_strcmp(elem[0], "cy"))
+		store_cylinder(pscn, elem);
 	else
 		return ; //TODO: Error management.
 }
