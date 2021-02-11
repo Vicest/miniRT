@@ -33,7 +33,7 @@ long double	cylinder_collision(void *cylinder, t_vector v)
 	vect_sum(&a, cross_prod(&a, v.dir, p_m_x2), cross_prod(&a, p_m_x1, v.dir));
 	coefficients[0] = dot_prod(a, a);
 	coefficients[1] = 2 * dot_prod(a, b);
-	coefficients[2] = dot_prod(b, b) - c.h * c.h * c.r * c.r;
+	coefficients[2] = dot_prod(b, b) - c.h * c.r;
 	//sol1 = NAN;
 	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
@@ -55,8 +55,7 @@ t_vector	cylinder_normal(void *cylinder, t_coord at, t_coord facing)
 	c = *(t_cylinder*)cylinder;
 	normal.orig = at;
 	aux.dir = vect_sub(&aux.dir, at, c.pos.orig);
-	normalize(&aux);
-	d = dot_prod(c.pos.dir, aux.dir);
+	d = dot_prod(c.pos.dir, aux.dir) / c.h;
 	scalar_prod(&aux.dir, d, c.pos.dir);
 	vect_sum(&aux.dir, aux.dir, c.pos.orig);
 	vect_sub(&normal.dir, at, aux.dir);
