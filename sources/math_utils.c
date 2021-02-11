@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 20:27:04 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:21:46 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2)
 	out->x[0] = v1.x[0] + v2.x[0];
 	out->x[1] = v1.x[1] + v2.x[1];
 	out->x[2] = v1.x[2] + v2.x[2];
+	return (*out);
+}
+
+t_coord		vect_sub(t_coord *out, t_coord v1, t_coord v2)
+{
+	out->x[0] = v1.x[0] - v2.x[0];
+	out->x[1] = v1.x[1] - v2.x[1];
+	out->x[2] = v1.x[2] - v2.x[2];
 	return (*out);
 }
 

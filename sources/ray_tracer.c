@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/05 20:49:22 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:07:27 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void		mix_light_colour(t_colour c1, t_colour c2)
 	}
 }
 
-static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure fig)
+static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pfig)
 {
 	t_light		*curr_lgt;
 	t_vector	lgt_ray;
@@ -120,11 +120,9 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure fig
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	nv = fig.normal_at(&fig, hit, curr_lgt->pos);
-	//ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
-	lgt_col[0] = scn.amb.col[0];
-	lgt_col[1] = scn.amb.col[1];
-	lgt_col[2] = scn.amb.col[2];
+	nv = pfig->normal_at(pfig, hit, curr_lgt->pos);
+
+	ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
 	while(curr_lgt)
 	{
 		//TODO: Don't I have a function for this(?) Probably should, right?
@@ -141,11 +139,6 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure fig
 		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
 		{
 			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
-			/*
-			aux[0] = curr_lgt->col[0];
-			aux[1] = curr_lgt->col[1];
-			aux[2] = curr_lgt->col[2];
-			*/
 			apply_light_brightness(aux, fmaxl(0, dot_prod(lgt_ray.dir, nv.dir)));
 			mix_light_colour(lgt_col, aux);
 		}
@@ -178,7 +171,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				illuminate(lgt_col, scn, ray.orig, *render_fig);//TODO Give illuminate the coords.
+				illuminate(lgt_col, scn, ray.orig, render_fig);//TODO Give illuminate the coords.
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);

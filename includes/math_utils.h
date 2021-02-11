@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 20:10:43 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:24:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int			equals_zero(long double l);
 t_coord 	vector_dir(long double x, long double y, long double z);
 long double	norm(t_vector v);
 t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2);
+t_coord		vect_sub(t_coord *out, t_coord v1, t_coord v2);
 t_coord		scalar_prod(t_coord *out, long double k, t_coord v);
 long double	dot_prod(t_coord v1, t_coord v2);
 void		normalize(t_vector *v);

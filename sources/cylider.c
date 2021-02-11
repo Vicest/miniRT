@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 12:04:58 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:30:44 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ long double	cylinder_collision(void *sphere, t_vector v)
 	return (fminl(sol1, sol2));
 }
 
-t_vector	cylider_normal(void *sphere, t_coord at)
+t_vector	cylinder_normal(void *sphere, t_coord at)
 {
 	t_vector	normal;
 
@@ -59,7 +59,7 @@ void		push_cylinder(t_figure **ppfig)
 
 	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
 	aux->next = *ppfig;
-	aux->collision = sphere_collision;
-	aux->normal_at = sphere_normal;
+	aux->collision = cylinder_collision;
+	aux->normal_at = cylinder_normal;
 	*ppfig = aux;
 }

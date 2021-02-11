@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/31 18:37:34 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:27:30 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ t_vector	plane_normal(void *plane, t_coord at, t_coord facing)
 {
 	t_vector	normal;
 
+	//vect_sub(&facing, facing, at);
 	(void)facing;
 	normal = ((t_plane*)plane)->nvect;
 	normal.orig = at;
-	/*
-	if(dot_prod(normal.dir, facing) < 0)
-		scalar_prod(&normal.dir, -1.0L, normal.dir);
-		*/
+	//if(dot_prod(normal.dir, facing) < 0)
+	//	scalar_prod(&normal.dir, -1.0L, normal.dir);
 	return (normal);
 }
 
