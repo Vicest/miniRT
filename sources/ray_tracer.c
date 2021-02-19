@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 13:07:27 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/19 18:46:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
 {
 	t_vector	ray;
 
-	ray = c.vect;
 	//TODO: Handle even/odd resolutions better.
 	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]));
 	ray.dir = pitch(yaw(ray.dir , c.rota.azimuth), c.rota.latitude);
 	normalize(&ray);
+	ray.orig = c.vect.orig;
 	return (ray);
 }
 
@@ -120,7 +120,7 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pf
 
 	curr_lgt = scn.lgt;
 	lgt_ray.orig = hit;
-	nv = pfig->normal_at(pfig, hit, curr_lgt->pos);
+	nv = pfig->normal_at(pfig, hit, scn.at_cam->vect.orig);
 
 	ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
 	while(curr_lgt)
@@ -130,7 +130,7 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pf
 		while (++i < 3)
 		{
 		//TODO: Shadow Bias
-			lgt_ray.orig.x[i] += 1.0L * nv.dir.x[i];
+			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
 		lightd = norm(lgt_ray);
@@ -171,7 +171,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				illuminate(lgt_col, scn, ray.orig, render_fig);//TODO Give illuminate the coords.
+				illuminate(lgt_col, scn, ray.orig, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);
