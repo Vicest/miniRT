@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 14:38:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 17:29:34 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 # define FLAG_AMB 1 << 1
 
 //typedef unsigned int	t_colour;
-typedef int			t_resolution[2];
+//typedef int			t_resolution[2];
 
 typedef struct		s_ambient
 {
@@ -72,7 +72,7 @@ typedef struct		s_ambient
 typedef struct		s_scene
 {
 	char			flags;
-	t_resolution	res;
+	int				res[2];
 	t_ambient		amb;
 	t_camera		*at_cam;
 	t_light			*lgt;
@@ -99,6 +99,7 @@ void				store_cylinder(t_scene *pscn, char **element);
 void				fill_viewport(t_scene scn, t_camera *pcam);
 //t_colour			compute_colour(t_scene scn, t_vector ray);
 
+int			save_bmp(t_img img, char *name, int h);
 //TODO Gimme my own .h :'(
 void				config_err(char *err_str);
 #endif

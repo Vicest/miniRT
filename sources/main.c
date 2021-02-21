@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 13:59:28 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:58:43 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static int quit(void *params)
 {
 	(void)params;
-	//system("leaks -quiet miniRT");
+	system("leaks -quiet miniRT");
 	printf("MiniRT OUT.\n");
 	exit(-1);
 	return (1);
@@ -86,7 +86,7 @@ static int	keypress(int kc, t_view *pv)
 	}
 	mlx_put_image_to_window(pv->pmlx, pv->pwin,
 					pv->scn.at_cam->img.pimg, 0, 0);
-	return (-1);
+	return (0);
 	//mlx_destroy_window(mlx_ptr, win_ptr);
 }
 
@@ -104,23 +104,26 @@ static void	mlx_setup(t_view *pv)
 	pv->scn.at_cam->img.addr = mlx_get_data_addr(
 				pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
 				&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);
-	fill_viewport(pv->scn, pv->scn.at_cam);
-	mlx_put_image_to_window(pv->pmlx, pv->pwin, pv->scn.at_cam->img.pimg, 0, 0);
 }
 
 int			main(int argn, char **args)
 {
 	t_view	view;
 
-	if (argn != 2)
-		return (1); //TODO: Error handling.
+	if (!(argn == 2 || (argn == 3 && ft_strcmp(args[2], "--save") == 0)))
+		config_err("Invalid number of parameters.\n");
 	ft_memset(&view, 0, sizeof(t_view));
 	save_conf(args[1], &view.scn);
 	mlx_setup(&view);
+	fill_viewport(view.scn, view.scn.at_cam);
+	if (argn == 3)
+		return (save_bmp(view.scn.at_cam->img, args[1], view.scn.res[1]));
+	mlx_put_image_to_window(view.pmlx, view.pwin,
+							view.scn.at_cam->img.pimg, 0, 0);
 	mlx_loop(view.pmlx);
 	//TODO: Bad place, needs new function.
 	//pop_all_c(&(view.scn.at_cam));
 	pop_all_l(&(view.scn.lgt));
-	//system("leaks -quiet miniRT");
+	system("leaks -quiet miniRT");
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2021/02/11 14:07:23 by vicmarti         ###   ########.fr        #
+#    Updated: 2021/02/21 17:23:34 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_FILES +=		light_stack.c
 SRC_FILES +=		ray_tracer.c
 SRC_FILES +=		config_reader.c
 SRC_FILES +=		config_utils.c
+SRC_FILES +=		bmpstore.c
 SRC_FILES +=		get_next_line.c
 SRC_FILES +=		get_next_line_utils.c
 OBJ_FILES := $(patsubst %.c, %.o, $(SRC_FILES))
