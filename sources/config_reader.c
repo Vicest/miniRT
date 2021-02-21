@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 14:39:44 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 15:41:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,10 @@ void				save_conf(char *conf_file, t_scene *scn)
 	line = NULL;
 	gnl_out = 0;
 	if (!file_extension_check(conf_file, ".rt"))
-		exit(-1);
+		config_err("Invalid configuration file extension.\n");
 	fd = open(conf_file, O_RDONLY);
+	if (fd < 0)
+		perror("Error:\n");
 	while (gnl_out != -1)
 	{
 		gnl_out = get_next_line(fd, &line);

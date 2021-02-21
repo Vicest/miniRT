@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/19 18:46:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:48:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "math_utils.h"
 #include "debug.h"
 
-static t_vector	gen_pray(t_camera c, t_resolution r, int x[2])
+static t_vector	gen_pray(t_camera c, int r[2], int x[2])
 {
 	t_vector	ray;
 
@@ -175,6 +175,10 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);
+				/*
+				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
+					x[1] * pcam->img.line_len) = col2int(lgt_col);A
+					*/
 			}
 		}
 	}
