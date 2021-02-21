@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/04 15:01:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 13:59:28 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void	move_cam(t_scene scn, int kc)
 	t_coord		dir;
 	t_coord		*pos;
 
-	pos = &(scn.at_cam->vect.orig);
+	scn.at_cam->lr_dir = vector_dir(0, 1, 0);
+	scn.at_cam->lr_dir = pitch(yaw(scn.at_cam->lr_dir, scn.at_cam->rota.azimuth), scn.at_cam->rota.latitude);
+	scn.at_cam->ud_dir = vector_dir(0, 0, 1);
+	scn.at_cam->ud_dir = pitch(yaw(scn.at_cam->ud_dir, scn.at_cam->rota.azimuth), scn.at_cam->rota.latitude);
 	dir = scn.at_cam->vect.dir;
 	if (kc == MV_D || kc == MV_A)
 		dir = scn.at_cam->lr_dir;
@@ -39,6 +42,7 @@ static void	move_cam(t_scene scn, int kc)
 		scalar_prod(&dir, -2.5L, dir);
 	else
 		scalar_prod(&dir, 2.5L, dir);
+	pos = &(scn.at_cam->vect.orig);
 	vect_sum(pos, *pos, dir);
 	fill_viewport(scn, scn.at_cam);
 }

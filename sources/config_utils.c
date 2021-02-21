@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 14:40:36 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 13:55:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ void	store_ambient(t_scene *pscn, char **element)
 	if (element[3] != NULL)
 		config_err("Ambient light takes only two values.\n");
 }
-
-/*
-**	Distance math is trigonometry for r[0] / d == tan(fov / 2)
-*/
 
 void	store_camera(t_scene *pscn, char **params)
 {

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/19 19:26:18 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 14:15:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ long double	sphere_collision(void *sphere, t_vector v)
 	//sol1 = NAN;
 	//sol2 = NAN;
 	quadratic_solver(coefficients, &sol1, &sol2);
-	if (!isnan(sol1) && (sol1 < 0.0L || equals_zero(sol1)))
+	if (!isnan(sol1) && (sol1 < 0.0L))// || equals_zero(sol1)))
 		sol1 = NAN;
-	if (!isnan(sol2) && (sol2 < 0.0L || equals_zero(sol2)))
+	if (!isnan(sol2) && (sol2 < 0.0L))// || equals_zero(sol2)))
 		sol2 = NAN;
 	return (fminl(sol1, sol2));
 }
