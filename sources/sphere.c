@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 14:15:50 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 14:21:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ long double	sphere_collision(void *sphere, t_vector v)
 
 	s = *(t_sphere *)sphere;
 	vect_sub(&p_m_c, v.orig, s.pos);
-	coefficients[0] = dot_prod(v.dir, v.dir);
+	//coefficients[0] = dot_prod(v.dir, v.dir);
+	coefficients[0] = 1;
 	coefficients[1] = 2 * dot_prod(v.dir, p_m_c);
 	coefficients[2] = dot_prod(p_m_c, p_m_c) - s.r * s.r;
 	//sol1 = NAN;
