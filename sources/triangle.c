@@ -1,51 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:58:50 by vicmarti         ###   ########.fr       */
+/*   Created: 2021/02/21 19:48:28 by vicmarti          #+#    #+#             */
+/*   Updated: 2021/02/21 21:07:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include "figures.h"
 #include <stdlib.h>
-#include <stdio.h>
 
-long double	plane_collision(void *plane, t_vector v)
+long double	triangle_collision(void *triangle, t_vector v)
 {
-	long double	dist;
-	t_plane		p;
-
-	p = *(t_plane *)plane;
-	dist = p.ind_term - dot_prod(v.orig, p.normal.dir);
-	dist /= dot_prod(v.dir, p.normal.dir);
-	if (isnan(dist) || signbit(dist) == 1 || equals_zero(dist))
-		return (NAN);
-	return (dist);
+	(void) triangle;
+	(void) v;
+	return (-0.01);
 }
 
-t_vector	plane_normal(void *plane, t_coord at, t_coord facing)
+t_vector	triangle_normal(void *t, t_coord at, t_coord facing)
 {
 	t_vector	normal;
 
 	normal.orig = at;
-	normal.dir = ((t_plane*)plane)->normal.dir;
+	normal.dir = ((t_triangle*)t)->normal;
 	vect_sub(&facing, facing, at);
 	if(dot_prod(normal.dir, facing) < 0)
 		scalar_prod(&normal.dir, -1.0L, normal.dir);
 	return (normal);
 }
 
-void		push_plane(t_figure **ppfig)
+void		push_triangle(t_figure **ppfig)
 {
-	t_figure	*aux;
+	t_figure *aux;
 
-	aux = malloc(sizeof(t_plane)); //TODO: Tmp Shite.
+	if (!(aux = malloc(sizeof(t_triangle))))
+		perror("Error\n");
 	aux->next = *ppfig;
-	aux->collision = plane_collision;
-	aux->normal_at = plane_normal;
+	aux->collision = triangle_collision;
+	aux->normal_at = triangle_normal;
 	*ppfig = aux;
 }

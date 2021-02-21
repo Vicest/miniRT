@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 18:48:35 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 21:05:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_vector	gen_pray(t_camera c, int r[2], int x[2])
 	//TODO: Handle even/odd resolutions better.
 	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]));
 	ray.dir = pitch(yaw(ray.dir , c.rota.azimuth), c.rota.latitude);
-	normalize(&ray);
+	normalize(&(ray.dir));
 	ray.orig = c.vect.orig;
 	return (ray);
 }
@@ -133,8 +133,8 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pf
 			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
-		lightd = norm(lgt_ray);
-		normalize(&lgt_ray);//Manually do the division for one sqrt less.
+		lightd = norm(lgt_ray.dir);
+		normalize(&(lgt_ray.dir));//Manually do the division for one sqrt less.b
 		d = nearest_at(scn.geo, &fig_in_path, lgt_ray);
 		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
 		{

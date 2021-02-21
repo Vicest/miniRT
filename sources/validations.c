@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/04 15:04:38 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 21:02:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,10 @@ t_coord			validate_coordinates(char *text)
 //TODO: I have doubts, this looks like different work somewhere else.
 t_coord		validate_direction(char *text)
 {
-	t_vector out;
+	t_coord	out;
 
-	out.dir = validate_coordinates(text);
-	printf("Norm is:%Lf\n", norm(out));
+	out = validate_coordinates(text);
 	if (!equals_zero(fabsl(norm(out) - 1.0L)))
 		config_err("Vector direction is not normalized.\n");
-	return (out.dir);
+	return (out);
 }

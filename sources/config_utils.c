@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 13:55:13 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:54:06 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,37 @@ void	store_plane(t_scene *pscn, char **params)
 	if (i != 4)
 		config_err("Invalid parameter count for plane, must be 3 exactly\n");
 	push_plane(&pscn->geo);
-	((t_plane*)pscn->geo)->nvect.orig = validate_coordinates(params[1]);
-	((t_plane*)pscn->geo)->nvect.dir = validate_direction(params[2]);
+	((t_plane*)pscn->geo)->normal.orig = validate_coordinates(params[1]);
+	((t_plane*)pscn->geo)->normal.dir = validate_direction(params[2]);
 	((t_plane*)pscn->geo)->ind_term = dot_prod(
-		((t_plane*)pscn->geo)->nvect.dir, ((t_plane*)pscn->geo)->nvect.orig);
+		((t_plane*)pscn->geo)->normal.dir, ((t_plane*)pscn->geo)->normal.orig);
 	validate_colour(params[3], pscn->geo->col);
+}
+
+void	store_triangle(t_scene *pscn, char **params)
+{
+	int			i;
+	t_triangle	*t;
+	t_coord		sides[2];
+
+	i = 0;
+	while (params[i])
+		i++;
+	if (i != 5)
+		config_err("Invalid parameter count for plane, must be 4 exactly\n");
+	push_triangle(&pscn->geo);
+	t = (t_triangle*)pscn->geo;
+	t->vertix[0] = validate_coordinates(params[1]);
+	t->vertix[1] = validate_coordinates(params[2]);
+	t->vertix[2] = validate_coordinates(params[3]);
+	vect_sub(sides, t->vertix[1], t->vertix[0]);
+	vect_sub(&sides[1], t->vertix[2], t->vertix[0]);
+	normalize(&sides[0]);
+	normalize(&sides[1]);
+	cross_prod(&(t->normal), sides[0], sides[1]);
+	normalize(&(t->normal));
+	t->ind_term = dot_prod(t->normal, t->vertix[0]);
+	validate_colour(params[4], pscn->geo->col);
 }
 
 void	store_cylinder(t_scene *pscn, char **params)

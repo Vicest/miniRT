@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 13:21:46 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:53:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ t_coord		point_at_dist(t_vector v, long double dist)
 	return (point);
 }
 
-long double	norm(t_vector v)
+long double	norm(t_coord v)
 {
-	return (sqrt(pow(v.dir.x[0], 2) + pow(v.dir.x[1], 2) + pow(v.dir.x[2], 2)));
+	return (sqrt(dot_prod(v,v)));
 }
 
 t_coord		vect_sum(t_coord *out, t_coord v1, t_coord v2)
@@ -104,19 +104,19 @@ t_coord		cross_prod(t_coord *out, t_coord v1, t_coord v2)
 **	https://github.com/brazzy/floating-point-gui.define
 **	geeksforgeeks.com/(something something about corrctly compare floats
 */
-int			is_normalized(t_vector v)
+int			is_normalized(t_coord v)
 {
 	return (equals_zero(fabsl(1 - norm(v))));
 }
 
-void		normalize(t_vector *v)
+void		normalize(t_coord *v)
 {
 	long double	inv_norm;
 
 	inv_norm =  1.0L / norm(*v);
-	v->dir.x[0] *= inv_norm;
-	v->dir.x[1] *= inv_norm;
-	v->dir.x[2] *= inv_norm;
+	v->x[0] *= inv_norm;
+	v->x[1] *= inv_norm;
+	v->x[2] *= inv_norm;
 }
 
 t_coord	vector_dir(long double x, long double y, long double z)

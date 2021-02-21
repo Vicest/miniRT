@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/11 14:11:06 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:23:48 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,24 @@ typedef struct			s_figure
 	t_colour			col;
 }						t_figure;
 
+typedef struct			s_triangle
+{
+	struct s_figure		*next;
+	long double			(*collision)(void *, t_vector);
+	t_vector			(*normal_at)(void *, t_coord, t_coord);
+	t_colour			col;
+	t_coord				vertix[3];
+	t_coord				normal;
+	long double			ind_term;
+}						t_triangle;
+
 typedef struct			s_plane
 {
 	t_figure			*next;
 	long double			(*collision)(void *, t_vector);
 	t_vector			(*normal_at)(void *, t_coord, t_coord);
 	t_colour			col;
-	t_vector			nvect;
+	t_vector			normal;
 	long double			ind_term;
 }						t_plane;
 
@@ -60,4 +71,5 @@ typedef struct			s_cylinder
 void					push_sphere(t_figure **ppfig);
 void					push_plane(t_figure **ppfig);
 void					push_cylinder(t_figure **ppfig);
+void					push_triangle(t_figure **ppfig);
 #endif
