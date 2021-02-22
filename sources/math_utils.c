@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:53:40 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 14:40:36 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,35 +145,26 @@ void		linear_solver(long double a, long double b, long double *sol)
 		*sol = -b / a;
 }
 
-/*
-**	Solve a quadratic equation in the form of ax^2 + bx + c = 0.
-**	Parameter abc is the array of coefficients, must be 3.
-**	Parameter sol1 and sol2 are where solutions are stored.
-**	Solutions can be redirected to NAN so caution is advised.
-**	If no solution is found sol1 and sol2 point to NAN.
-**	For a single solution sol2 points to NAN.
-*/
-
 void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2)
 {
-	int		discriminant;
+	long double	discriminant;
 
 	*sol1 = NAN;
 	*sol2 = NAN;
-	if (equals_zero(abc[0]))
+	if (abc[0] == 0)
 	{
 		*sol2 = NAN;
 		linear_solver(abc[0], abc[1], sol1);
 		return ;
 	}
-	discriminant = pow(abc[1], 2) - 4 * abc[0] * abc[2];
+	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2];
 	if (discriminant > 0)
 	{
 		discriminant = sqrt(discriminant);
 		*sol1 = (-abc[1] + discriminant) / (2 * abc[0]);
 		*sol2 = (-abc[1] - discriminant) / (2 * abc[0]);
 	}
-	else if (equals_zero(discriminant))
+	else if (discriminant == 0)
 	{
 		*sol1 = -abc[1] / (2 * abc[0]);
 		*sol2 = NAN;
