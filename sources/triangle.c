@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 19:48:28 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 21:07:16 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 13:15:11 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,32 @@
 
 long double	triangle_collision(void *triangle, t_vector v)
 {
-	(void) triangle;
-	(void) v;
-	return (-0.01);
+	t_triangle	t;
+	t_coord		side[2];
+	t_coord		p;
+	int			sign;
+	long double	dist;
+
+	t = *(t_triangle *)triangle;
+	plane_dist(&dist, v, t.ind_term, t.normal);
+	p = point_at_dist(v, dist);
+	vect_sub(&side[0], p, t.vertix[0]);
+	vect_sub(&side[1], t.vertix[1], t.vertix[0]);
+	cross_prod(&side[0], side[0], side[1]);
+	sign = signbit(dot_prod(side[0], t.normal));
+	//---
+	vect_sub(&side[0], p, t.vertix[1]);
+	vect_sub(&side[1], t.vertix[2], t.vertix[1]);
+	cross_prod(&side[0], side[0], side[1]);
+	if(sign != signbit(dot_prod(side[0], t.normal)))
+		return (NAN);
+	//--
+	vect_sub(&side[0], p, t.vertix[2]);
+	vect_sub(&side[1], t.vertix[0], t.vertix[2]);
+	cross_prod(&side[0], side[0], side[1]);
+	if(sign != signbit(dot_prod(side[0], t.normal)))
+		return (NAN);
+	return (dist);
 }
 
 t_vector	triangle_normal(void *t, t_coord at, t_coord facing)

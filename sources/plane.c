@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:58:50 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 12:07:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void		plane_dist(long double *d, t_vector v, long double iterm, t_coord n)
+{
+	*d = iterm - dot_prod(v.orig, n);
+	*d /= dot_prod(v.dir, n);
+	if (isnan(*d) || signbit(*d) == 1 || equals_zero(*d))
+		*d = NAN;
+}
+
 long double	plane_collision(void *plane, t_vector v)
 {
 	long double	dist;
 	t_plane		p;
 
 	p = *(t_plane *)plane;
-	dist = p.ind_term - dot_prod(v.orig, p.normal.dir);
-	dist /= dot_prod(v.dir, p.normal.dir);
-	if (isnan(dist) || signbit(dist) == 1 || equals_zero(dist))
-		return (NAN);
+	plane_dist(&dist, v, p.ind_term, p.normal.dir);
 	return (dist);
 }
 

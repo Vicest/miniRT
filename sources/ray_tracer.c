@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 21:05:40 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 14:00:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,6 @@ static void		apply_light_brightness(t_colour c, long double b)
 			c[i] *= b;
 	}
 }
-
-/*
-static t_colour	sph_lgt_brightness(t_light l, long double d)
-{
-	long double	dist_factor;
-	t_colour	*out;
-
-	ft_memcpy(*out, l.col, sizeof(char) * 3);
-	dist_factor = 1 / (4 * M_PI * d * d);
-	return (out);
-}*/
-
 
 static void		mix_light_colour(t_colour c1, t_colour c2)
 {
@@ -171,14 +159,11 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				illuminate(lgt_col, scn, ray.orig, render_fig);
+				//if (1 - 1)
+					illuminate(lgt_col, scn, ray.orig, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);
-				/*
-				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = col2int(lgt_col);A
-					*/
 			}
 		}
 	}

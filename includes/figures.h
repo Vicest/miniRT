@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:23:48 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 12:10:47 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct			s_cylinder
 	long double			h;
 }						t_cylinder;
 
+void					plane_dist(long double *d, t_vector v,
+									long double iterm, t_coord n);
 void					push_sphere(t_figure **ppfig);
 void					push_plane(t_figure **ppfig);
 void					push_cylinder(t_figure **ppfig);

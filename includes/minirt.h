@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 17:29:34 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/22 13:19:16 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void				store_light(t_scene *pscn, char **element);
 void				store_sphere(t_scene *pscn, char **element);
 void				store_plane(t_scene *pscn, char **element);
 void				store_cylinder(t_scene *pscn, char **element);
+void				store_triangle(t_scene *pscn, char **element);
 
 void				fill_viewport(t_scene scn, t_camera *pcam);
 //t_colour			compute_colour(t_scene scn, t_vector ray);
