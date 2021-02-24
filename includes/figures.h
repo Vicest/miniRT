@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 12:10:47 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/24 12:15:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ typedef struct			s_figure
 	t_vector			(*normal_at)(void *, t_coord, t_coord);
 	t_colour			col;
 }						t_figure;
+
+typedef struct			s_square
+{
+	struct s_figure		*next;
+	long double			(*collision)(void *, t_vector);
+	t_vector			(*normal_at)(void *, t_coord, t_coord);
+	t_colour			col;
+	t_coord				side[4];
+	t_coord				normal;
+	long double			ind_term;
+}						t_square;
 
 typedef struct			s_triangle
 {

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:54:06 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/24 13:47:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,23 @@ void	store_plane(t_scene *pscn, char **params)
 	validate_colour(params[3], pscn->geo->col);
 }
 
+void	store_square(t_scene *pscn, char **params)
+{
+	int			i;
+
+	i = 0;
+	while (params[i])
+		i++;
+	if (i != 5)
+		config_err("Invalid parameter count for square, must be 4 exactly\n");
+	push_plane(&pscn->geo);
+	((t_plane*)pscn->geo)->normal.orig = validate_coordinates(params[1]);
+	((t_plane*)pscn->geo)->normal.dir = validate_direction(params[2]);
+	((t_plane*)pscn->geo)->ind_term = dot_prod(
+		((t_plane*)pscn->geo)->normal.dir, ((t_plane*)pscn->geo)->normal.orig);
+	validate_colour(params[3], pscn->geo->col);
+}
+
 void	store_triangle(t_scene *pscn, char **params)
 {
 	int			i;
@@ -160,5 +177,5 @@ void	store_cylinder(t_scene *pscn, char **params)
 	validate_colour(params[3], pscn->geo->col);
 	c->r = validate_double(params[4]) * 0.5L;
 	c->h = validate_double(params[5]);
-	c->pos.dir = point_at_dist(c->pos, c->h);
+	//c->pos.dir = point_at_dist(c->pos, c->h);
 }
