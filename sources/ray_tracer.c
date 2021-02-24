@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 14:00:35 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/24 12:53:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pf
 		while (++i < 3)
 		{
 		//TODO: Shadow Bias
-			lgt_ray.orig.x[i] += 0.5L * nv.dir.x[i];
+			lgt_ray.orig.x[i] += 0.005L * nv.dir.x[i];
 			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
 		}
 		lightd = norm(lgt_ray.dir);
