@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/24 12:53:50 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/25 15:38:53 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,43 +95,36 @@ static void		mix_light_colour(t_colour c1, t_colour c2)
 	}
 }
 
-static void		illuminate(t_colour lgt_col, t_scene scn, t_coord hit, t_figure *pfig)
+static t_colour		*illuminate(t_scene scn, t_vector refl_ray, t_figure *pfig)
 {
 	t_light		*curr_lgt;
-	t_vector	lgt_ray;
 	t_vector	nv;
 	t_figure	*fig_in_path;
 	t_colour	aux;
+	t_colour	acc_col;
 	long double	lightd;
 	long double	d;
-	int			i;
 
 	curr_lgt = scn.lgt;
-	lgt_ray.orig = hit;
-	nv = pfig->normal_at(pfig, hit, scn.at_cam->vect.orig);
-
-	ft_memcpy(lgt_col, scn.amb.col, sizeof(unsigned char) * 3);
+	nv = pfig->normal_at(pfig, refl_ray.orig, scn.at_cam->vect.orig);
+	refl_ray.dir = nv.dir;
+	refl_ray.orig = point_at_dist(refl_ray, SHADOW_B);
+	ft_memcpy(acc_col, scn.amb.col, sizeof(unsigned char) * 3);
 	while(curr_lgt)
 	{
-		//TODO: Don't I have a function for this(?) Probably should, right?
-		i = -1;
-		while (++i < 3)
-		{
-		//TODO: Shadow Bias
-			lgt_ray.orig.x[i] += 0.005L * nv.dir.x[i];
-			lgt_ray.dir.x[i] = curr_lgt->pos.x[i] - lgt_ray.orig.x[i];
-		}
-		lightd = norm(lgt_ray.dir);
-		normalize(&(lgt_ray.dir));//Manually do the division for one sqrt less.b
-		d = nearest_at(scn.geo, &fig_in_path, lgt_ray);
+		vect_sub(&(refl_ray.dir), curr_lgt->pos, refl_ray.orig);
+		lightd = norm(refl_ray.dir);
+		scalar_prod(&(refl_ray.dir), 1 / lightd, refl_ray.dir);
+		d = nearest_at(scn.geo, &fig_in_path, refl_ray);
 		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
 		{
 			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
-			apply_light_brightness(aux, fmaxl(0, dot_prod(lgt_ray.dir, nv.dir)));
-			mix_light_colour(lgt_col, aux);
+			apply_light_brightness(aux, fmaxl(0, dot_prod(refl_ray.dir, nv.dir)));
+			mix_light_colour(acc_col, aux);
 		}
 		curr_lgt = curr_lgt->next;
 	}
+	return (&acc_col);
 }
 
 //TODO: The args could be simplified (???)
@@ -149,7 +142,6 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 		x[0] = -1;
 		while (++x[0] < (int)(scn.res[0]))
 		{
-			render_fig = NULL; //Sholdn't be needed.
 			ray = gen_pray(*pcam, scn.res, x);
 			//TODO:If not hits. I'm certain this could be simpler, rethink it.
 			d = nearest_at(scn.geo, &render_fig, ray);
@@ -159,8 +151,7 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			else
 			{
 				ray.orig = point_at_dist(ray, d);
-				//if (1 - 1)
-					illuminate(lgt_col, scn, ray.orig, render_fig);
+				illuminate(lgt_col, scn, ray, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 					x[1] * pcam->img.line_len) = col2int(lgt_col);

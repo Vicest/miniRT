@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 18:58:43 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/25 13:14:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			main(int argn, char **args)
 	mlx_setup(&view);
 	fill_viewport(view.scn, view.scn.at_cam);
 	if (argn == 3)
-		return (save_bmp(view.scn.at_cam->img, args[1], view.scn.res[1]));
+		return (save_bmp(view.scn.at_cam->img, args[1], view.scn.res));
 	mlx_put_image_to_window(view.pmlx, view.pwin,
 							view.scn.at_cam->img.pimg, 0, 0);
 	mlx_loop(view.pmlx);
