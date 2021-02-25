@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/24 12:51:09 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/25 11:04:53 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int				strfind(char *elem, char **list)
 
 static void			store_element(t_scene *pscn, char **elem)
 {
-	printf("Storing:%s\n", *elem);
 	if (0 == ft_strcmp(elem[0], "R"))
 		store_resolution(pscn, elem);
 	else if (0 == ft_strcmp(elem[0], "A"))
@@ -137,7 +136,6 @@ void				save_conf(char *conf_file, t_scene *scn)
 			line_store(scn, line);
 		free(line);
 	}
-	print_scene(*scn);
 	/*if (!check_conf(*scn))
 		return (1); //TODO:Error handling.*/
 }

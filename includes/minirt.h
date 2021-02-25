@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 13:19:16 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/25 13:51:00 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 #  define NEXT_X 0x7
 # endif
 
-
+# define SHADOW_B 0.0005L
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
@@ -100,7 +100,7 @@ void				store_triangle(t_scene *pscn, char **element);
 void				fill_viewport(t_scene scn, t_camera *pcam);
 //t_colour			compute_colour(t_scene scn, t_vector ray);
 
-int			save_bmp(t_img img, char *name, int h);
+int			save_bmp(t_img img, char *name, int dim[2]);
 //TODO Gimme my own .h :'(
 void				config_err(char *err_str);
 #endif
