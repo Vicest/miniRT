@@ -6,14 +6,14 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/25 15:38:53 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:38:03 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "figures.h"
 #include "math_utils.h"
-#include "debug.h"
+#include "colours.h"
 
 static t_vector	gen_pray(t_camera c, int r[2], int x[2])
 {
@@ -45,86 +45,33 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	return (min_dist);
 }
 
-static unsigned	col2int(t_colour c)
-{
-	unsigned out;
-
-	out = c[0] << 16;
-	out += c[1] << 8;
-	out += c[2];
-	return (out);
-}
-
-//TODO: somewhere else.
-//TODO: (Veeery pliz do)Perhaps code macros to separate RGB.
-//TODO: More colour math neeeded, somewhere else.
-static void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
-{
-	final[0] = ft_min((int)c1[0] , (int)c2[0]);
-	final[1] = ft_min((int)c1[1] , (int)c2[1]);
-	final[2] = ft_min((int)c1[2] , (int)c2[2]);
-}
-
-static void		apply_light_brightness(t_colour c, long double b)
-{
-
-	int	i;
-
-	i = -1;
-	while (++i < 3)
-	{
-		if ((unsigned)(c[i] * b) > 255)
-			c[i] = 255;
-		else
-			c[i] *= b;
-	}
-}
-
-static void		mix_light_colour(t_colour c1, t_colour c2)
-{
-
-	int	i;
-
-	i = -1;
-	while (++i < 3)
-	{
-		if ((unsigned char)(c1[i] + c2[i]) < c1[i])
-			c1[i] = 255;
-		else
-			c1[i] += c2[i];
-	}
-}
-
-static t_colour		*illuminate(t_scene scn, t_vector refl_ray, t_figure *pfig)
+static void		illuminate(t_colour acc_col,t_scene scn, t_vector refl_ray, t_figure *pfig)
 {
 	t_light		*curr_lgt;
+	t_figure	*in_path;
 	t_vector	nv;
-	t_figure	*fig_in_path;
-	t_colour	aux;
-	t_colour	acc_col;
-	long double	lightd;
-	long double	d;
+	t_colour	shadow_col;
+	long double	ld;
 
 	curr_lgt = scn.lgt;
 	nv = pfig->normal_at(pfig, refl_ray.orig, scn.at_cam->vect.orig);
 	refl_ray.dir = nv.dir;
 	refl_ray.orig = point_at_dist(refl_ray, SHADOW_B);
-	ft_memcpy(acc_col, scn.amb.col, sizeof(unsigned char) * 3);
+	ft_bzero(acc_col, sizeof(t_colour));
 	while(curr_lgt)
 	{
 		vect_sub(&(refl_ray.dir), curr_lgt->pos, refl_ray.orig);
-		lightd = norm(refl_ray.dir);
-		scalar_prod(&(refl_ray.dir), 1 / lightd, refl_ray.dir);
-		d = nearest_at(scn.geo, &fig_in_path, refl_ray);
-		if (fig_in_path == NULL || d > lightd) //equals_zero(d))
+		ld = norm(refl_ray.dir);
+		scalar_prod(&(refl_ray.dir), 1 / ld, refl_ray.dir);
+		if (ld >= nearest_at(scn.geo, &in_path, refl_ray) || in_path == NULL)
 		{
-			ft_memcpy(aux, curr_lgt->col, sizeof(char) * 3);
-			apply_light_brightness(aux, fmaxl(0, dot_prod(refl_ray.dir, nv.dir)));
-			mix_light_colour(acc_col, aux);
+			ft_memcpy(shadow_col, curr_lgt->col, sizeof(t_colour));
+			intensity(shadow_col, fmaxl(0, dot_prod(refl_ray.dir, nv.dir)));
+			mix_colour(acc_col, shadow_col);
 		}
 		curr_lgt = curr_lgt->next;
 	}
-	return (&acc_col);
+	mix_colour(acc_col, scn.amb.col);
 }
 
 //TODO: The args could be simplified (???)
@@ -145,17 +92,15 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 			ray = gen_pray(*pcam, scn.res, x);
 			//TODO:If not hits. I'm certain this could be simpler, rethink it.
 			d = nearest_at(scn.geo, &render_fig, ray);
-			if (render_fig == NULL)
-				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = 0;
-			else
+			ft_bzero(lgt_col, sizeof(t_colour));
+			if (render_fig != NULL)
 			{
 				ray.orig = point_at_dist(ray, d);
 				illuminate(lgt_col, scn, ray, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
-				*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
-					x[1] * pcam->img.line_len) = col2int(lgt_col);
 			}
+			*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
+				x[1] * pcam->img.line_len) = col2uint(lgt_col);
 		}
 	}
 }
