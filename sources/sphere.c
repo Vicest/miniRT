@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 15:03:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:14:58 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_vector	sphere_normal(void *s, t_coord at, t_coord facing)
 	vect_sub(&normal.dir, at, ((t_sphere*)s)->pos);
 	normalize(&(normal.dir));
 	vect_sub(&facing, facing, at);
-	if(dot_prod(normal.dir, facing) < 0)
+	if (dot_prod(normal.dir, facing) < 0)
 		scalar_prod(&normal.dir, -1.0L, normal.dir);
 	return (normal);
 }

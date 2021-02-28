@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 19:48:28 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 13:15:11 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:14:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,15 @@ long double	triangle_collision(void *triangle, t_vector v)
 	vect_sub(&side[1], t.vertix[1], t.vertix[0]);
 	cross_prod(&side[0], side[0], side[1]);
 	sign = signbit(dot_prod(side[0], t.normal));
-	//---
 	vect_sub(&side[0], p, t.vertix[1]);
 	vect_sub(&side[1], t.vertix[2], t.vertix[1]);
 	cross_prod(&side[0], side[0], side[1]);
-	if(sign != signbit(dot_prod(side[0], t.normal)))
+	if (sign != signbit(dot_prod(side[0], t.normal)))
 		return (NAN);
-	//--
 	vect_sub(&side[0], p, t.vertix[2]);
 	vect_sub(&side[1], t.vertix[0], t.vertix[2]);
 	cross_prod(&side[0], side[0], side[1]);
-	if(sign != signbit(dot_prod(side[0], t.normal)))
+	if (sign != signbit(dot_prod(side[0], t.normal)))
 		return (NAN);
 	return (dist);
 }
@@ -51,7 +49,7 @@ t_vector	triangle_normal(void *t, t_coord at, t_coord facing)
 	normal.orig = at;
 	normal.dir = ((t_triangle*)t)->normal;
 	vect_sub(&facing, facing, at);
-	if(dot_prod(normal.dir, facing) < 0)
+	if (dot_prod(normal.dir, facing) < 0)
 		scalar_prod(&normal.dir, -1.0L, normal.dir);
 	return (normal);
 }
