@@ -6,12 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/25 13:14:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 21:02:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "debug.h"
 #include "../minilibx/mlx.h"
 #include <stdlib.h>
 

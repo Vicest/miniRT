@@ -6,13 +6,13 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/22 12:07:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 21:01:04 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include "figures.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 void		plane_dist(long double *d, t_vector v, long double iterm, t_coord n)
 {
@@ -39,7 +39,7 @@ t_vector	plane_normal(void *plane, t_coord at, t_coord facing)
 	normal.orig = at;
 	normal.dir = ((t_plane*)plane)->normal.dir;
 	vect_sub(&facing, facing, at);
-	if(dot_prod(normal.dir, facing) < 0)
+	if (dot_prod(normal.dir, facing) < 0)
 		scalar_prod(&normal.dir, -1.0L, normal.dir);
 	return (normal);
 }
@@ -48,7 +48,8 @@ void		push_plane(t_figure **ppfig)
 {
 	t_figure	*aux;
 
-	aux = malloc(sizeof(t_plane)); //TODO: Tmp Shite.
+	if (!(aux = malloc(sizeof(t_triangle))))
+		config_err("Could not allocate mem.\n");
 	aux->next = *ppfig;
 	aux->collision = plane_collision;
 	aux->normal_at = plane_normal;

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/24 14:56:08 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:11:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_vector	cylinder_normal(void *cylinder, t_coord at, t_coord facing)
 	c = *(t_cylinder*)cylinder;
 	normal.orig = at;
 	vect_sub(&aux.dir, at, c.pos.orig);
-	scalar_prod(&aux.dir, dot_prod(c.pos.dir, aux.dir) /*/ (c.h * c.h)*/, c.pos.dir);
+	scalar_prod(&aux.dir, dot_prod(c.pos.dir, aux.dir), c.pos.dir);
 	vect_sum(&aux.dir, aux.dir, c.pos.orig);
 	vect_sub(&normal.dir, at, aux.dir);
 	normalize(&(normal.dir));

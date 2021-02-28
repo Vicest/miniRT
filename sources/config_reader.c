@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:46:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:53:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "minirt.h"
-#include "debug.h"
 
 /*
 **	Calls for a storage function based on the element identifier to store.

@@ -6,12 +6,12 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 10:21:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/08 10:28:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:58:18 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "lists.h"
+#include "minirt.h"
 #include <stdlib.h>
 
 /*
@@ -53,9 +53,9 @@ void		push_light(t_light **l_lst)
 	t_light *new;
 
 	if (l_lst == NULL)
-		return ; //TODO Error null light_list
+		config_err("Light list destination is NULL\n");
 	if (!(new = malloc(sizeof(t_light))))
-		return ; //TODO Sys Error
+		config_err("Could not allocate mem.\n");
 	new->next = *l_lst;
 	(*l_lst) = new;
 }
