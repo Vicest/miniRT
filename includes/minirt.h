@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/25 13:51:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 19:49:07 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,11 @@
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
-//typedef unsigned int	t_colour;
-//typedef int			t_resolution[2];
-
-typedef struct		s_ambient
-{
-	double			b_ratio;
-	t_colour		col;
-}					t_ambient;
-
 typedef struct		s_scene
 {
 	char			flags;
 	int				res[2];
-	t_ambient		amb;
+	t_colour		amb;
 	t_camera		*at_cam;
 	t_light			*lgt;
 	t_figure		*geo;
@@ -88,14 +79,14 @@ typedef struct		s_view
 
 int					get_next_line(int fd, char **line);
 void				save_conf(char *conf_file, t_scene *pscn);
-void				store_resolution(t_scene *pscn, char **element);
-void				store_ambient(t_scene *pscn, char **element);
-void				store_camera(t_scene *pscn, char **element);
-void				store_light(t_scene *pscn, char **element);
-void				store_sphere(t_scene *pscn, char **element);
-void				store_plane(t_scene *pscn, char **element);
-void				store_cylinder(t_scene *pscn, char **element);
-void				store_triangle(t_scene *pscn, char **element);
+void				store_resolution(t_scene *pscn, char **params);
+void				store_ambient(t_scene *pscn, char **params);
+void				store_camera(t_scene *pscn, char **params);
+void				store_light(t_scene *pscn, char **params);
+void				store_sphere(t_scene *pscn, char **params);
+void				store_plane(t_scene *pscn, char **params);
+void				store_cylinder(t_scene *pscn, char **params);
+void				store_triangle(t_scene *pscn, char **params);
 
 void				fill_viewport(t_scene scn, t_camera *pcam);
 //t_colour			compute_colour(t_scene scn, t_vector ray);
