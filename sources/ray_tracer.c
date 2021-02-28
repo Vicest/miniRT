@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 18:38:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 19:26:49 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	return (min_dist);
 }
 
-static void		illuminate(t_colour acc_col,t_scene scn, t_vector refl_ray, t_figure *pfig)
+static void		illuminate(t_colour acc_col, t_scene scn, t_vector hit, t_figure *pfig)
 {
 	t_light		*curr_lgt;
 	t_figure	*in_path;
@@ -54,19 +54,19 @@ static void		illuminate(t_colour acc_col,t_scene scn, t_vector refl_ray, t_figur
 	long double	ld;
 
 	curr_lgt = scn.lgt;
-	nv = pfig->normal_at(pfig, refl_ray.orig, scn.at_cam->vect.orig);
-	refl_ray.dir = nv.dir;
-	refl_ray.orig = point_at_dist(refl_ray, SHADOW_B);
+	nv = pfig->normal_at(pfig, hit.orig, scn.at_cam->vect.orig);
+	hit.dir = nv.dir;
+	hit.orig = point_at_dist(hit, SHADOW_B);
 	ft_bzero(acc_col, sizeof(t_colour));
 	while(curr_lgt)
 	{
-		vect_sub(&(refl_ray.dir), curr_lgt->pos, refl_ray.orig);
-		ld = norm(refl_ray.dir);
-		scalar_prod(&(refl_ray.dir), 1 / ld, refl_ray.dir);
-		if (ld >= nearest_at(scn.geo, &in_path, refl_ray) || in_path == NULL)
+		vect_sub(&(hit.dir), curr_lgt->pos, hit.orig);
+		ld = norm(hit.dir);
+		scalar_prod(&(hit.dir), 1 / ld, hit.dir);
+		if (ld < nearest_at(scn.geo, &in_path, hit) || in_path == NULL)
 		{
 			ft_memcpy(shadow_col, curr_lgt->col, sizeof(t_colour));
-			intensity(shadow_col, fmaxl(0, dot_prod(refl_ray.dir, nv.dir)));
+			intensity(shadow_col, fmaxl(0, dot_prod(hit.dir, nv.dir)));
 			mix_colour(acc_col, shadow_col);
 		}
 		curr_lgt = curr_lgt->next;
@@ -74,10 +74,9 @@ static void		illuminate(t_colour acc_col,t_scene scn, t_vector refl_ray, t_figur
 	mix_colour(acc_col, scn.amb.col);
 }
 
-//TODO: The args could be simplified (???)
+//TODO: The args could be simplified
 void			fill_viewport(t_scene scn, t_camera *pcam)
 {
-	long double	d;
 	t_vector	ray;
 	t_figure	*render_fig;
 	t_colour	lgt_col;
@@ -90,12 +89,10 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 		while (++x[0] < (int)(scn.res[0]))
 		{
 			ray = gen_pray(*pcam, scn.res, x);
-			//TODO:If not hits. I'm certain this could be simpler, rethink it.
-			d = nearest_at(scn.geo, &render_fig, ray);
+			ray.orig = point_at_dist(ray, nearest_at(scn.geo, &render_fig, ray));
 			ft_bzero(lgt_col, sizeof(t_colour));
 			if (render_fig != NULL)
 			{
-				ray.orig = point_at_dist(ray, d);
 				illuminate(lgt_col, scn, ray, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
 			}
