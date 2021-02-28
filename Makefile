@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2021/02/21 21:06:18 by vicmarti         ###   ########.fr        #
+#    Updated: 2021/02/28 17:42:04 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,12 @@ OS := $(shell uname)
 SRC_FILES :=
 SRC_FILES +=		main.c
 SRC_FILES +=		error.c
-SRC_FILES +=		debug.c
 SRC_FILES +=		validations.c
 SRC_FILES +=		plane.c
 SRC_FILES +=		triangle.c
 SRC_FILES +=		sphere.c
 SRC_FILES +=		cylinder.c
+SRC_FILES +=		colour_utils.c
 SRC_FILES +=		math_utils.c
 SRC_FILES +=		rotations.c
 SRC_FILES +=		camera_list.c
