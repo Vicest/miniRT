@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/25 11:04:53 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:47:01 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 #include <unistd.h>
 #include "minirt.h"
 #include "debug.h"
-
-/*
-**	TODO: Libft??
-**	Looks for a string in a null-terminated list of strings.
-*/
-
-int				strfind(char *elem, char **list)
-{
-	int		pos;
-
-	pos = 0;
-	if (!list || !elem)
-		return (-1);
-	while (list[pos] && 0 != ft_strcmp(elem, list[pos]))
-			pos++;
-	return (list[pos] != NULL ? pos : -1);
-}
 
 /*
 **	Calls for a storage function based on the element identifier to store.
@@ -58,7 +41,7 @@ static void			store_element(t_scene *pscn, char **elem)
 //	else if (0 == ft_strcmp(elem[0], "sq"))
 //		store_square(pscn, elem);
 	else
-		return ; //TODO: Error management.
+		config_err("Invalid item identifier found.\n");
 }
 
 /*
@@ -72,7 +55,7 @@ static void			line_store(t_scene *pscn, char *line)
 	int		i;
 
 	if (!(element = ft_split(line, ' ')))
-		exit(-1); //TODO:Error handling.
+		config_err("Could not split.\n");
 	if (0 != ft_strcmp(element[0], ""))
 		store_element(pscn, element);
 	i = 0;
@@ -92,8 +75,6 @@ static char			*file_extension_check(char *path, char *ext)
 	int		name_length;
 	int		ext_length;
 
-	if (!path || !ext)
-		exit(-1); //TODO: Errors plox
 	name_length = ft_strlen(path);
 	ext_length = ft_strlen(ext);
 	if ((name_length - ext_length) > 0)
@@ -126,7 +107,7 @@ void				save_conf(char *conf_file, t_scene *scn)
 		config_err("Invalid configuration file extension.\n");
 	fd = open(conf_file, O_RDONLY);
 	if (fd < 0)
-		perror("Error:\n");
+		config_err("Could not open file\n");
 	while (gnl_out != -1)
 	{
 		gnl_out = get_next_line(fd, &line);
