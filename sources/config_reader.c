@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 18:47:01 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:46:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,23 @@
 static void			store_element(t_scene *pscn, char **elem)
 {
 	if (0 == ft_strcmp(elem[0], "R"))
-		store_resolution(pscn, elem);
+		store_resolution(pscn, elem, 3);
 	else if (0 == ft_strcmp(elem[0], "A"))
-		store_ambient(pscn, elem);
+		store_ambient(pscn, elem, 3);
 	else if (0 == ft_strcmp(elem[0], "c"))
-		store_camera(pscn, elem);
+		store_camera(pscn, elem, 4);
 	else if (0 == ft_strcmp(elem[0], "l"))
-		store_light(pscn, elem);
+		store_light(pscn, elem, 4);
 	else if (0 == ft_strcmp(elem[0], "sp"))
-		store_sphere(pscn, elem);
+		store_sphere(pscn, elem, 4);
 	else if (0 == ft_strcmp(elem[0], "pl"))
-		store_plane(pscn, elem);
+		store_plane(pscn, elem, 4);
 	else if (0 == ft_strcmp(elem[0], "cy"))
-		store_cylinder(pscn, elem);
+		store_cylinder(pscn, elem, 5);
 	else if (0 == ft_strcmp(elem[0], "tr"))
-		store_triangle(pscn, elem);
+		store_triangle(pscn, elem, 5);
 //	else if (0 == ft_strcmp(elem[0], "sq"))
-//		store_square(pscn, elem);
+//		store_square(pscn, elem, 5);
 	else
 		config_err("Invalid item identifier found.\n");
 }
@@ -71,7 +71,6 @@ static void			line_store(t_scene *pscn, char *line)
 
 static char			*file_extension_check(char *path, char *ext)
 {
-	//TODO: Filter out directories to only evaluate the file name.
 	int		name_length;
 	int		ext_length;
 
@@ -117,6 +116,4 @@ void				save_conf(char *conf_file, t_scene *scn)
 			line_store(scn, line);
 		free(line);
 	}
-	/*if (!check_conf(*scn))
-		return (1); //TODO:Error handling.*/
 }

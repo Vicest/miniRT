@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 13:09:59 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/03 14:39:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:29:57 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define VALIDATIONS_H
 # include "minirt.h"
 
-//typedef unsigned int	t_colour;
-
+int				param_num(char **param);
 int				validate_int(char *text, int min_val, int max_val);
 void			validate_colour(char *text, t_colour out);
 double			validate_double(char *str);

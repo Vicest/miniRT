@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 21:02:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:29:24 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 **	before validating its value like an atoi.
 */
 
-int				validate_int(char *str, int min_val, int max_val)
+int		validate_int(char *str, int min_val, int max_val)
 {
 	int i;
 	int out;
@@ -39,10 +39,9 @@ int				validate_int(char *str, int min_val, int max_val)
 /*
 **	Check if the text given is a valid representation of a floating
 **	point number before validating its value.
-**	/TODO: Dolor de muelas. Únicamente verifica que la cadena va bien.
 */
 
-double			validate_double(char *str)
+double	validate_double(char *str)
 {
 	int i;
 	
@@ -66,7 +65,7 @@ double			validate_double(char *str)
 **	The colour is stored in an integer using said values.
 */
 
-void		validate_colour(char *text, t_colour out)
+void	validate_colour(char *text, t_colour out)
 {
 	char		**colours;
 	int			i;
@@ -86,7 +85,7 @@ void		validate_colour(char *text, t_colour out)
 	free(colours);
 }
 
-t_coord			validate_coordinates(char *text)
+t_coord	validate_coordinates(char *text)
 {
 	char	**coords;
 	int		i;
@@ -108,9 +107,18 @@ t_coord			validate_coordinates(char *text)
 	return (out);
 }
 
+int		param_num(char **param)
+{
+	int		i;
+
+	i = 0;
+	while(param[i])
+		i++;
+	return (i);
+}
 
 //TODO: I have doubts, this looks like different work somewhere else.
-t_coord		validate_direction(char *text)
+t_coord	validate_direction(char *text)
 {
 	t_coord	out;
 

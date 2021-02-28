@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 19:49:07 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/02/28 20:38:53 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ typedef struct		s_view
 
 int					get_next_line(int fd, char **line);
 void				save_conf(char *conf_file, t_scene *pscn);
-void				store_resolution(t_scene *pscn, char **params);
-void				store_ambient(t_scene *pscn, char **params);
-void				store_camera(t_scene *pscn, char **params);
-void				store_light(t_scene *pscn, char **params);
-void				store_sphere(t_scene *pscn, char **params);
-void				store_plane(t_scene *pscn, char **params);
-void				store_cylinder(t_scene *pscn, char **params);
-void				store_triangle(t_scene *pscn, char **params);
+void				store_resolution(t_scene *pscn, char **params, int p_num);
+void				store_ambient(t_scene *pscn, char **params, int p_num);
+void				store_camera(t_scene *pscn, char **params, int p_num);
+void				store_light(t_scene *pscn, char **params, int p_num);
+void				store_sphere(t_scene *pscn, char **params, int p_num);
+void				store_plane(t_scene *pscn, char **params, int p_num);
+void				store_cylinder(t_scene *pscn, char **params, int p_num);
+void				store_triangle(t_scene *pscn, char **params, int p_num);
 
 void				fill_viewport(t_scene scn, t_camera *pcam);
 //t_colour			compute_colour(t_scene scn, t_vector ray);

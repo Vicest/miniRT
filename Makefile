@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2021/02/28 17:42:04 by vicmarti         ###   ########.fr        #
+#    Updated: 2021/02/28 20:06:30 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC_FILES +=		camera_list.c
 SRC_FILES +=		light_stack.c
 SRC_FILES +=		ray_tracer.c
 SRC_FILES +=		config_reader.c
-SRC_FILES +=		config_utils.c
+SRC_FILES +=		save_functions.c
+SRC_FILES +=		save_functions_2.c
 SRC_FILES +=		bmpstore.c
 SRC_FILES +=		get_next_line.c
 SRC_FILES +=		get_next_line_utils.c
