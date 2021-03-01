@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:23:34 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 15:58:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ static long double	nearest_at(t_figure *geo, t_figure **nearest, t_vector ray)
 	return (min_dist);
 }
 
+void			gen_rray(t_coord *rray, t_coord inc_ray, t_coord normal)
+{
+	t_coord aux;
+
+	scalar_prod(&aux, 2 * dot_prod(normal, inc_ray), normal);
+	vect_sub(rray, inc_ray, aux);
+}
+
 static void			illum(t_colour acc_col, t_scene scn, t_vector hit, t_figure *pfig)
 {
 	t_light		*curr_lgt;
@@ -54,7 +62,6 @@ static void			illum(t_colour acc_col, t_scene scn, t_vector hit, t_figure *pfig)
 	long double	ld;
 
 	curr_lgt = scn.lgt;
-	nv = pfig->normal_at(pfig, hit.orig, scn.at_cam->vect.orig);
 	hit.dir = nv.dir;
 	hit.orig = point_at_dist(hit, SHADOW_B);
 	ft_bzero(acc_col, sizeof(t_colour));
@@ -77,6 +84,7 @@ static void			illum(t_colour acc_col, t_scene scn, t_vector hit, t_figure *pfig)
 void			fill_viewport(t_scene scn, t_camera *pcam)
 {
 	t_vector	ray;
+	t_vector	normal;
 	t_figure	*render_fig;
 	t_colour	lgt_col;
 	int			x[2];
@@ -88,13 +96,14 @@ void			fill_viewport(t_scene scn, t_camera *pcam)
 		while (++x[0] < (int)(scn.res[0]))
 		{
 			ray = gen_pray(*pcam, scn.res, x);
-			ray.orig = point_at_dist(ray, nearest_at(scn.geo,
-						&render_fig, ray));
+			ray.orig = point_at_dist(ray, nearest_at(scn.geo, &render_fig, ray));
+			normal = render_fig->normal_at(render_fig, ray.orig, scn.at_cam->vect.orig);
 			ft_bzero(lgt_col, sizeof(t_colour));
 			if (render_fig != NULL)
 			{
 				illum(lgt_col, scn, ray, render_fig);
 				reflect_colour(lgt_col, render_fig->col, lgt_col);
+				gen_rray(&ray.dir, ray.dir, normal.dir);
 			}
 			*(unsigned *)(pcam->img.addr + x[0] * (pcam->img.bpp / 8) +
 				x[1] * pcam->img.line_len) = col2uint(lgt_col);
