@@ -6,10 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:14:58 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 11:19:07 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include "figures.h"
 #include <stdlib.h>
 
@@ -53,7 +54,8 @@ void		push_sphere(t_figure **ppfig)
 {
 	t_figure	*aux;
 
-	aux = malloc(sizeof(t_sphere)); //TODO: Tmp Shite.
+	if (!(aux = malloc(sizeof(t_sphere))))
+		config_err("Could not allocate mem.\n");
 	aux->next = *ppfig;
 	aux->collision = sphere_collision;
 	aux->normal_at = sphere_normal;

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:53:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 11:16:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void			store_element(t_scene *pscn, char **elem)
 		store_cylinder(pscn, elem, 5);
 	else if (0 == ft_strcmp(elem[0], "tr"))
 		store_triangle(pscn, elem, 5);
-//	else if (0 == ft_strcmp(elem[0], "sq"))
-//		store_square(pscn, elem, 5);
+	else if (0 == ft_strcmp(elem[0], "sq"))
+		store_square(pscn, elem, 5);
 	else
 		config_err("Invalid item identifier found.\n");
 }

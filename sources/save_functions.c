@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:40:18 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:09:10 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,58 @@
 
 void	store_sphere(t_scene *pscn, char **params, int p_num)
 {
+	t_sphere	*s;
+
 	if (param_num(params) != p_num)
 		config_err("Invalid parameter count for sphere.\n");
 	push_sphere(&pscn->geo);
-	((t_sphere*)pscn->geo)->pos = validate_coordinates(params[1]);
-	((t_sphere*)pscn->geo)->r = validate_double(params[2]) * 0.5L;
+	s = (t_sphere *)pscn->geo;
+	s->pos = validate_coordinates(params[1]);
+	s->r = validate_double(params[2]) * 0.5L;
 	validate_colour(params[3], pscn->geo->col);
 }
 
 void	store_plane(t_scene *pscn, char **params, int p_num)
 {
+	t_plane		*p;
+
 	if (param_num(params) != p_num)
 		config_err("Invalid parameter count for plane.\n");
 	push_plane(&pscn->geo);
-	((t_plane*)pscn->geo)->normal.orig = validate_coordinates(params[1]);
-	((t_plane*)pscn->geo)->normal.dir = validate_direction(params[2]);
-	((t_plane*)pscn->geo)->ind_term = dot_prod(
-		((t_plane*)pscn->geo)->normal.dir, ((t_plane*)pscn->geo)->normal.orig);
+	p = (t_plane *)pscn->geo;
+	p->normal.orig = validate_coordinates(params[1]);
+	p->normal.dir = validate_direction(params[2]);
+	p->ind_term = dot_prod(p->normal.dir, p->normal.orig);
 	validate_colour(params[3], pscn->geo->col);
 }
 
 void	store_square(t_scene *pscn, char **params, int p_num)
 {
+	t_square	*s;
+	t_coord		aux;
+	long double vert_to_centre;
+
 	if (param_num(params) != p_num)
 		config_err("Invalid parameter count for square.\n");
-	push_plane(&pscn->geo);
-	((t_plane*)pscn->geo)->normal.orig = validate_coordinates(params[1]);
-	((t_plane*)pscn->geo)->normal.dir = validate_direction(params[2]);
-	((t_plane*)pscn->geo)->ind_term = dot_prod(
-		((t_plane*)pscn->geo)->normal.dir, ((t_plane*)pscn->geo)->normal.orig);
-	validate_colour(params[3], pscn->geo->col);
+	push_square(&pscn->geo);
+	s = (t_square *)pscn->geo;
+	s->normal.orig = validate_coordinates(params[1]);
+	s->normal.dir = validate_direction(params[2]);
+	s->ind_term = dot_prod(s->normal.dir, s->normal.orig);
+	vert_to_centre = validate_double(params[3]) * M_SQRT1_2;
+	aux = vector_dir(1.0L, 0.0L, 0.0L);
+	if (equals_zero(1 - fabsl(dot_prod(aux, s->normal.dir))))
+		aux = vector_dir(0.0L, 1.0L, 0.0L);
+	scalar_prod(&s->vertix[0], vert_to_centre, aux);
+	vect_sum(&s->vertix[0], s->vertix[0], s->normal.orig);
+	scalar_prod(&s->vertix[2], -vert_to_centre, aux);
+	vect_sum(&s->vertix[2], s->vertix[2], s->normal.orig);
+	cross_prod(&aux, aux, s->normal.dir);
+	scalar_prod(&s->vertix[1], vert_to_centre, aux);
+	vect_sum(&s->vertix[1], s->vertix[1], s->normal.orig);
+	scalar_prod(&s->vertix[3], -vert_to_centre, aux);
+	vect_sum(&s->vertix[3], s->vertix[3], s->normal.orig);
+	validate_colour(params[4], pscn->geo->col);
 }
 
 void	store_triangle(t_scene *pscn, char **params, int p_num)

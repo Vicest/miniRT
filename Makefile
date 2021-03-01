@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2021/02/28 20:06:30 by vicmarti         ###   ########.fr        #
+#    Updated: 2021/03/01 12:10:13 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC_FILES +=		validations.c
 SRC_FILES +=		plane.c
 SRC_FILES +=		triangle.c
 SRC_FILES +=		sphere.c
+SRC_FILES +=		square.c
 SRC_FILES +=		cylinder.c
 SRC_FILES +=		colour_utils.c
 SRC_FILES +=		math_utils.c

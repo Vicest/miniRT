@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 19:48:28 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 21:06:21 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 13:10:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,36 @@
 #include "figures.h"
 #include <stdlib.h>
 
+int			inside_check(t_coord p, t_coord nv, t_coord *vertix, int v_num)
+{
+	t_coord		side;
+	t_coord		v_to_p;
+	int			sign_cnt;
+	int			i;
+
+	sign_cnt = 0;
+	i = -1;
+	while(++i < v_num)
+	{
+		vect_sub(&v_to_p, p, vertix[i]);
+		vect_sub(&side, vertix[i], vertix[(i + 1) % v_num]);
+		cross_prod(&side, side, v_to_p);
+		if (signbit(dot_prod(side, nv)) == 1)
+			sign_cnt++;
+	}
+	return (sign_cnt == 0 || sign_cnt == v_num);
+}
+
 long double	triangle_collision(void *triangle, t_vector v)
 {
 	t_triangle	t;
-	t_coord		side[2];
 	t_coord		p;
-	int			sign;
 	long double	dist;
 
 	t = *(t_triangle *)triangle;
 	plane_dist(&dist, v, t.ind_term, t.normal);
 	p = point_at_dist(v, dist);
-	vect_sub(&side[0], p, t.vertix[0]);
-	vect_sub(&side[1], t.vertix[1], t.vertix[0]);
-	cross_prod(&side[0], side[0], side[1]);
-	sign = signbit(dot_prod(side[0], t.normal));
-	vect_sub(&side[0], p, t.vertix[1]);
-	vect_sub(&side[1], t.vertix[2], t.vertix[1]);
-	cross_prod(&side[0], side[0], side[1]);
-	if (sign != signbit(dot_prod(side[0], t.normal)))
-		return (NAN);
-	vect_sub(&side[0], p, t.vertix[2]);
-	vect_sub(&side[1], t.vertix[0], t.vertix[2]);
-	cross_prod(&side[0], side[0], side[1]);
-	if (sign != signbit(dot_prod(side[0], t.normal)))
+	if (!inside_check(p, t.normal, t.vertix, 3))
 		return (NAN);
 	return (dist);
 }
@@ -47,7 +53,7 @@ t_vector	triangle_normal(void *t, t_coord at, t_coord facing)
 	t_vector	normal;
 
 	normal.orig = at;
-	normal.dir = ((t_triangle*)t)->normal;
+	normal.dir = ((t_triangle *)t)->normal;
 	vect_sub(&facing, facing, at);
 	if (dot_prod(normal.dir, facing) < 0)
 		scalar_prod(&normal.dir, -1.0L, normal.dir);

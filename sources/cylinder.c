@@ -6,10 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:11:19 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/01 11:20:37 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include "figures.h"
 #include <stdlib.h>
 
@@ -86,7 +87,8 @@ void		push_cylinder(t_figure **ppfig)
 {
 	t_figure	*aux;
 
-	aux = malloc(sizeof(t_cylinder)); //TODO: Tmp Shite.
+	if (!(aux = malloc(sizeof(t_triangle))))
+		config_err("Could not allocate mem.\n");
 	aux->next = *ppfig;
 	aux->collision = cylinder_collision;
 	aux->normal_at = cylinder_normal;
