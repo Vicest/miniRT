@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 21:01:04 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/02 15:52:40 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,24 @@
 #include "figures.h"
 #include <stdlib.h>
 
-void		plane_dist(long double *d, t_vector v, long double iterm, t_coord n)
-{
-	*d = iterm - dot_prod(v.orig, n);
-	*d /= dot_prod(v.dir, n);
-	if (isnan(*d) || signbit(*d) == 1 || equals_zero(*d))
-		*d = NAN;
-}
-
-long double	plane_collision(void *plane, t_vector v)
+long double	plane_collision(void *plane, t_coord orig, t_coord dir)
 {
 	long double	dist;
 	t_plane		p;
 
 	p = *(t_plane *)plane;
-	plane_dist(&dist, v, p.ind_term, p.normal.dir);
+	dist = plane_dist(orig, dir, p.ind_term, p.normal.dir);
 	return (dist);
 }
 
-t_vector	plane_normal(void *plane, t_coord at, t_coord facing)
+t_coord		plane_normal(void *plane, t_coord at, t_coord facing)
 {
-	t_vector	normal;
+	t_coord		normal;
 
-	normal.orig = at;
-	normal.dir = ((t_plane*)plane)->normal.dir;
+	normal = ((t_plane*)plane)->normal;
 	vect_sub(&facing, facing, at);
-	if (dot_prod(normal.dir, facing) < 0)
-		scalar_prod(&normal.dir, -1.0L, normal.dir);
+	if (dot_prod(normal, facing) < 0)
+		scalar_prod(&normal, -1.0L, normal);
 	return (normal);
 }
 

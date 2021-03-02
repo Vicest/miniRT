@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 20:53:09 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/02 15:26:51 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ typedef struct			s_coord
 	long double			x[3];
 }						t_coord;
 
-typedef struct			s_vector
-{
-	t_coord				orig;
-	t_coord				dir;
-}						t_vector;
-
 typedef struct			s_matrix
 {
 	long double			m[3][3];
@@ -51,8 +45,7 @@ t_coord		cross_prod(t_coord *out, t_coord v1, t_coord v2);
 long double	norm(t_coord v);
 void		normalize(t_coord *v);
 int			is_normalized(t_coord v);
-t_coord		point_at_dist(t_vector v, long double dist);
-void		print_vector(t_vector v);
+t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist);
 
 //TODO: Solutions as a struct or something.
 void		linear_solver(long double a, long double b, long double *sol);

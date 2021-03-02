@@ -6,7 +6,7 @@
 #    By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/16 23:35:47 by vicmarti          #+#    #+#              #
-#    Updated: 2021/03/02 13:35:37 by vicmarti         ###   ########.fr        #
+#    Updated: 2021/03/02 15:51:45 by vicmarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ SRC_FILES :=
 SRC_FILES +=		main.c
 SRC_FILES +=		error.c
 SRC_FILES +=		validations.c
+SRC_FILES +=		inside_check.c
+SRC_FILES +=		plane_dist.c
 SRC_FILES +=		plane.c
 SRC_FILES +=		triangle.c
 SRC_FILES +=		sphere.c
