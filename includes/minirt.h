@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/01 11:15:49 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:44:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 # include "get_next_line.h"
 # include "lists.h"
 # include "figures.h"
-# include <stdio.h>
-# include <string.h>
+# include "colours.h"
+# include "math_utils.h"
+//# include <stdio.h>
+//# include <string.h>
 # include <stdlib.h>
 
 # define MAX_XRES 4096
@@ -60,6 +62,13 @@
 # define FLAG_RES 1
 # define FLAG_AMB 1 << 1
 
+typedef struct		s_ray
+{
+	t_coord			orig;
+	t_coord			dir;
+	t_colour		col;
+}					t_ray;
+
 typedef struct		s_scene
 {
 	char			flags;
@@ -90,9 +99,8 @@ void				store_triangle(t_scene *pscn, char **params, int p_num);
 void				store_square(t_scene *pscn, char **params, int p_num);
 
 void				fill_viewport(t_scene scn, t_camera *pcam);
-//t_colour			compute_colour(t_scene scn, t_vector ray);
 
-int			save_bmp(t_img img, char *name, int dim[2]);
+int					save_bmp(t_img img, char *name, int dim[2]);
 //TODO Gimme my own .h :'(
 void				config_err(char *err_str);
 #endif
