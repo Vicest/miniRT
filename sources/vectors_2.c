@@ -6,20 +6,20 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 13:31:50 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 13:37:30 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:50:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
 
-t_coord		point_at_dist(t_vector v, long double dist)
+t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist)
 {
 	t_coord		point;
 	int			i;
 
 	i = -1;
 	while (++i < 3)
-		point.x[i] = dist * v.dir.x[i] + v.orig.x[i];
+		point.x[i] = dist * dir.x[i] + orig.x[i];
 	return (point);
 }
 

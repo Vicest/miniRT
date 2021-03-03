@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 20:24:22 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/01 13:10:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:51:11 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 #include "figures.h"
 #include <stdlib.h>
 
-long double	square_collision(void *square, t_vector v)
+long double	square_collision(void *square, t_coord ray_o, t_coord ray_d)
 {
 	t_square	s;
 	t_coord		p;
 	long double	dist;
 
 	s = *(t_square *)square;
-	plane_dist(&dist, v, s.ind_term, s.normal.dir);
-	p = point_at_dist(v, dist);
-	if (!inside_check(p, s.normal.dir, s.vertix, 4))
+	dist = plane_dist(ray_o, ray_d, s.ind_term, s.normal);
+	p = point_at_dist(ray_o, ray_d, dist);
+	if (!inside_check(p, s.normal, s.vertix, 4))
 		return (NAN);
 	return (dist);
 }
 
-t_vector	square_normal(void *square, t_coord at, t_coord facing)
+t_coord		square_normal(void *square, t_coord at, t_coord facing)
 {
-	t_vector	normal;
+	t_coord		normal;
 
-	normal.orig = at;
-	normal.dir = ((t_square *)square)->normal.dir;
+	normal = ((t_square *)square)->normal;
 	vect_sub(&facing, facing, at);
-	if (dot_prod(normal.dir, facing) < 0)
-		scalar_prod(&normal.dir, -1.0L, normal.dir);
+	if (dot_prod(normal, facing) < 0)
+		scalar_prod(&normal, -1.0L, normal);
 	return (normal);
 }
 

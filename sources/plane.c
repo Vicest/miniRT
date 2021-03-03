@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:52:40 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:26:00 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long double	plane_collision(void *plane, t_coord orig, t_coord dir)
 	t_plane		p;
 
 	p = *(t_plane *)plane;
-	dist = plane_dist(orig, dir, p.ind_term, p.normal.dir);
+	dist = plane_dist(orig, dir, p.ind_term, p.normal);
 	return (dist);
 }
 

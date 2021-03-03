@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:53:33 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:21:32 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct			s_plane
 	long double			(*collision)(void *, t_coord, t_coord);
 	t_coord				(*normal_at)(void *, t_coord, t_coord);
 	t_colour			col;
-	t_vector			normal;
+	t_coord				centre;
+	t_coord				normal;
 	long double			ind_term;
 }						t_plane;
 
@@ -73,7 +74,8 @@ typedef struct			s_cylinder
 	long double			(*collision)(void *, t_coord, t_coord);
 	t_coord				(*normal_at)(void *, t_coord, t_coord);
 	t_colour			col;
-	t_vector			pos;
+	t_coord				orig;
+	t_coord				dir;
 	t_coord				end;
 	long double			r;
 	long double			h;

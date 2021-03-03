@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 15:52:16 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:52:44 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:24:23 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ long double	plane_dist(t_coord orig, t_coord dir, long double iterm, t_coord n)
 	d /= dot_prod(dir, n);
 	if (isnan(d) || signbit(d) == 1 || equals_zero(d))
 		d = NAN;
+	return (d);
 }

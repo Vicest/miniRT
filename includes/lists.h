@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:30:20 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/21 17:40:49 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:15:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef struct			s_camera
 	struct s_camera		*next;
 	struct s_camera		*prev;
 	t_img				img;
-	t_vector			vect;
+	t_coord				orig;
+	t_coord				dir;
 	t_coord				lr_dir;
 	t_coord				ud_dir;
 	t_rota				rota;
