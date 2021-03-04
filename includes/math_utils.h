@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:26:51 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:51:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int			is_normalized(t_coord v);
 t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist);
 
 //TODO: Solutions as a struct or something.
-void		linear_solver(long double a, long double b, long double *sol);
-void		quadratic_solver(long double abc[3], long double *sol1, long double *sol2);
+void		linear_solve(long double a, long double b, long double *sol);
+void		quad_solve(long double abc[3], long double *sol1, long double *sol2);
 
 t_coord		l_transform(t_matrix m, t_coord v);
 
 t_rota		inv_spherical(t_coord v);
-t_coord	pitch(t_coord v, long double angle);
-t_coord	yaw(t_coord v, long double angle);
+t_coord		pitch(t_coord v, long double angle);
+t_coord		yaw(t_coord v, long double angle);
 //t_vector	roll(t_vector v, long double angle);
 #endif

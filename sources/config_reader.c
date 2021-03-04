@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/01 11:16:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:52:50 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void			store_element(t_scene *pscn, char **elem)
 	else if (0 == ft_strcmp(elem[0], "pl"))
 		store_plane(pscn, elem, 4);
 	else if (0 == ft_strcmp(elem[0], "cy"))
-		store_cylinder(pscn, elem, 5);
+		store_cylinder(pscn, elem, 6);
 	else if (0 == ft_strcmp(elem[0], "tr"))
 		store_triangle(pscn, elem, 5);
 	else if (0 == ft_strcmp(elem[0], "sq"))

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 13:37:29 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:51:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		quad_solve(long double abc[3], long double *sol1, long double *sol2)
 	if (abc[0] == 0)
 	{
 		*sol2 = NAN;
-		linear_solver(abc[0], abc[1], sol1);
+		linear_solve(abc[0], abc[1], sol1);
 		return ;
 	}
 	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2];

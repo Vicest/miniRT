@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 14:44:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:49:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "figures.h"
 # include "colours.h"
 # include "math_utils.h"
-//# include <stdio.h>
+# include <stdio.h>
 //# include <string.h>
 # include <stdlib.h>
 

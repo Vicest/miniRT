@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 12:50:54 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/03 15:21:32 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:33:08 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ typedef struct			s_square
 	long double			(*collision)(void *, t_coord, t_coord);
 	t_coord				(*normal_at)(void *, t_coord, t_coord);
 	t_colour			col;
-	t_coord				vertix[4];
+	t_coord				centre;
 	t_coord				normal;
+	t_coord				vertix[4];
 	long double			ind_term;
 }						t_square;
 

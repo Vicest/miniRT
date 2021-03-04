@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/01 11:20:37 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:50:59 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include "figures.h"
 #include <stdlib.h>
 
-static int	in_bonds(long double d, long double h, t_vector v, t_vector c_vec)
+static int	in_bonds(long double d, t_cylinder c, t_coord r_orig, t_coord r_dir)
 {
 	t_coord		cyl_to_point;
 	long double	collision_height;
 
-	vect_sub(&cyl_to_point, point_at_dist(v, d), c_vec.orig);
-	collision_height = dot_prod(c_vec.dir, cyl_to_point);
-	if (0 > collision_height || collision_height > h * h)
+	vect_sub(&cyl_to_point, point_at_dist(r_orig, r_dir, d), c.orig);
+	collision_height = dot_prod(c.dir, cyl_to_point);
+	if (0 > collision_height || collision_height > c.h * c.h)
 		return (0);
 	return (1);
 }
 
-long double	cylinder_collision(void *cylinder, t_vector v)
+long double	cylinder_collision(void *cylinder, t_coord orig, t_coord dir)
 {
 	t_cylinder	c;
 	t_coord		a;
@@ -40,46 +40,45 @@ long double	cylinder_collision(void *cylinder, t_vector v)
 
 	c = *(t_cylinder*)cylinder;
 	/*
-	vect_sub(&p_m_x1, v.orig, c.pos.orig);
-	vect_sub(&p_m_x2, v.orig, vect_sum(&p_m_x2, c.pos.orig, c.pos.dir));
+	vect_sub(&p_m_x1, orig, c.orig);
+	vect_sub(&p_m_x2, orig, vect_sum(&p_m_x2, c.orig, c.dir));
 	cross_prod(&b, p_m_x1, p_m_x2);
-	vect_sum(&a, cross_prod(&a, v.dir, p_m_x2), cross_prod(&a, p_m_x1, v.dir));
+	vect_sum(&a, cross_prod(&a, dir, p_m_x2), cross_prod(&a, p_m_x1, dir));
 	*/
-	scalar_prod(&a, dot_prod(v.dir, c.pos.dir), c.pos.dir);
-	vect_sub(&a, v.dir, a);
-	vect_sub(&delta_cyl, v.orig, c.pos.orig);
-	scalar_prod(&b, dot_prod(delta_cyl, c.pos.dir), c.pos.dir);
+	scalar_prod(&a, dot_prod(dir, c.dir), c.dir);
+	vect_sub(&a, dir, a);
+	vect_sub(&delta_cyl, orig, c.orig);
+	scalar_prod(&b, dot_prod(delta_cyl, c.dir), c.dir);
 	vect_sub(&b, delta_cyl, b);
 
 	coefficients[0] = dot_prod(a, a);
 	coefficients[1] = 2 * dot_prod(a, b);
 	coefficients[2] = dot_prod(b, b) - /*c.h * c.h **/ c.r * c.r;
-	quadratic_solver(coefficients, &sol[0], &sol[1]);
+	quad_solve(coefficients, &sol[0], &sol[1]);
 	if (!isnan(sol[0]) && (sol[0] < 0.0L || equals_zero(sol[0]) ||
-				!in_bonds(sol[0], c.h, v, c.pos)))
+				!in_bonds(sol[0], c, orig, dir)))
 		sol[0] = NAN;
 	if (!isnan(sol[1]) && (sol[1] < 0.0L || equals_zero(sol[1]) ||
-				!in_bonds(sol[1], c.h, v, c.pos)))
+				!in_bonds(sol[1], c, orig, dir)))
 		sol[1] = NAN;
 	return (fminl(sol[0], sol[1]));
 }
 
-t_vector	cylinder_normal(void *cylinder, t_coord at, t_coord facing)
+t_coord		cylinder_normal(void *cylinder, t_coord at, t_coord facing)
 {
-	t_vector	normal;
-	t_vector	aux;
+	t_coord		normal;
+	t_coord		aux;
 	t_cylinder	c;
 
 	c = *(t_cylinder*)cylinder;
-	normal.orig = at;
-	vect_sub(&aux.dir, at, c.pos.orig);
-	scalar_prod(&aux.dir, dot_prod(c.pos.dir, aux.dir), c.pos.dir);
-	vect_sum(&aux.dir, aux.dir, c.pos.orig);
-	vect_sub(&normal.dir, at, aux.dir);
-	normalize(&(normal.dir));
+	vect_sub(&aux, at, c.orig);
+	scalar_prod(&aux, dot_prod(c.dir, aux), c.dir);
+	vect_sum(&aux, aux, c.orig);
+	vect_sub(&normal, at, aux);
+	normalize(&(normal));
 	vect_sub(&facing, facing, at);
-	if (dot_prod(normal.dir, facing) < 0)
-		scalar_prod(&normal.dir, -1.0L, normal.dir);
+	if (dot_prod(normal, facing) < 0)
+		scalar_prod(&normal, -1.0L, normal);
 	return (normal);
 }
 

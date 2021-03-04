@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:37:28 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:50:42 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long double	sphere_collision(void *sphere, t_coord orig, t_coord dir)
 	coefficients[0] = 1;
 	coefficients[1] = 2 * dot_prod(dir, p_m_c);
 	coefficients[2] = dot_prod(p_m_c, p_m_c) - s.r * s.r;
-	quadratic_solver(coefficients, &sol[0], &sol[1]);
+	quad_solve(coefficients, &sol[0], &sol[1]);
 	if (!isnan(sol[0]) && (sol[0] < 0.0L || equals_zero(sol[0])))
 		sol[0] = NAN;
 	if (!isnan(sol[1]) && (sol[1] < 0.0L || equals_zero(sol[1])))

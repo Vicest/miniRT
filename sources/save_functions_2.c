@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/01 11:34:28 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:47:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	store_camera(t_scene *pscn, char **params, int p_num)
 	push_camera(&(pscn->at_cam));
 	pcam = pscn->at_cam;
 	ft_bzero(&pcam->img, sizeof(t_img));
-	pcam->vect.orig = validate_coordinates(params[1]);
-	pcam->vect.dir = validate_direction(params[2]);
+	pcam->orig = validate_coordinates(params[1]);
+	pcam->dir = validate_direction(params[2]);
 	pcam->fov = validate_int(params[3], 1, 179);
 	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI / 360);
-	pcam->rota = inv_spherical(pcam->vect.dir);
+	pcam->rota = inv_spherical(pcam->dir);
 	pcam->lr_dir = vector_dir(0, 1, 0);
 	pcam->lr_dir = pitch(yaw(pcam->lr_dir, pcam->rota.azimuth), pcam->rota.latitude);
 	pcam->ud_dir = vector_dir(0, 0, 1);
