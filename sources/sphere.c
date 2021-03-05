@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:50:42 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/05 17:00:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "figures.h"
 #include <stdlib.h>
 
-long double	sphere_collision(void *sphere, t_coord orig, t_coord dir)
+long double		sphere_collision(void *sphere, t_coord orig, t_coord dir)
 {
 	long double	coefficients[3];
 	long double	sol[2];
@@ -34,7 +34,7 @@ long double	sphere_collision(void *sphere, t_coord orig, t_coord dir)
 	return (fminl(sol[0], sol[1]));
 }
 
-t_coord		sphere_normal(void *s, t_coord at, t_coord facing)
+t_coord			sphere_normal(void *s, t_coord at, t_coord facing)
 {
 	t_coord		normal;
 
@@ -46,7 +46,18 @@ t_coord		sphere_normal(void *s, t_coord at, t_coord facing)
 	return (normal);
 }
 
-void		push_sphere(t_figure **ppfig)
+t_colour		*colour(void *sphere, t_coord hit)
+{
+	t_sphere	*s;
+	t_colour	*col;
+	long double	d;
+
+	d = norm(hit - reference);
+	s = (t_sphere *)sphere;
+	return (col);
+}
+
+void			push_sphere(t_figure **ppfig)
 {
 	t_figure	*aux;
 
