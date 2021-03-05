@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 13:11:50 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/01/08 15:48:38 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:42:24 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ t_coord		yaw(t_coord v,  long double angle)
 {
 	t_matrix	m;
 
-	m.m[0][0] = cosl(angle);
-	m.m[0][1] = sinl(angle);
+	m.m[0][0] = cosl(-angle);
+	m.m[0][1] = sinl(-angle);
 	m.m[0][2] = 0;
-	m.m[1][0] = -sinl(angle);
-	m.m[1][1] = cosl(angle);
+	m.m[1][0] = -sinl(-angle);
+	m.m[1][1] = cosl(-angle);
 	m.m[1][2] = 0;
 	m.m[2][0] = 0;
 	m.m[2][1] = 0;
