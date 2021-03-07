@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:30:20 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/03 15:15:13 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:28:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct			s_light
 	struct s_light		*next;
 	t_coord				pos;
 	t_colour			col;
-	double				b_ratio;
+	double				b;
 }						t_light;
 
 void					push_camera(t_camera **c_lst);

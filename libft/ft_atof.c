@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:01:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2020/12/07 11:26:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:35:48 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ double	ft_atof(const char *a)
 	{
 		if (f * 10 < f)
 			return (INFINITY);
-	f = 10 * f + (a[i++] - '0');
+		f = 10 * f + (a[i++] - '0');
 	}
 	if (a[i++] != '.')
 		return (sign * f);

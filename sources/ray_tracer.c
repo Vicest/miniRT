@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:37:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:31:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,41 +58,32 @@ static void			set_rray(t_ray *rray, t_coord inc_dir, t_coord normal)
 static void			illum(t_colour acc_col, t_scene scn, t_ray hit,
 		t_figure *pfig)
 {
-	t_light		*curr_lgt;
+	t_light		*curr;
 	t_figure	*in_path;
 	t_coord		normal;
-	t_colour	shadow_col;
+	t_colour	shadow;
 	long double	ld;
 
-	curr_lgt = scn.lgt;
+	curr = scn.lgt;
 	normal = pfig->normal_at(pfig, hit.orig, scn.at_cam->orig);
 	hit.orig = move_p(hit.orig, normal, SHADOW_B);
 	ft_bzero(acc_col, sizeof(t_colour));
-	while (curr_lgt)
+	while (curr)
 	{
-		vect_sub(&(hit.dir), curr_lgt->pos, hit.orig);
+		vect_sub(&(hit.dir), curr->pos, hit.orig);
 		ld = norm(hit.dir);
 		scalar_prod(&(hit.dir), 1 / ld, hit.dir);
 		if (ld < nearest(scn.geo, &in_path, hit) || in_path == NULL)
 		{
-			ft_memcpy(shadow_col, curr_lgt->col, sizeof(t_colour));
-			intensity(shadow_col, fmaxl(0, dot_prod(hit.dir, normal)));
-			reflect_colour(shadow_col, pfig->col, shadow_col);
-			mix_colour(acc_col, shadow_col);
+			ft_memcpy(shadow, curr->col, sizeof(t_colour));
+			intensity(shadow, fmaxl(0, curr->b * dot_prod(hit.dir, normal)));
+			filter_colour(shadow, pfig->col, shadow);
+			mix_colour(acc_col, shadow);
 		}
-		curr_lgt = curr_lgt->next;
+		curr = curr->next;
 	}
 	mix_colour(acc_col, scn.amb);
 }
-
-/*
-static void		reflect(t_scene scn, t_vector ray)
-{
-	t_figure	*render_fig;
-	//TODO: Move collision check here.
-	gen_rray();
-	illum();
-}*/
 
 void				fill_viewport(t_scene scn, t_camera *pcam)
 {

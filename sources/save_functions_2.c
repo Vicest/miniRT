@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:13:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:29:14 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	store_light(t_scene *pscn, char **params, int p_num)
 		config_err("Invalid parameter count for light.\n");
 	push_light(&(pscn->lgt));
 	pscn->lgt->pos = validate_coordinates(params[1]);
-	pscn->lgt->b_ratio = validate_double(params[2], 0.0L, 1.0L);
+	pscn->lgt->b = validate_double(params[2], 0.0L, 1.0L);
 	validate_colour(params[3], pscn->lgt->col);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:44:39 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:12:46 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@
 
 static int	quit(void *params)
 {
-	(void)params;
-	system("leaks -quiet miniRT");
-	exit(-1);
-	return (1);
+	t_view	*pv;
+
+	pv = params;
+	pop_all_l(&(pv->scn.lgt));
+	//pop_all_c(&(view.scn.at_cam));
+	system("leaks miniRT");
+	exit(0);
+	return (0);
 }
 
 static int	keypress(int kc, t_view *pv)
 {
 	if (kc == KEY_ESC)
-		exit(-1); //TODO: Exit routine.
+		quit(pv);
 	else if (kc == NEXT_X)
 		pv->scn.at_cam = pv->scn.at_cam->next;
 	else if (kc == PREV_Z)
@@ -80,9 +84,6 @@ int			main(int argn, char **args)
 	mlx_put_image_to_window(view.pmlx, view.pwin,
 							view.scn.at_cam->img.pimg, 0, 0);
 	mlx_loop(view.pmlx);
-	//TODO: Bad place, needs new function.
-	//pop_all_c(&(view.scn.at_cam));
-	pop_all_l(&(view.scn.lgt));
-	system("leaks -quiet miniRT");
+	quit(&view);
 	return (0);
 }

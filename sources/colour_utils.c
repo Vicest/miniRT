@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:20:47 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:08:57 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 20:00:45 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		intensity(t_colour c, long double i_factor)
 	}
 }
 
-void		reflect_colour(t_colour final, t_colour c1, t_colour c2)
+void		filter_colour(t_colour final, t_colour c1, t_colour c2)
 {
 	final[0] = ft_min((int)c1[0], (int)c2[0]);
 	final[1] = ft_min((int)c1[1], (int)c2[1]);
