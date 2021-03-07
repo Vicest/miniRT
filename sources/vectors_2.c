@@ -6,13 +6,13 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 13:31:50 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:00:54 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:37:51 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
 
-t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist)
+t_coord		move_p(t_coord orig, t_coord dir, long double dist)
 {
 	t_coord		point;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 16:44:26 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:34:33 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_coord		cross_prod(t_coord *out, t_coord v1, t_coord v2);
 long double	norm(t_coord v);
 void		normalize(t_coord *v);
 int			is_normalized(t_coord v);
-t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist);
+t_coord		move_p(t_coord orig, t_coord dir, long double dist);
 
 //TODO: Solutions as a struct or something.
 void		linear_solve(long double a, long double b, long double *sol);

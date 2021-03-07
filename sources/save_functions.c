@@ -6,27 +6,14 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:53:59 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:37:21 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "validations.h"
 
-void	store_sphere(t_scene *pscn, char **params, int p_num)
-{
-	t_sphere	*s;
-
-	if (param_num(params) != p_num)
-		config_err("Invalid parameter count for sphere.\n");
-	push_sphere(&pscn->geo);
-	s = (t_sphere *)pscn->geo;
-	s->pos = validate_coordinates(params[1]);
-	s->r = validate_double(params[2]) * 0.5L;
-	validate_colour(params[3], pscn->geo->col);
-}
-
-void	store_plane(t_scene *pscn, char **params, int p_num)
+void		store_plane(t_scene *pscn, char **params, int p_num)
 {
 	t_plane		*p;
 
@@ -42,22 +29,10 @@ void	store_plane(t_scene *pscn, char **params, int p_num)
 	validate_colour(params[3], pscn->geo->col);
 }
 
-void	store_square(t_scene *pscn, char **params, int p_num)
+static void	square_sides(t_square *s, long double vert_to_centre)
 {
-	t_square	*s;
 	t_coord		aux;
-	long double vert_to_centre;
 
-	if (param_num(params) != p_num)
-		config_err("Invalid parameter count for square.\n");
-	push_square(&pscn->geo);
-	s = (t_square *)pscn->geo;
-	s->centre = validate_coordinates(params[1]);
-	s->normal = validate_coordinates(params[2]);
-	if (!is_normalized(s->normal))
-		config_err("Vector not normalized.");
-	s->ind_term = dot_prod(s->normal, s->centre);
-	vert_to_centre = validate_double(params[3]) * M_SQRT1_2;
 	aux = vector_dir(1.0L, 0.0L, 0.0L);
 	if (equals_zero(1 - fabsl(dot_prod(aux, s->normal))))
 		aux = vector_dir(0.0L, 1.0L, 0.0L);
@@ -70,10 +45,28 @@ void	store_square(t_scene *pscn, char **params, int p_num)
 	vect_sum(&s->vertix[1], s->vertix[1], s->centre);
 	scalar_prod(&s->vertix[3], -vert_to_centre, aux);
 	vect_sum(&s->vertix[3], s->vertix[3], s->centre);
+}
+
+void		store_square(t_scene *pscn, char **params, int p_num)
+{
+	t_square	*s;
+	long double vert_to_centre;
+
+	if (param_num(params) != p_num)
+		config_err("Invalid parameter count for square.\n");
+	push_square(&pscn->geo);
+	s = (t_square *)pscn->geo;
+	s->centre = validate_coordinates(params[1]);
+	s->normal = validate_coordinates(params[2]);
+	if (!is_normalized(s->normal))
+		config_err("Vector not normalized.");
+	s->ind_term = dot_prod(s->normal, s->centre);
+	vert_to_centre = validate_double(params[3], 0.0L, HUGE_VAL) * M_SQRT1_2;
+	square_sides(s, vert_to_centre);
 	validate_colour(params[4], pscn->geo->col);
 }
 
-void	store_triangle(t_scene *pscn, char **params, int p_num)
+void		store_triangle(t_scene *pscn, char **params, int p_num)
 {
 	t_triangle	*t;
 	t_coord		sides[2];
@@ -95,7 +88,7 @@ void	store_triangle(t_scene *pscn, char **params, int p_num)
 	validate_colour(params[4], pscn->geo->col);
 }
 
-void	store_cylinder(t_scene *pscn, char **params, int p_num)
+void		store_cylinder(t_scene *pscn, char **params, int p_num)
 {
 	t_cylinder	*c;
 	t_coord		aux;
@@ -109,8 +102,8 @@ void	store_cylinder(t_scene *pscn, char **params, int p_num)
 	if (!is_normalized(c->dir))
 		config_err("Vector not normalized.");
 	validate_colour(params[3], pscn->geo->col);
-	c->r = validate_double(params[4]) * 0.5L;
-	c->h = validate_double(params[5]);
-	aux = point_at_dist(c->orig, c->dir, c->h);
+	c->r = validate_double(params[4], 0.0L, HUGE_VAL) * 0.5L;
+	c->h = validate_double(params[5], 0.0L, HUGE_VAL);
+	aux = move_p(c->orig, c->dir, c->h);
 	ft_memcpy(&c->end, &aux, sizeof(t_coord));
 }

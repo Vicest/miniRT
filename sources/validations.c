@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:54:34 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:08:31 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 **	before validating its value like an atoi.
 */
 
-int		validate_int(char *str, int min_val, int max_val)
+int		validate_int(char *str, int min, int max)
 {
 	int i;
 	int out;
@@ -31,7 +31,7 @@ int		validate_int(char *str, int min_val, int max_val)
 	if (str[i] != '\0')
 		config_err("Value is not an integer.\n");
 	out = ft_atoi(str);
-	if (out < min_val || out > max_val)
+	if (out < min || out > max)
 		config_err("Integer out of range.\n");
 	return (out);
 }
@@ -41,10 +41,11 @@ int		validate_int(char *str, int min_val, int max_val)
 **	point number before validating its value.
 */
 
-double	validate_double(char *str)
+double	validate_double(char *str, long double min, long double max)
 {
-	int i;
-	
+	int		i;
+	double	out;
+
 	i = 0;
 	if (str[i] == '-')
 		i++;
@@ -56,6 +57,9 @@ double	validate_double(char *str)
 		i++;
 	if (str[i] != '\0')
 		config_err("Float has extraneus characters.\n");
+	out = ft_atof(str);
+	if (out < min || out > max)
+		config_err("Double out of range.\n");
 	return (ft_atof(str));
 }
 
@@ -71,7 +75,7 @@ void	validate_colour(char *text, t_colour out)
 	int			i;
 
 	if (!(colours = ft_split(text, ',')))
-		exit(-1); //TODO: Syserror
+		config_err("Failed split.\n");
 	i = 0;
 	while (i < 3 && colours[i])
 	{
@@ -92,13 +96,13 @@ t_coord	validate_coordinates(char *text)
 	t_coord	out;
 
 	if (!(coords = ft_split(text, ',')))
-		exit(-1); //TODO: Syserror
+		config_err("Failed split.\n");
 	i = 0;
 	while (i < 3)
 	{
 		if (!coords[i])
 			config_err("Too few components for vector/coord.\n");
-		out.x[i] = validate_double(coords[i]);
+		out.x[i] = validate_double(coords[i], -HUGE_VAL, HUGE_VAL);
 		free(coords[i++]);
 	}
 	if (coords[i])
@@ -112,7 +116,7 @@ int		param_num(char **param)
 	int		i;
 
 	i = 0;
-	while(param[i])
+	while (param[i])
 		i++;
 	return (i);
 }

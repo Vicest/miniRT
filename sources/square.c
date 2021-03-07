@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 20:24:22 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/03 15:51:11 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:36:13 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long double	square_collision(void *square, t_coord ray_o, t_coord ray_d)
 
 	s = *(t_square *)square;
 	dist = plane_dist(ray_o, ray_d, s.ind_term, s.normal);
-	p = point_at_dist(ray_o, ray_d, dist);
+	p = move_p(ray_o, ray_d, dist);
 	if (!inside_check(p, s.normal, s.vertix, 4))
 		return (NAN);
 	return (dist);

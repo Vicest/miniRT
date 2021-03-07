@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:52:15 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:13:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	store_ambient(t_scene *pscn, char **params, int p_num)
 		config_err("Invalid parameter count for ambient.\n");
 	if (pscn->flags & FLAG_AMB)
 		config_err("Ambient light can only be defined once.\n");
-	ratio = validate_double(params[1]);
-	if (ratio < 0.0L || ratio > 1.0L)
-		config_err("Ambient light ratio value must be in range [0.0,1.0].\n");
+	ratio = validate_double(params[1], 0.0L, 1.0L);
 	validate_colour(params[2], pscn->amb);
 	pscn->amb[0] *= ratio;
 	pscn->amb[1] *= ratio;
@@ -80,8 +78,19 @@ void	store_light(t_scene *pscn, char **params, int p_num)
 		config_err("Invalid parameter count for light.\n");
 	push_light(&(pscn->lgt));
 	pscn->lgt->pos = validate_coordinates(params[1]);
-	pscn->lgt->b_ratio = validate_double(params[2]);
-	if (pscn->lgt->b_ratio < 0 || pscn->lgt->b_ratio > 1)
-		config_err("Light brightness is has to be in [0,1] range.\n");
+	pscn->lgt->b_ratio = validate_double(params[2], 0.0L, 1.0L);
 	validate_colour(params[3], pscn->lgt->col);
+}
+
+void	store_sphere(t_scene *pscn, char **params, int p_num)
+{
+	t_sphere	*s;
+
+	if (param_num(params) != p_num)
+		config_err("Invalid parameter count for sphere.\n");
+	push_sphere(&pscn->geo);
+	s = (t_sphere *)pscn->geo;
+	s->pos = validate_coordinates(params[1]);
+	s->r = validate_double(params[2], 0.0L, HUGE_VAL) * 0.5L;
+	validate_colour(params[3], pscn->geo->col);
 }

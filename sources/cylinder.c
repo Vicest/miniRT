@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:29:05 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 19:36:35 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	in_bonds(long double d, t_cylinder c, t_coord r_orig, t_coord r_dir)
 	t_coord		cyl_to_point;
 	long double	collision_height;
 
-	vect_sub(&cyl_to_point, point_at_dist(r_orig, r_dir, d), c.orig);
+	vect_sub(&cyl_to_point, move_p(r_orig, r_dir, d), c.orig);
 	collision_height = dot_prod(c.dir, cyl_to_point);
 	if (0 > collision_height || collision_height > c.h)
 		return (0);
