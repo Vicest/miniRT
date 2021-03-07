@@ -6,57 +6,39 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 13:11:50 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/05 15:42:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 16:57:32 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "math_utils.h"
-#include <stdio.h>
+#include "minirt.h"
 
-t_coord		pitch(t_coord v, long double angle)
+void		pitch(t_coord *rot, t_coord v, long double angle)
 {
-	t_matrix	m;
+	t_coord	rot_buff;
 
-	m.m[0][0] = cosl(angle);
-	m.m[0][1] = 0;
-	m.m[0][2] = -sinl(angle);
-	m.m[1][0] = 0;
-	m.m[1][1] = 1;
-	m.m[1][2] = 0;
-	m.m[2][0] = sinl(angle);
-	m.m[2][1] = 0;
-	m.m[2][2] = cosl(angle);
-	return (l_transform(m, v));
+	ft_memcpy(&rot_buff, &v, sizeof(t_coord));
+	rot->x[0] = cosl(angle) * rot_buff.x[0] - sinl(angle) * rot_buff.x[2];
+	rot->x[1] = rot_buff.x[1];
+	rot->x[2] = cosl(angle) * rot_buff.x[2] + sinl(angle) * rot_buff.x[0];
 }
 
-t_coord		yaw(t_coord v,  long double angle)
+void		yaw(t_coord *rot, t_coord v, long double angle)
 {
-	t_matrix	m;
+	t_coord	rot_buff;
 
-	m.m[0][0] = cosl(-angle);
-	m.m[0][1] = sinl(-angle);
-	m.m[0][2] = 0;
-	m.m[1][0] = -sinl(-angle);
-	m.m[1][1] = cosl(-angle);
-	m.m[1][2] = 0;
-	m.m[2][0] = 0;
-	m.m[2][1] = 0;
-	m.m[2][2] = 1;
-	return (l_transform(m, v));
+	ft_memcpy(&rot_buff, &v, sizeof(t_coord));
+	rot->x[0] = cosl(angle) * rot_buff.x[0] - sinl(angle) * rot_buff.x[1];
+	rot->x[1] = cosl(angle) * rot_buff.x[1] + sinl(angle) * rot_buff.x[0];
+	rot->x[2] = rot_buff.x[2];
 }
-/* //TODO Lies
-t_vector	roll(t_vector v, long double angle)
-{
-	t_matrix	m;
 
-	m.m[0][0] = 1;
-	m.m[0][1] = 0;
-	m.m[0][2] = 0;
-	m.m[1][0] = 0;
-	m.m[1][1] = cos(angle);
-	m.m[1][2] = -sin(angle);
-	m.m[2][0] = 0;
-	m.m[2][1] = sin(angle);
-	m.m[2][2] = cos(angle);
-	return (l_transform(m, v));
-}*/
+void		roll(t_coord *rot, t_coord v, long double angle)
+{
+	t_coord	rot_buff;
+
+	ft_memcpy(&rot_buff, &v, sizeof(t_coord));
+	rot->x[0] = rot_buff.x[0];
+	rot->x[1] = cosl(angle) * rot_buff.x[1] - sinl(angle) * rot_buff.x[2];
+	rot->x[2] = cosl(angle) * rot_buff.x[2] + sinl(angle) * v.x[1];
+}

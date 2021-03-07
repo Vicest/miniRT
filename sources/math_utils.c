@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 11:56:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:51:20 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 15:37:46 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void		linear_solve(long double a, long double b, long double *sol)
 {
 	if (equals_zero(a))
 		*sol = NAN;
-	else 
+	else
 		*sol = -b / a;
 }
+
 void		quad_solve(long double abc[3], long double *sol1, long double *sol2)
 {
 	long double	discriminant;
@@ -71,24 +72,4 @@ void		quad_solve(long double abc[3], long double *sol1, long double *sol2)
 		*sol1 = -abc[1] / (2 * abc[0]);
 		*sol2 = NAN;
 	}
-}
-
-/*
-**	Calculate a matrix to vector multiplication. Known as a transformation.
-*/
-t_coord		l_transform(t_matrix m, t_coord v)
-{
-	t_coord		sol;
-	int			i;
-	int			j;
-
-	i = -1;
-	while (++i < 3)
-	{
-		sol.x[i] = 0;
-		j = -1;
-		while (++j < 3)
-			sol.x[i] += m.m[i][j] * v.x[j];
-	}
-	return (sol);
 }

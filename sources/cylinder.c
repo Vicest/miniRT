@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:50:59 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:08:48 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	in_bonds(long double d, t_cylinder c, t_coord r_orig, t_coord r_dir)
 
 	vect_sub(&cyl_to_point, point_at_dist(r_orig, r_dir, d), c.orig);
 	collision_height = dot_prod(c.dir, cyl_to_point);
-	if (0 > collision_height || collision_height > c.h * c.h)
+	if (0 > collision_height || collision_height > c.h)
 		return (0);
 	return (1);
 }
@@ -32,19 +32,11 @@ long double	cylinder_collision(void *cylinder, t_coord orig, t_coord dir)
 	t_coord		a;
 	t_coord		b;
 	t_coord		delta_cyl;
-	//t_coord		p_m_x1;
-	//t_coord		p_m_x2;
 
 	long double	coefficients[3];
 	long double	sol[2];
 
 	c = *(t_cylinder*)cylinder;
-	/*
-	vect_sub(&p_m_x1, orig, c.orig);
-	vect_sub(&p_m_x2, orig, vect_sum(&p_m_x2, c.orig, c.dir));
-	cross_prod(&b, p_m_x1, p_m_x2);
-	vect_sum(&a, cross_prod(&a, dir, p_m_x2), cross_prod(&a, p_m_x1, dir));
-	*/
 	scalar_prod(&a, dot_prod(dir, c.dir), c.dir);
 	vect_sub(&a, dir, a);
 	vect_sub(&delta_cyl, orig, c.orig);
@@ -53,7 +45,7 @@ long double	cylinder_collision(void *cylinder, t_coord orig, t_coord dir)
 
 	coefficients[0] = dot_prod(a, a);
 	coefficients[1] = 2 * dot_prod(a, b);
-	coefficients[2] = dot_prod(b, b) - /*c.h * c.h **/ c.r * c.r;
+	coefficients[2] = dot_prod(b, b) - c.r * c.r;
 	quad_solve(coefficients, &sol[0], &sol[1]);
 	if (!isnan(sol[0]) && (sol[0] < 0.0L || equals_zero(sol[0]) ||
 				!in_bonds(sol[0], c, orig, dir)))

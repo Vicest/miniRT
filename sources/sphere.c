@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 11:26:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/05 17:00:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 15:27:54 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_coord			sphere_normal(void *s, t_coord at, t_coord facing)
 		scalar_prod(&normal, -1.0L, normal);
 	return (normal);
 }
-
+/*
 t_colour		*colour(void *sphere, t_coord hit)
 {
 	t_sphere	*s;
@@ -56,7 +56,7 @@ t_colour		*colour(void *sphere, t_coord hit)
 	s = (t_sphere *)sphere;
 	return (col);
 }
-
+*/
 void			push_sphere(t_figure **ppfig)
 {
 	t_figure	*aux;

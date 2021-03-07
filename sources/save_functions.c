@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:46:36 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 14:26:37 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ void	store_cylinder(t_scene *pscn, char **params, int p_num)
 	validate_colour(params[3], pscn->geo->col);
 	c->r = validate_double(params[4]) * 0.5L;
 	c->h = validate_double(params[5]);
-	aux = point_at_dist(c->orig, c->dir,  c->h);
+	aux = point_at_dist(c->orig, c->dir, c->h);
 	ft_memcpy(&c->end, &aux, sizeof(t_coord));
 }

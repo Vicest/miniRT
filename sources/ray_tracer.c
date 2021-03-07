@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/05 16:07:51 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 16:53:33 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static t_ray	gen_pray(t_camera c, int r[2], int x[2])
 
 	//TODO: Handle even/odd resolutions better.
 	ray.dir = vector_dir(c.vp_dist, (x[0] - r[0] * 0.5L), (r[1] * 0.5L - x[1]));
-	ray.dir = pitch(yaw(ray.dir, c.rota.azimuth), c.rota.latitude);
+	yaw(&ray.dir, ray.dir, c.rota.azimuth);
+	pitch(&ray.dir, ray.dir, c.rota.latitude);
 	normalize(&(ray.dir));
 	ray.orig = c.orig;
 	ft_bzero(&ray.col, sizeof(t_colour));

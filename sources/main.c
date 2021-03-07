@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/03 15:17:02 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 17:58:47 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,6 @@ static int quit(void *params)
 	return (1);
 }
 
-static void	move_cam(t_scene scn, int kc)
-{
-	t_coord		dir;
-	t_coord		*pos;
-
-	scn.at_cam->lr_dir = vector_dir(0, 1, 0);
-	scn.at_cam->lr_dir = pitch(yaw(scn.at_cam->lr_dir, scn.at_cam->rota.azimuth), scn.at_cam->rota.latitude);
-	scn.at_cam->ud_dir = vector_dir(0, 0, 1);
-	scn.at_cam->ud_dir = pitch(yaw(scn.at_cam->ud_dir, scn.at_cam->rota.azimuth), scn.at_cam->rota.latitude);
-	dir = scn.at_cam->dir;
-	if (kc == MV_D || kc == MV_A)
-		dir = scn.at_cam->lr_dir;
-	else if (kc == MV_Q || kc == MV_E)
-		dir = scn.at_cam->ud_dir;
-	if (kc == MV_S || kc == MV_A || kc == MV_Q)
-		scalar_prod(&dir, -2.5L, dir);
-	else
-		scalar_prod(&dir, 2.5L, dir);
-	pos = &(scn.at_cam->orig);
-	vect_sum(pos, *pos, dir);
-	fill_viewport(scn, scn.at_cam);
-}
-
-//TODO: Directly use angle arithmetic and stop using camera direction.
-static void	rot_cam(t_scene scn, int kc)
-{
-	if (kc == RARROW)
-		scn.at_cam->dir = yaw(scn.at_cam->dir, M_PI_4 * 0.5L);
-	else if (kc == LARROW)
-		scn.at_cam->dir = yaw(scn.at_cam->dir, -M_PI_4 * 0.5L);
-	else if (kc == UARROW)
-		scn.at_cam->dir = pitch(scn.at_cam->dir, M_PI_4 * 0.5L);
-	else if (kc == DARROW)
-		scn.at_cam->dir = pitch(scn.at_cam->dir, -M_PI_4 * 0.5L);
-	scn.at_cam->rota = inv_spherical(scn.at_cam->dir);
-	fill_viewport(scn, scn.at_cam);
-}
-
 static int	keypress(int kc, t_view *pv)
 {
 	if (kc == KEY_ESC)
@@ -70,8 +32,6 @@ static int	keypress(int kc, t_view *pv)
 		pv->scn.at_cam = pv->scn.at_cam->prev;
 	else if (kc == MV_W || kc == MV_A || kc == MV_S || kc == MV_D || kc == MV_Q || kc == MV_E)
 		move_cam(pv->scn, kc);
-	else if (kc == LARROW || kc == RARROW || kc == DARROW || kc == UARROW)
-		rot_cam(pv->scn, kc);
 	if (pv->scn.at_cam->img.pimg == NULL)
 	{
 		pv->scn.at_cam->img.pimg = mlx_new_image(
@@ -84,7 +44,6 @@ static int	keypress(int kc, t_view *pv)
 	mlx_put_image_to_window(pv->pmlx, pv->pwin,
 					pv->scn.at_cam->img.pimg, 0, 0);
 	return (0);
-	//mlx_destroy_window(mlx_ptr, win_ptr);
 }
 
 static void	mlx_setup(t_view *pv)

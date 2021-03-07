@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:47:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 16:52:14 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	store_camera(t_scene *pscn, char **params, int p_num)
 	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI / 360);
 	pcam->rota = inv_spherical(pcam->dir);
 	pcam->lr_dir = vector_dir(0, 1, 0);
-	pcam->lr_dir = pitch(yaw(pcam->lr_dir, pcam->rota.azimuth), pcam->rota.latitude);
+	yaw(&pcam->lr_dir, pcam->lr_dir, pcam->rota.azimuth);
+	pitch(&pcam->lr_dir, pcam->lr_dir, pcam->rota.latitude);
 	pcam->ud_dir = vector_dir(0, 0, 1);
-	pcam->ud_dir = pitch(yaw(pcam->ud_dir, pcam->rota.azimuth), pcam->rota.latitude);
+	yaw(&pcam->ud_dir, pcam->lr_dir, pcam->rota.azimuth);
+	pitch(&pcam->ud_dir, pcam->lr_dir, pcam->rota.latitude);
 }
 
 void	store_light(t_scene *pscn, char **params, int p_num)

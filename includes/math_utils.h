@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:38:53 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:51:20 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 16:44:26 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ typedef struct			s_coord
 	long double			x[3];
 }						t_coord;
 
-typedef struct			s_matrix
-{
-	long double			m[3][3];
-}						t_matrix;
-
 long double	radians(long double degrees);
 int			equals_zero(long double l);
 
@@ -51,10 +46,8 @@ t_coord		point_at_dist(t_coord orig, t_coord dir, long double dist);
 void		linear_solve(long double a, long double b, long double *sol);
 void		quad_solve(long double abc[3], long double *sol1, long double *sol2);
 
-t_coord		l_transform(t_matrix m, t_coord v);
-
 t_rota		inv_spherical(t_coord v);
-t_coord		pitch(t_coord v, long double angle);
-t_coord		yaw(t_coord v, long double angle);
-//t_vector	roll(t_vector v, long double angle);
+void		pitch(t_coord *rot, t_coord v, long double angle);
+void		yaw(t_coord *rot, t_coord v, long double angle);
+void		roll(t_coord *rot, t_coord v, long double angle);
 #endif

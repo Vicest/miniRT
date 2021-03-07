@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/04 14:49:20 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 17:02:12 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void				store_triangle(t_scene *pscn, char **params, int p_num);
 void				store_square(t_scene *pscn, char **params, int p_num);
 
 void				fill_viewport(t_scene scn, t_camera *pcam);
+void				move_cam(t_scene scn, int kc);
+void				rot_cam(t_scene scn, int kc);
 
 int					save_bmp(t_img img, char *name, int dim[2]);
 //TODO Gimme my own .h :'(

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 15:49:57 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/02 15:50:22 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 14:23:10 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			inside_check(t_coord p, t_coord nv, t_coord *vertix, int v_num)
 
 	sign_cnt = 0;
 	i = -1;
-	while(++i < v_num)
+	while (++i < v_num)
 	{
 		vect_sub(&v_to_p, p, vertix[i]);
 		vect_sub(&side, vertix[i], vertix[(i + 1) % v_num]);
@@ -31,4 +31,3 @@ int			inside_check(t_coord p, t_coord nv, t_coord *vertix, int v_num)
 	}
 	return (sign_cnt == 0 || sign_cnt == v_num);
 }
-
