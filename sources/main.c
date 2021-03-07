@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 17:58:47 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:44:39 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../minilibx/mlx.h"
 #include <stdlib.h>
 
-static int quit(void *params)
+static int	quit(void *params)
 {
 	(void)params;
 	system("leaks -quiet miniRT");
@@ -30,7 +30,8 @@ static int	keypress(int kc, t_view *pv)
 		pv->scn.at_cam = pv->scn.at_cam->next;
 	else if (kc == PREV_Z)
 		pv->scn.at_cam = pv->scn.at_cam->prev;
-	else if (kc == MV_W || kc == MV_A || kc == MV_S || kc == MV_D || kc == MV_Q || kc == MV_E)
+	else if (kc == MV_W || kc == MV_A || kc == MV_S || kc == MV_D || kc == MV_Q
+			|| kc == MV_E)
 		move_cam(pv->scn, kc);
 	if (pv->scn.at_cam->img.pimg == NULL)
 	{
@@ -48,15 +49,17 @@ static int	keypress(int kc, t_view *pv)
 
 static void	mlx_setup(t_view *pv)
 {
-	//TODO: Error hanlding plz
-	pv->pmlx = mlx_init();
-	//TODO: Moar Error
-	//mlx_get_screen_size(pv->pmlx, &pv->scn.res[0], &pv->scn.res[1]);
+	if (NULL == (pv->pmlx = mlx_init()))
+		config_err("Failed to open MLX.\n");
 	pv->pwin = mlx_new_window(pv->pmlx, pv->scn.res[0], pv->scn.res[1], "myRT");
+	if (pv->pwin == NULL)
+		config_err("Failed to open window.\n");
 	mlx_key_hook(pv->pwin, &keypress, pv);
 	mlx_hook(pv->pwin, X_CLOSE_BUTTON, 1L << 17, &quit, &pv);
 	pv->scn.at_cam->img.pimg = mlx_new_image(
 				pv->pmlx, pv->scn.res[0], pv->scn.res[1]);
+	if (pv->scn.at_cam->img.pimg == NULL)
+		config_err("Failed to create image.\n");
 	pv->scn.at_cam->img.addr = mlx_get_data_addr(
 				pv->scn.at_cam->img.pimg, &pv->scn.at_cam->img.bpp,
 				&pv->scn.at_cam->img.line_len, &pv->scn.at_cam->img.endian);

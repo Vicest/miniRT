@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 14:26:37 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:53:59 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ void	store_plane(t_scene *pscn, char **params, int p_num)
 	push_plane(&pscn->geo);
 	p = (t_plane *)pscn->geo;
 	p->centre = validate_coordinates(params[1]);
-	p->normal = validate_direction(params[2]);
+	p->normal = validate_coordinates(params[2]);
+	if (!is_normalized(p->normal))
+		config_err("Vector not normalized.");
 	p->ind_term = dot_prod(p->normal, p->centre);
 	validate_colour(params[3], pscn->geo->col);
 }
@@ -51,7 +53,9 @@ void	store_square(t_scene *pscn, char **params, int p_num)
 	push_square(&pscn->geo);
 	s = (t_square *)pscn->geo;
 	s->centre = validate_coordinates(params[1]);
-	s->normal = validate_direction(params[2]);
+	s->normal = validate_coordinates(params[2]);
+	if (!is_normalized(s->normal))
+		config_err("Vector not normalized.");
 	s->ind_term = dot_prod(s->normal, s->centre);
 	vert_to_centre = validate_double(params[3]) * M_SQRT1_2;
 	aux = vector_dir(1.0L, 0.0L, 0.0L);
@@ -101,7 +105,9 @@ void	store_cylinder(t_scene *pscn, char **params, int p_num)
 	push_cylinder(&pscn->geo);
 	c = ((t_cylinder*)pscn->geo);
 	c->orig = validate_coordinates(params[1]);
-	c->dir = validate_direction(params[2]);
+	c->dir = validate_coordinates(params[2]);
+	if (!is_normalized(c->dir))
+		config_err("Vector not normalized.");
 	validate_colour(params[3], pscn->geo->col);
 	c->r = validate_double(params[4]) * 0.5L;
 	c->h = validate_double(params[5]);

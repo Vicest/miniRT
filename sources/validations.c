@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/02/28 20:29:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:54:34 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,4 @@ int		param_num(char **param)
 	while(param[i])
 		i++;
 	return (i);
-}
-
-//TODO: I have doubts, this looks like different work somewhere else.
-t_coord	validate_direction(char *text)
-{
-	t_coord	out;
-
-	out = validate_coordinates(text);
-	if (!equals_zero(fabsl(norm(out) - 1.0L)))
-		config_err("Vector direction is not normalized.\n");
-	return (out);
 }

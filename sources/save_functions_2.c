@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 16:52:14 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:52:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void	store_camera(t_scene *pscn, char **params, int p_num)
 	pcam = pscn->at_cam;
 	ft_bzero(&pcam->img, sizeof(t_img));
 	pcam->orig = validate_coordinates(params[1]);
-	pcam->dir = validate_direction(params[2]);
+	pcam->dir = validate_coordinates(params[2]);
+	if (!is_normalized(pcam->dir))
+		config_err("Vector not normalized.");
 	pcam->fov = validate_int(params[3], 1, 179);
 	pcam->vp_dist = pscn->res[0] * atanl(pscn->at_cam->fov * M_PI / 360);
 	pcam->rota = inv_spherical(pcam->dir);
@@ -78,6 +80,8 @@ void	store_light(t_scene *pscn, char **params, int p_num)
 		config_err("Invalid parameter count for light.\n");
 	push_light(&(pscn->lgt));
 	pscn->lgt->pos = validate_coordinates(params[1]);
-	pscn->lgt->b_ratio = validate_double(params[2]); //TODO dbl max && bbl min, 0, 180);
+	pscn->lgt->b_ratio = validate_double(params[2]);
+	if (pscn->lgt->b_ratio < 0 || pscn->lgt->b_ratio > 1)
+		config_err("Light brightness is has to be in [0,1] range.\n");
 	validate_colour(params[3], pscn->lgt->col);
 }

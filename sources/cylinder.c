@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 12:04:04 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 18:08:48 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/07 18:29:05 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,20 @@ static int	in_bonds(long double d, t_cylinder c, t_coord r_orig, t_coord r_dir)
 long double	cylinder_collision(void *cylinder, t_coord orig, t_coord dir)
 {
 	t_cylinder	c;
-	t_coord		a;
-	t_coord		b;
+	t_coord		term[2];
 	t_coord		delta_cyl;
-
 	long double	coefficients[3];
 	long double	sol[2];
 
 	c = *(t_cylinder*)cylinder;
-	scalar_prod(&a, dot_prod(dir, c.dir), c.dir);
-	vect_sub(&a, dir, a);
+	scalar_prod(&term[0], dot_prod(dir, c.dir), c.dir);
+	vect_sub(&term[0], dir, term[0]);
 	vect_sub(&delta_cyl, orig, c.orig);
-	scalar_prod(&b, dot_prod(delta_cyl, c.dir), c.dir);
-	vect_sub(&b, delta_cyl, b);
-
-	coefficients[0] = dot_prod(a, a);
-	coefficients[1] = 2 * dot_prod(a, b);
-	coefficients[2] = dot_prod(b, b) - c.r * c.r;
+	scalar_prod(&term[1], dot_prod(delta_cyl, c.dir), c.dir);
+	vect_sub(&term[1], delta_cyl, term[1]);
+	coefficients[0] = dot_prod(term[0], term[0]);
+	coefficients[1] = 2 * dot_prod(term[0], term[1]);
+	coefficients[2] = dot_prod(term[1], term[1]) - c.r * c.r;
 	quad_solve(coefficients, &sol[0], &sol[1]);
 	if (!isnan(sol[0]) && (sol[0] < 0.0L || equals_zero(sol[0]) ||
 				!in_bonds(sol[0], c, orig, dir)))
