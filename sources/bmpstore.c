@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 14:31:25 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/08 13:06:03 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:16:15 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	put_header(int fd, int size, int bpp, int dim[2])
 	ft_memcpy(head_buff + 34, &size, 4);
 	ft_memcpy(head_buff + 38, "\x13\x0B\0\0\x13\x0B\0\0\0\0\0\0\0\0\0\0", 16);
 	write(fd, head_buff, 54);
-
 }
 
 int			save_bmp(t_img img, char *name, int dim[2])
@@ -47,7 +46,7 @@ int			save_bmp(t_img img, char *name, int dim[2])
 		config_err("Could not create file.\n");
 	free(name);
 	row_size = (img.bpp * dim[0] / 8);
-	padding =  4 - (row_size % 4);
+	padding = 4 - (row_size % 4);
 	if (padding == 4)
 		padding = 0;
 	put_header(fd, (padding + row_size) * dim[1], img.bpp, dim);

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 12:00:09 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/08 12:56:24 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:17:07 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@
 
 static int	quit(void *params)
 {
-	t_view	*pv;
-
-	pv = params;
-	//pop_all_l(&(pv->scn.lgt));
-	//pop_all_c(&(view.scn.at_cam));
+	(void)params;
 	exit(0);
 	return (0);
 }
