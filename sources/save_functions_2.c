@@ -6,10 +6,11 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:48:56 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 20:29:14 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:44:23 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "minirt.h"
 #include "validations.h"
 
@@ -23,8 +24,12 @@ void	store_resolution(t_scene *pscn, char **params, int p_num)
 		config_err("Invalid parameter count for resolution.\n");
 	if (pscn->flags & FLAG_RES)
 		config_err("Resolution can only be defined once.\n");
-	pscn->res[0] = validate_int(params[1], 1, MAX_XRES);
-	pscn->res[1] = validate_int(params[2], 1, MAX_YRES);
+	pscn->res[0] = validate_int(params[1], 1, INT_MAX);
+	if (pscn->res[0] > MAX_XRES)
+		pscn->res[0] = MAX_XRES;
+	pscn->res[1] = validate_int(params[2], 1, INT_MAX);
+	if (pscn->res[1] > MAX_YRES)
+		pscn->res[1] = MAX_YRES;
 	pscn->flags |= FLAG_RES;
 }
 

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:06:21 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:08:31 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:44:23 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	validate_colour(char *text, t_colour out)
 	i = 0;
 	while (i < 3 && colours[i])
 	{
-		out[i] = validate_int(colours[i], 0, 255);
+		out[i] = validate_int(colours[i], 0, 256);
 		free(colours[i++]);
 	}
 	if (i < 3)

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:57:42 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 17:02:12 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:50:49 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 //# include <string.h>
 # include <stdlib.h>
 
-# define MAX_XRES 4096
-# define MAX_YRES 4096
+# define MAX_XRES 2560
+# define MAX_YRES 1450
 //TODO minirt.h or a gui.h
 # ifdef __unix__
 #  define KEY_ESC 0xff1b
