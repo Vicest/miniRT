@@ -6,13 +6,14 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:30:20 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 20:28:41 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:56:20 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LISTS_H
 # define LISTS_H
 # include "math_utils.h"
+
 typedef unsigned char	t_colour[3];
 
 typedef struct			s_geometry
