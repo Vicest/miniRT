@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:37:21 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:40:18 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ void		store_cylinder(t_scene *pscn, char **params, int p_num)
 	c->dir = validate_coordinates(params[2]);
 	if (!is_normalized(c->dir))
 		config_err("Vector not normalized.");
-	validate_colour(params[3], pscn->geo->col);
-	c->r = validate_double(params[4], 0.0L, HUGE_VAL) * 0.5L;
-	c->h = validate_double(params[5], 0.0L, HUGE_VAL);
+	c->r = validate_double(params[3], 0.0L, HUGE_VAL) * 0.5L;
+	c->h = validate_double(params[4], 0.0L, HUGE_VAL);
 	aux = move_p(c->orig, c->dir, c->h);
 	ft_memcpy(&c->end, &aux, sizeof(t_coord));
+	validate_colour(params[5], pscn->geo->col);
 }

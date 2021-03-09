@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 09:49:08 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/05 14:21:51 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/09 13:02:41 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,18 @@ static char			*file_extension_check(char *path, char *ext)
 		return (NULL);
 }
 
+static void			post_ckeck(t_scene scn)
+{
+	if (!(scn.flags & FLAG_RES))
+		config_err("No resolution found.\n");
+	if (!(scn.flags & FLAG_AMB))
+		config_err("No ambient light found.\n");
+	if (scn.at_cam)
+		scn.at_cam = scn.at_cam->next;
+	else
+		config_err("No camera found.\n");
+}
+
 /*
 **	Read from the given config file to set up the scene.
 **	Stores scene information.
@@ -115,8 +127,5 @@ void				save_conf(char *conf_file, t_scene *scn)
 			line_store(scn, line);
 		free(line);
 	}
-	if (scn->at_cam)
-		scn->at_cam = scn->at_cam->next;
-	else
-		config_err("No camera found.\n");
+	post_ckeck(*scn);
 }
