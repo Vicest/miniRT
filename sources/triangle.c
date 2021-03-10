@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 19:48:28 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:35:46 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:23:34 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ long double	triangle_collision(void *triangle, t_coord orig, t_coord dir)
 	long double	dist;
 
 	t = *(t_triangle *)triangle;
-	dist = plane_dist(orig, dir, t.ind_term, t.normal);
+	dist = t.ind_term - dot_prod(orig, t.normal);
+	dist /= dot_prod(dir, t.normal);
+	if (isnan(dist) || isinf(dist) || dist < 0)
+		return (NAN);
 	p = move_p(orig, dir, dist);
 	if (!inside_check(p, t.normal, t.vertix, 3))
 		return (NAN);

@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/03 15:26:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:24:09 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ long double	plane_collision(void *plane, t_coord orig, t_coord dir)
 	t_plane		p;
 
 	p = *(t_plane *)plane;
-	dist = plane_dist(orig, dir, p.ind_term, p.normal);
+	dist = p.ind_term - dot_prod(orig, p.normal);
+	dist /= dot_prod(dir, p.normal);
+	if (isnan(dist) || isinf(dist) || dist < 1)
+		dist = NAN;
 	return (dist);
 }
 
-t_coord		plane_normal(void *plane, t_coord at, t_coord facing)
+t_coord				plane_normal(void *plane, t_coord at, t_coord facing)
 {
 	t_coord		normal;
 
@@ -35,7 +38,7 @@ t_coord		plane_normal(void *plane, t_coord at, t_coord facing)
 	return (normal);
 }
 
-void		push_plane(t_figure **ppfig)
+void				push_plane(t_figure **ppfig)
 {
 	t_figure	*aux;
 

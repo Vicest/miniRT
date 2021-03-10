@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 19:55:40 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/09 12:40:18 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:35:46 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		store_triangle(t_scene *pscn, char **params, int p_num)
 	t->vertix[0] = validate_coordinates(params[1]);
 	t->vertix[1] = validate_coordinates(params[2]);
 	t->vertix[2] = validate_coordinates(params[3]);
-	vect_sub(sides, t->vertix[1], t->vertix[0]);
+	vect_sub(&sides[0], t->vertix[1], t->vertix[0]);
 	vect_sub(&sides[1], t->vertix[2], t->vertix[0]);
 	normalize(&sides[0]);
 	normalize(&sides[1]);

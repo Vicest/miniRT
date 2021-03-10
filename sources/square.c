@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 20:24:22 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/07 19:36:13 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:23:11 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 #include "figures.h"
 #include <stdlib.h>
 
-long double	square_collision(void *square, t_coord ray_o, t_coord ray_d)
+long double	square_collision(void *square, t_coord orig, t_coord dir)
 {
 	t_square	s;
 	t_coord		p;
 	long double	dist;
 
 	s = *(t_square *)square;
-	dist = plane_dist(ray_o, ray_d, s.ind_term, s.normal);
-	p = move_p(ray_o, ray_d, dist);
+	dist = s.ind_term - dot_prod(orig, s.normal);
+	dist /= dot_prod(dir, s.normal);
+	if (isnan(dist) || isinf(dist) || dist < 1)
+		dist = NAN;
+	p = move_p(orig, dir, dist);
 	if (!inside_check(p, s.normal, s.vertix, 4))
 		return (NAN);
 	return (dist);
