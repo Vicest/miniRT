@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 15:49:57 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/10 15:45:52 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/11 13:12:49 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			inside_check(t_coord p, t_coord nv, t_coord *vertix, int v_num)
 		cross_prod(&side, side, v_to_p);
 		if (signbit(dot_prod(side, nv)) == 1)
 			sign_cnt++;
-		if (sign_cnt != 0 && sign_cnt != i - 1)
+		if (sign_cnt != 0 && sign_cnt - 1 != i)
 			return (0);
 	}
 	return (sign_cnt == 0 || sign_cnt == v_num);
