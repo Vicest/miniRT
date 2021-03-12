@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 12:38:44 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/11 14:12:00 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/12 21:39:08 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ static long double	nearest(t_figure *geo, t_figure **nearest, t_ray ray)
 	}
 	return (min_dist);
 }
-
-/*
-static void			set_rray(t_ray *rray, t_coord inc_dir, t_coord normal)
-{
-	t_coord aux;
-
-	scalar_prod(&aux, 2 * dot_prod(normal, inc_dir), normal);
-	vect_sub(&rray->dir, inc_dir, aux);
-}
-*/
 
 static void			illum(t_scene scn, t_ray *hit, t_figure *pfig)
 {

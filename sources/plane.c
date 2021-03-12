@@ -6,7 +6,7 @@
 /*   By: vicmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:54:06 by vicmarti          #+#    #+#             */
-/*   Updated: 2021/03/11 13:26:06 by vicmarti         ###   ########.fr       */
+/*   Updated: 2021/03/12 21:36:19 by vicmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "figures.h"
 #include <stdlib.h>
 
-long double	plane_collision(void *plane, t_coord orig, t_coord dir)
+long double			plane_collision(void *plane, t_coord orig, t_coord dir)
 {
 	long double	dist;
 	t_plane		p;
